@@ -3,7 +3,7 @@ const ObjectId = mongoose.Schema.ObjectId;
 
 const Note = new mongoose.Schema({
     _dashboard: ObjectId,
-    message: String,
+    content: String,
     author: ObjectId,
     taggedUsers: [ObjectId],
     date: Date

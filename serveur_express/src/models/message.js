@@ -3,9 +3,9 @@ const ObjectId = mongoose.Schema.ObjectId;
 
 const Message = new mongoose.Schema({
     _dashboard: ObjectId,
+    content: String,
     author: String,
     taggedUsers: [ObjectId],
-    message: String,
     date: Date
 });
 
