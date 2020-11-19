@@ -11,6 +11,10 @@ const coursesRouter = require('./routes/courses');
 const chatRouter = require('./routes/chat');
 const loginRouter = require('./routes/login')
 
+const database = require('./services/database');
+const db = new database(); // Initialize the connexion to the database 
+
+
 const app = express();
 
 app.use(cors())
