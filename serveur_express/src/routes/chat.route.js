@@ -9,4 +9,7 @@ router.get('/', chatController.getMessages);
 /*POST ajout d'un nouveau message */
 router.post('/', chatController.createMessage);
 
+/*DELETE suppresion d'un message*/
+router.delete('/:id_message', chatController.deleteMessage)
+
 module.exports = router;

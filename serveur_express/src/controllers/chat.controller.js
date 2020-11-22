@@ -1,20 +1,20 @@
 const logger = require('../utils/logger');
 const Erreur = require('../utils/erreur');
+const config = require('../utils/config')
 const service = require('../services/message.service');
-const config = require('../utils/config');
 
-exports.getMessages = async (req, res, next) =>{
+exports.getMessages = async (req, res) =>{
    service.getMessagesFromDashboard(config.MONGODB_DASHBOARD_ID)
        .then((response)=>{
-           logger.info("DANS LE RESPONSE ",response);
-           res.send(response).end()
+           logger.info(response);
+           res.send(response).end();
        })
        .catch((error)=>{
            logger.error(error)
        })
 };
 
-exports.createMessage = async (req, res, next) => {
+exports.createMessage = async (req, res) => {
     const body = req.body;
 
     if(body._dashboard === undefined || body.content === undefined || body.author === undefined){
@@ -24,16 +24,24 @@ exports.createMessage = async (req, res, next) => {
 
     service.addMessage(body._dashboard, body.content, body.author, body.taggedUsers)
         .then((message)=>{
-            logger.info("L'ajout du message à fonctionné");
-            return res.status(200)
+            logger.info(message);
+            return res.status(200).end();
         })
         .catch((err)=>{
-            logger.error("L'ajout du message à échoué");
-            return res.status(400)
-        })
-    
+            logger.error(err);
+            return res.status(400).end();
+        });
 };
 
-exports.deleteMessage = async (req,res,next) => {
+exports.deleteMessage = async (req,res) => {
+    const idMessage =  req.params['id_message'];
 
+    service.removeMessage(idMessage)
+        .then((response)=>{
+            return res.status(204).end();
+        })
+        .catch((err)=>{
+            logger.error(err)
+            return res.status(400).send(new Erreur("Impossible de supprimer le message")).end();
+        })
 };
