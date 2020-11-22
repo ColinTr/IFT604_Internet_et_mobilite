@@ -5,11 +5,11 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const indexRouter = require('./routes');
-const notesRouter = require('./routes/notes');
-const coursesRouter = require('./routes/courses');
-const chatRouter = require('./routes/chat');
-const loginRouter = require('./routes/login')
+const indexRouter = require('./routes/index.route');
+const notesRouter = require('./routes/notes.route');
+const coursesRouter = require('./routes/kourses.route');
+const chatRouter = require('./routes/chat.route');
+const loginRouter = require('./routes/login.route')
 
 const database = require('./services/database');
 const db = new database(); // Initialize the connexion to the database 

@@ -19,8 +19,8 @@ class MessageService {
         return await MessageModel.findById(id);
     }
 
-    async getMessagesFromDashboard(name){
-        return await MessageModel.find({name: name});
+    async getMessagesFromDashboard(dashboardId){
+        return await MessageModel.find({_dashboard: dashboardId});
     }
 
     async getMessagesFromUser(userId){
