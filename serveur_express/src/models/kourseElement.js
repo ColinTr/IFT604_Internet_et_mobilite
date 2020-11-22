@@ -6,5 +6,5 @@ const KourseElement = new mongoose.Schema({
     img: String     // Url 
 });
 
-module.exports = mongoose.model("KourseElement", KourseElement)
+module.exports = mongoose.model("KourseElement", KourseElement);
 

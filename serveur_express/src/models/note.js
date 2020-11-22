@@ -9,5 +9,5 @@ const Note = new mongoose.Schema({
     date: Date
 });
 
-module.exports = mongoose.model("Note", Note)
+module.exports = mongoose.model("Note", Note);
 

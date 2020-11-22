@@ -6,5 +6,4 @@ const Kourse = new mongoose.Schema({
     elements: [ObjectId]
 });
 
-module.exports = mongoose.model("Kourse", Kourse)
-
+module.exports = mongoose.model("Kourse", Kourse);

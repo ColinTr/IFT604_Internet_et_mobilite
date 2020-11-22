@@ -7,5 +7,4 @@ const Dashboard = new mongoose.Schema({
     users: [ObjectId]
 });
 
-module.exports = mongoose.model("Dashboard", Dashboard)
-
+module.exports = mongoose.model("Dashboard", Dashboard);

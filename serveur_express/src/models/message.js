@@ -9,5 +9,5 @@ const Message = new mongoose.Schema({
     date: Date
 });
 
-module.exports = mongoose.model("Message", Message)
+module.exports = mongoose.model("Message", Message);
 

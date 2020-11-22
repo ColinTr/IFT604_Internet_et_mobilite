@@ -10,4 +10,4 @@ const Transaction = new mongoose.Schema({
     date: Date
 });
 
-module.exports = mongoose.model("Transaction", Transaction)
+module.exports = mongoose.model("Transaction", Transaction);
