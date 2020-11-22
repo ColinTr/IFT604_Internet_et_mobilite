@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const User = new mongoose.Schema({
     username: String,
-    password: String,       // On ne stocke pas le mdp 
+    password: String,       // On ne stocke pas le mdp
+    google_email: String,
     token: String,          // Pas encore sûr d'utiliser ça comme ça, il faut faire l'implémentation du oauth avant
     refreshToken: String,   // same ^
     created: Date

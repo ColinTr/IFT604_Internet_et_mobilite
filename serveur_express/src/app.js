@@ -11,9 +11,11 @@ const coursesRouter = require('./routes/kourses.route');
 const chatRouter = require('./routes/chat.route');
 const loginRouter = require('./routes/login.route');
 
-const database = require('./services/database');
-const db = new database(); // Initialize the connexion to the database 
+const login = require('./controllers/login.controller');
 
+const database = require('./services/database');
+
+const db = new database(); // Initialize the connexion to the database
 
 const app = express();
 
@@ -25,9 +27,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/notes', notesRouter);
-app.use('/courses', coursesRouter);
-app.use('/chat', chatRouter);
+app.use('/notes', login.checkToken, notesRouter);
+app.use('/courses', login.checkToken, coursesRouter);
+app.use('/chat', login.checkToken, chatRouter);
 app.use('/login', loginRouter);
 
 app.use(function (req, res, next) {

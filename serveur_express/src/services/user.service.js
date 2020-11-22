@@ -4,13 +4,14 @@ const UserModel = require('../models/user');
 
 class UserService {
 
-    async addUser(username, password, token, refreshToken){
+    async addUser(username, password, token, refreshToken, google_email){
         const user = new UserModel({
             username: username,
             password: password,
             token: token,
             refreshToken: refreshToken,
-            created: new Date()
+            created: new Date(),
+            google_email: google_email
         });
         await user.save();
 
@@ -29,6 +30,10 @@ class UserService {
 
     async getUsersByName(name){
         return await UserModel.find({username: name})
+    }
+
+    async getUsersByGoogleEmail(googleEmail){
+        return UserModel.findOne({google_email: googleEmail});
     }
 
     async removeUser(id){
