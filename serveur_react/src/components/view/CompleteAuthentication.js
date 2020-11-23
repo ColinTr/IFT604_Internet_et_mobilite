@@ -6,7 +6,7 @@ class CompleteAuthentication extends Component {
     componentDidMount() {
         const tokens = JSON.parse(queryString.parse(this.props.location.search).tokens);
         const email = queryString.parse(this.props.location.search).email;
-        localStorage.setItem("token", tokens.token);
+        localStorage.setItem("token", tokens.access_token);
         localStorage.setItem("refresh_token", tokens.refresh_token);
         localStorage.setItem("email", email);
 
