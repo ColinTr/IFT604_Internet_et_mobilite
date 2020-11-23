@@ -10,7 +10,7 @@ exports.checkToken = (req, res, next) => {
 
         // TODO check if it should be refreshed
 
-        return res.redirect(google_utils.getConnectionUrl(google_utils.createConnection()));
+        return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection())+"\"}");
 
         if(req.headers.authorization === undefined){
             return res.status(400).send(new erreur("Missing header's authorization")).end()
@@ -48,7 +48,11 @@ exports.getLogin = async (req, res, next) =>{
             console.log("mongoose err ", err);
         });
 
-    return res.status(200).send(google_account.tokens);
+    res.set({
+        'Content-Type': 'application/json',
+        "tokens" : JSON.stringify(google_account.tokens)
+    });
+    return res.status(200).redirect("http://localhost:3000/completeAuthentication");
 
     // TODO renvoyer au client
 
