@@ -4,8 +4,9 @@ function createGetAxiosRequest(route) {
     return new Promise((resolve, reject) => {
         axios.get("http://localhost:5000/" + route, {
             headers: {
-                Authorization: "{\"access_token\":\"" + localStorage.getItem("access_token") + "\"," +
-                    "\"refresh_token\":\"" + localStorage.getItem("refresh_token") + "\"}",
+                Authorization: `Bearer ` + localStorage.getItem("access_token"),
+                //Authorization: "{\"access_token\":\"" + localStorage.getItem("access_token") + "\"," +
+                //      "\"refresh_token\":\"" + localStorage.getItem("refresh_token") + "\"}",
             },
         })
             .then((res) => {
@@ -21,7 +22,7 @@ function createPostAxiosRequest(route) {
     return new Promise((resolve, reject) => {
         axios.post("http://localhost:5000/" + route, {
             headers: {
-                Authorization: `token ` + localStorage.getItem("access_token"),
+                Authorization: `Bearer ` + localStorage.getItem("access_token"),
             },
         })
             .then((res) => {

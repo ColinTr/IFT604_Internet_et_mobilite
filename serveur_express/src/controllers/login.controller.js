@@ -2,15 +2,26 @@ const UserService = require('../services/user.service');
 const google_utils = require('../utils/google-utils');
 const axios = require('axios');
 
+/**
+ * This method is called at every request made on the API.
+ * Its role is to check that the request includes a valid token before forwarding the request.
+ * @param req
+ * @param res
+ * @param next
+ * @returns {*}
+ */
 exports.checkToken = (req, res, next) => {
     try {
+        // We start by checking that the request has an autorization header
         if (req.headers.authorization === undefined) {
             return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
         }
 
-        const access_token = JSON.parse(req.headers.authorization).access_token;
-        const refresh_token = JSON.parse(req.headers.authorization).access_token;
+        // We then parse the tokens from the request's header
+        const access_token = req.headers.authorization.substring(7, req.headers.authorization.length);
+        // const refresh_token = JSON.parse(req.headers.authorization).refresh_token;
 
+        // And finally we use the google api to check that the given token is correct
         axios.get("https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + access_token)
             .then(response => {
                 if(response.data.expires_in === 0){
@@ -29,6 +40,14 @@ exports.checkToken = (req, res, next) => {
     }
 };
 
+/**
+ * This method is called when the user was redirect after logging in using the google page.
+ * It creates/updates the user in database and redirects the user to the react server.
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<void|*|Response>}
+ */
 exports.getLogin = async (req, res, next) => {
     const google_account = await google_utils.getGoogleEmailAndTokensFromCode(req.query.code);
 

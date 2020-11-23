@@ -38,7 +38,7 @@ class NoteService {
         return await NoteModel.findById(id);
     }
 
-    async removeNote(id){
+    async deleteNote(id){
         return await NoteModel.deleteOne({_id: id});
     }
 
