@@ -34,30 +34,27 @@ class Konote extends React.Component {
 
     render() {
         return (
-            <div>
-                Liste des notes ici...
-                <MDBContainer>
-                    <MDBRow>
-                        {this.state.listeNotesData.map(function (noteData, index) {
-                                return (
-                                    <MDBCol>
-                                        <Card key={noteData._id} style={{flex: 1}}>
-                                            <button className="noteCross"><i className="fa fa-times"
-                                                                             aria-hidden="true"/>
-                                            </button>
-                                            <CardBody>
-                                                <CardTitle tag="h5">{noteData.title}</CardTitle>
-                                                <CardText>{noteData.content}</CardText>
-                                                <Button>Button</Button>
-                                            </CardBody>
-                                        </Card>
-                                    </MDBCol>
-                                );
-                            }
-                        )}
-                    </MDBRow>
-                </MDBContainer>
-            </div>
+            <MDBContainer>
+                <MDBRow>
+                    {this.state.listeNotesData.map(function (noteData, index) {
+                            return (
+                                <MDBCol key={noteData._id}>
+                                    <Card style={{flex: 1}}>
+                                        <button className="noteCross"><i className="fa fa-times"
+                                                                         aria-hidden="true"/>
+                                        </button>
+                                        <CardBody>
+                                            <CardTitle tag="h5">{noteData.title}</CardTitle>
+                                            <CardText>{noteData.content}</CardText>
+                                            <Button>Button</Button>
+                                        </CardBody>
+                                    </Card>
+                                </MDBCol>
+                            );
+                        }
+                    )}
+                </MDBRow>
+            </MDBContainer>
         );
     }
 }
