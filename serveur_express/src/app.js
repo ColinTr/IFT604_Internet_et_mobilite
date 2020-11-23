@@ -1,6 +1,4 @@
 const createError = require('http-errors');
-const express = require('express');
-const cors = require('cors');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
@@ -10,16 +8,16 @@ const notesRouter = require('./routes/notes.route');
 const coursesRouter = require('./routes/kourses.route');
 const chatRouter = require('./routes/chat.route');
 const loginRouter = require('./routes/login.route');
-
 const login = require('./controllers/login.controller');
-
 const database = require('./services/database');
 
 const db = new database(); // Initialize the connexion to the database
 
-const app = express();
-
+var express = require('express');
+var cors = require('cors');
+var app = express();
 app.use(cors());
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -31,6 +29,7 @@ app.use('/notes', login.checkToken, notesRouter);
 app.use('/courses', login.checkToken, coursesRouter);
 app.use('/chat', login.checkToken, chatRouter);
 app.use('/login', loginRouter);
+app.use('/completeAuthetication', loginRouter);
 
 
 app.use(function (req, res, next) {
