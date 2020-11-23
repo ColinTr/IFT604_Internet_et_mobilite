@@ -29,7 +29,7 @@ const SideBar = ({ isOpen, toggle }) => {
             <MDBNavLink
               className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/home"}
+              to={"/dashboard/home"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faHome} className="mr-2" />
@@ -40,7 +40,7 @@ const SideBar = ({ isOpen, toggle }) => {
             <MDBNavLink
               className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/konotes"}
+              to={"/dashboard/konotes"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faStickyNote} className="mr-2" />
@@ -51,7 +51,7 @@ const SideBar = ({ isOpen, toggle }) => {
             <MDBNavLink
               className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/kourses"}
+              to={"/dashboard/kourses"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
@@ -62,7 +62,7 @@ const SideBar = ({ isOpen, toggle }) => {
             <MDBNavLink
               className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/kotemps"}
+              to={"/dashboard/kotemps"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faCalendar} className="mr-2" />
@@ -73,7 +73,7 @@ const SideBar = ({ isOpen, toggle }) => {
             <MDBNavLink
               className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/kochat"}
+              to={"/dashboard/kochat"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faComment} className="mr-2" />
@@ -84,7 +84,7 @@ const SideBar = ({ isOpen, toggle }) => {
             <MDBNavLink
               className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/kognotte"}
+              to={"/dashboard/kognotte"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
@@ -95,7 +95,7 @@ const SideBar = ({ isOpen, toggle }) => {
             <MDBNavLink
               className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/koulette"}
+              to={"/dashboard/koulette"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faLifeRing} className="mr-2" />
