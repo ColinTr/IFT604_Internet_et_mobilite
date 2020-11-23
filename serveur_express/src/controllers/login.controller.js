@@ -48,15 +48,7 @@ exports.getLogin = async (req, res, next) =>{
             console.log("mongoose err ", err);
         });
 
-    res.set({
-        'Content-Type': 'application/json',
-        "tokens" : JSON.stringify(google_account.tokens)
-    });
-    return res.status(200).redirect("http://localhost:3000/completeAuthentication");
-
-    // TODO renvoyer au client
-
-    // TODO renvoyer token
+    return res.status(200).redirect("http://localhost:3000/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email));
 };
 
 exports.postLogin = async (req, res, next) =>{

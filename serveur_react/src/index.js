@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import { BrowserRouter as Router } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 //Import utile pour MDBReact
 import "@fortawesome/fontawesome-free/css/all.min.css";

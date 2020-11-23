@@ -1,4 +1,4 @@
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import React, { Component } from "react";
 import { MDBAnimation } from "mdbreact";
 
@@ -9,8 +9,6 @@ import Konote from "../view/Konote";
 import Koulette from "../view/Koulette";
 import Kourse from "../view/Kourse";
 import Kognotte from "../view/Kognotte";
-import Login from "../view/Login";
-import CompleteAuthentication from "../view/CompleteAuthentication";
 import AuthRoute from "./AuthRoute";
 
 class DashboardRoutes extends Component {
