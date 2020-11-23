@@ -143,3 +143,12 @@ li a.dropdown-toggle::after {
     background-color: white;
     color: var(--couleur-principale);
 }
+
+.noteCross {
+    position: absolute;
+    right: 0;
+    margin: 5px;
+    padding:0;
+    border: 0;
+    background: transparent;
+}

@@ -1,7 +1,8 @@
 import React from "react";
 import KOBOARD from "../../config/AxiosHelper";
 import SwalHelper from '../../config/SwalHelper'
-import {Button, Card, CardBody, CardDeck, CardImg, CardText, CardTitle} from "reactstrap";
+import {Button, Card, CardBody, CardText, CardTitle} from "reactstrap";
+import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
 
 class Konote extends React.Component {
     constructor(props) {
@@ -32,25 +33,30 @@ class Konote extends React.Component {
     }
 
     render() {
-        console.log(this.state.listeNotesData);
         return (
             <div>
                 Liste des notes ici...
-                <CardDeck style={{display: 'flex', flexDirection: 'row'}}>
-                    {this.state.listeNotesData.map(function (noteData, index) {
-                            return (
-                                <Card key={noteData._id} style={{flex: 1}}>
-                                    <CardImg top width="100%" src="/assets/318x180.svg" alt="Card image cap"/>
-                                    <CardBody>
-                                        <CardTitle tag="h5">{noteData.title}</CardTitle>
-                                        <CardText>{noteData.content}</CardText>
-                                        <Button>Button</Button>
-                                    </CardBody>
-                                </Card>
-                            );
-                        }
-                    )}
-                </CardDeck>
+                <MDBContainer>
+                    <MDBRow>
+                        {this.state.listeNotesData.map(function (noteData, index) {
+                                return (
+                                    <MDBCol>
+                                        <Card key={noteData._id} style={{flex: 1}}>
+                                            <button className="noteCross"><i className="fa fa-times"
+                                                                             aria-hidden="true"/>
+                                            </button>
+                                            <CardBody>
+                                                <CardTitle tag="h5">{noteData.title}</CardTitle>
+                                                <CardText>{noteData.content}</CardText>
+                                                <Button>Button</Button>
+                                            </CardBody>
+                                        </Card>
+                                    </MDBCol>
+                                );
+                            }
+                        )}
+                    </MDBRow>
+                </MDBContainer>
             </div>
         );
     }
