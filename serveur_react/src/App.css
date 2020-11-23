@@ -32,7 +32,7 @@ a:focus {
 .sidebar {
   min-width: 250px;
   max-width: 250px;
-  background: linear-gradient(var(--couleur-principale), var(--couleur-totale));
+  background: linear-gradient(var(--couleur-totale), var(--couleur-principale));
   color: var(--couleur-principale);
   margin-left: -250px;
   transition: all 0.5s;
@@ -93,12 +93,12 @@ li a.dropdown-toggle::after {
 }
 
 .side-menu::-webkit-scrollbar-thumb {
-  background: #ff0000;
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 3px;
 }
 
 .side-menu::-webkit-scrollbar-thumb:hover {
-  background: #ec0300;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 /* ---------------------------------------------------

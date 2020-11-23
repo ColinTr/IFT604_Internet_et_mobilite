@@ -11,6 +11,7 @@ class Login extends Component {
       loggedIn: false,
       redirectUrl: "",
     };
+    this.redirectionOAuth = this.redirectionOAuth.bind(this);
   }
 
   checkAuthentification() {
@@ -42,8 +43,7 @@ class Login extends Component {
   }
 
   redirectionOAuth() {
-    console.log("login");
-    return <Route render={() => (window.location = "https://google.com")} />;
+    window.location.href = this.state.redirectUrl;
   }
 
   render() {
@@ -58,7 +58,7 @@ class Login extends Component {
             </MDBRow>
             <MDBRow className="justify-content-center">
               <MDBBtn outline color="info" onClick={this.redirectionOAuth}>
-                <a href={this.state.redirectUrl}>Aller a l'appli</a>
+                Authentification via Oauth
               </MDBBtn>
             </MDBRow>
           </MDBCol>
