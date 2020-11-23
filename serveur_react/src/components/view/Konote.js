@@ -1,16 +1,24 @@
 import React from "react";
+import KOBOARD from "../../config/AxiosHelper";
 
 class Konote extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            listeNotesData: [],
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      listeNotesData: [],
+    };
+  }
 
-    render() {
-        return <div>Liste des konotes</div>;
-    }
+  updateKonotes() {
+    let that = this;
+    KOBOARD.createGetAxiosRequest("konotes").then((res) => {
+      that.setState({ listeNotesData: res });
+    });
+  }
+
+  render() {
+    return <div>{this.state.listeNotesData}</div>;
+  }
 }
 
 export default Konote;

@@ -9,11 +9,11 @@ import Konote from "../view/Konote";
 import Koulette from "../view/Koulette";
 import Kourse from "../view/Kourse";
 import Kognotte from "../view/Kognotte";
+
 import AuthRoute from "./AuthRoute";
 
 class DashboardRoutes extends Component {
   render() {
-    console.log("DASHBOARD ROUTE");
     return (
       <MDBAnimation type="fadeIn">
         <Route
