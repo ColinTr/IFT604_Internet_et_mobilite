@@ -4,14 +4,14 @@ const service = require("../services/note.service");
 const config = require("../utils/config");
 
 exports.getNotes = async (req, res, next) => {
-  service
-    .getNotesFromDashboard(config.MONGODB_DASHBOARD_ID)
-    .then((response) => {
-      res.send(response).end();
-    })
-    .catch((error) => {
-      logger.error(error);
-    });
+    service.getNotesFromDashboard(config.MONGODB_DASHBOARD_ID)
+        .then((response) => {
+            res.status(200).send(response).end();
+        })
+        .catch((error) => {
+            logger.error(error);
+        });
 };
 
-exports.createNote = async (req, res, next) => {};
+exports.createNote = async (req, res, next) => {
+};

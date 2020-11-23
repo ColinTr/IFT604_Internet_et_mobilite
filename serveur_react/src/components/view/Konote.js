@@ -35,7 +35,12 @@ class Konote extends React.Component {
     }
 
     render() {
-        return <div>{this.state.listeNotesData}</div>;
+        console.log(this.state.listeNotesData);
+        return(
+            <div>
+                Liste des notes ici...
+            </div>
+        );
     }
 }
 
