@@ -7,7 +7,6 @@ exports.getNotes = async (req, res, next) => {
   service
     .getNotesFromDashboard(config.MONGODB_DASHBOARD_ID)
     .then((response) => {
-      logger.info("DANS LE RESPONSE ", response);
       res.send(response).end();
     })
     .catch((error) => {

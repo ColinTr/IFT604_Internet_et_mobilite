@@ -1,30 +1,27 @@
 const UserService = require('../services/user.service');
-const User = require('../models/user');
 const google_utils = require('../utils/google-utils');
-const erreur = require('../utils/erreur');
-const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 exports.checkToken = (req, res, next) => {
     try {
-        // TODO Check if there is a token
-
-        // TODO check if it should be refreshed
-
-        console.log(req.headers.authorization)
-
         if (req.headers.authorization === undefined) {
-            // return res.status(400).send(new erreur("Missing header's authorization")).end()
             return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
         }
 
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, process.env.GOOGLE_CLIENT_SECRET);
-        const userId = decodedToken.userId;
-        if (req.body.userId && req.body.userId !== userId) {
-            res.redirect(google_utils.getConnectionUrl(google_utils.createConnection()));
-        } else {
-            next();
-        }
+        const access_token = JSON.parse(req.headers.authorization).access_token;
+        const refresh_token = JSON.parse(req.headers.authorization).access_token;
+
+        axios.get("https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + access_token)
+            .then(response => {
+                if(response.data.expires_in === 0){
+                    return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+                } else {
+                    next();
+                }
+            })
+            .catch(err => {
+                return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+            });
     } catch (err) {
         console.log(err);
     }

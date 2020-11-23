@@ -25,9 +25,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/notes', login.checkToken, notesRouter);
-app.use('/courses', login.checkToken, coursesRouter);
-app.use('/chat', login.checkToken, chatRouter);
+app.use('/konotes', login.checkToken, notesRouter);
+app.use('/kourses', login.checkToken, coursesRouter);
+app.use('/kochat', login.checkToken, chatRouter);
 app.use('/login', loginRouter);
 app.use('/completeAuthetication', loginRouter);
 

@@ -2,9 +2,10 @@ const axios = require('axios');
 
 function createGetAxiosRequest(route) {
     return new Promise((resolve, reject) => {
-        axios.get("localhost:5000/" + route, {
+        axios.get("http://localhost:5000/" + route, {
             headers: {
-                Authorization: `token ` + localStorage.getItem("token"),
+                Authorization: "{\"access_token\":\"" + localStorage.getItem("access_token") + "\"," +
+                                "\"refresh_token\":\"" + localStorage.getItem("refresh_token") + "\"}",
             },
         })
             .then((res) => {
@@ -18,9 +19,9 @@ function createGetAxiosRequest(route) {
 
 function createPostAxiosRequest(route) {
     return new Promise((resolve, reject) => {
-        axios.post("localhost:5000/" + route, {
+        axios.post("http://localhost:5000/" + route, {
             headers: {
-                Authorization: `token ` + localStorage.getItem("token"),
+                Authorization: `token ` + localStorage.getItem("access_token"),
             },
         })
             .then((res) => {

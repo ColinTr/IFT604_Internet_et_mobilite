@@ -6,7 +6,7 @@ export default function AuthRoute({component: Component, ...rest}) {
         <Route
             {...rest}
             render={(props) =>
-                localStorage.getItem("token") !== null ? (
+                localStorage.getItem("access_token") !== null ? (
                     <Component {...props} />
                 ) : (
                     <Redirect

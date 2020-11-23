@@ -14,7 +14,7 @@ class Login extends Component {
         let that = this;
         return new Promise((resolve, reject) => {
             axios
-                .get("http://localhost:5000/notes")
+                .get("http://localhost:5000/konotes")
                 .then((response) => {
                     if (response.data.redirectUrl !== undefined) {
                         that.setState({
