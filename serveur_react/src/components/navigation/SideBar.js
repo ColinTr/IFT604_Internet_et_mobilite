@@ -9,84 +9,100 @@ import {
   faDollarSign,
   faLifeRing,
 } from "@fortawesome/free-solid-svg-icons";
-import { NavItem, NavLink, Nav } from "reactstrap";
+
+import { MDBNavItem, MDBNavLink, MDBNavbarNav, MDBNavbarBrand } from "mdbreact";
 import classNames from "classnames";
 import { NavLink as RRNavLink } from "react-router-dom";
 
 const SideBar = ({ isOpen, toggle }) => {
   return (
     <div className={classNames("sidebar", { "is-open": isOpen })}>
-      <div className="sidebar-header">
+      <div className="sidebar-header p-2">
+        <h3>LOGO KoBoard</h3>
         <span color="info" onClick={toggle} style={{ color: "#fff" }}>
           &times;
         </span>
-        <h3>KoBoard</h3>
       </div>
       <div className="side-menu">
-        <Nav vertical className="list-unstyled pb-3">
-          <NavItem>
-            <NavLink tag={RRNavLink} to={"/"} activeClassName="activeLink">
+        <MDBNavbarNav className="list-unstyled pb-3">
+          <MDBNavItem>
+            <MDBNavLink
+              className="pl-2"
+              tag={RRNavLink}
+              to={"/"}
+              activeClassName="activeLink"
+            >
               <FontAwesomeIcon icon={faHome} className="mr-2" />
               Home
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink tag={RRNavLink} to={"/kotes"} activeClassName="activeLink">
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink
+              className="pl-2"
+              tag={RRNavLink}
+              to={"/konotes"}
+              activeClassName="activeLink"
+            >
               <FontAwesomeIcon icon={faStickyNote} className="mr-2" />
-              Kotes
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
+              Konotes
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink
+              className="pl-2"
               tag={RRNavLink}
               to={"/kourses"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
               Kourse
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink
+              className="pl-2"
               tag={RRNavLink}
               to={"/kotemps"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faCalendar} className="mr-2" />
               Kotemps
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink
+              className="pl-2"
               tag={RRNavLink}
               to={"/kochat"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faComment} className="mr-2" />
               Kochat
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink
+              className="pl-2"
               tag={RRNavLink}
               to={"/kognotte"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
               Kognotte
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
+            </MDBNavLink>
+          </MDBNavItem>
+          <MDBNavItem>
+            <MDBNavLink
+              className="pl-2"
               tag={RRNavLink}
               to={"/koulette"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faLifeRing} className="mr-2" />
               Koulette
-            </NavLink>
-          </NavItem>
-        </Nav>
+            </MDBNavLink>
+          </MDBNavItem>
+        </MDBNavbarNav>
       </div>
     </div>
   );
