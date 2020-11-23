@@ -29,6 +29,7 @@ app.use('/notes', login.checkToken, notesRouter);
 app.use('/courses', login.checkToken, coursesRouter);
 app.use('/chat', login.checkToken, chatRouter);
 app.use('/login', loginRouter);
+app.use('/completeAuthetication', loginRouter);
 
 app.use(function (req, res, next) {
     res.status(404).send("Impossible de trouver la page, erreur 404")
