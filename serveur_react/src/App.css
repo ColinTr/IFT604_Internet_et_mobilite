@@ -1,6 +1,8 @@
 :root {
-  --couleur-principale: white;
-  --couleur-secondaire: blue;
+  --couleur-principale: #83f1c5;
+  --couleur-secondaire: #84ddf1;
+  --couleur-tertiaire: #84f2f2;
+  --couleur-totale: #3cd0d3;
 }
 
 .App {
@@ -30,28 +32,40 @@ a:focus {
 .sidebar {
   min-width: 250px;
   max-width: 250px;
-  background: #7386d5;
-  color: #fff;
+  background: linear-gradient(var(--couleur-principale), var(--couleur-totale));
+  color: var(--couleur-principale);
   margin-left: -250px;
   transition: all 0.5s;
+  font-weight: 800;
+}
+
+.nav-link {
+  color: white;
 }
 
 .sidebar.is-open {
   margin-left: 0;
   transition: 0.5s;
 }
+
+.sidebar ul p {
+  color: #0dff29;
+  padding: 10px;
+}
 .menu-open {
-  background: #6d7fcc;
+  background: #cc00a0;
 }
 
-.nav-item:hover {
-  color: #7386d5;
-  background: #fffc20;
-}
-
-.items-menu {
-  color: #fff;
-  background: #6d7fcc;
+.sidebar .nav-item:hover {
+  color: red !important;
+  background: white;
+  opacity: 0.6;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-radius: 4px 4px 4px 4px;
+  border-radius: 4px 4px 4px 4px;
 }
 
 li a.dropdown-toggle::after {
@@ -79,12 +93,12 @@ li a.dropdown-toggle::after {
 }
 
 .side-menu::-webkit-scrollbar-thumb {
-  background: #5466b3;
+  background: #cc1d02;
   border-radius: 3px;
 }
 
 .side-menu::-webkit-scrollbar-thumb:hover {
-  background: #3a4c99;
+  background: #ec181a;
 }
 
 /* ---------------------------------------------------
@@ -124,5 +138,6 @@ li a.dropdown-toggle::after {
 }
 
 .activeLink {
-  background-color: red;
+  background-color: white;
+  color: var(--couleur-principale);
 }
