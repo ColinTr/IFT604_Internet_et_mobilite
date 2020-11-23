@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
+import { Route, Switch } from "react-router-dom";
 
-import SideBar from "./components/navigation/SideBar";
-import MainView from "./components/view/MainView";
 import "./App.css";
+import Login from "./components/view/Login";
+import Dashboard from "./components/view/Dashboard";
+import AuthRoute from "./components/route/AuthRoute";
+import CompleteAuthentication from "./components/view/CompleteAuthentication";
 
 const App = () => {
-  const [sidebarIsOpen, setSidebarOpen] = useState(true);
-  const toggleSidebar = () => setSidebarOpen(!sidebarIsOpen);
-
   return (
     <div className="App wrapper">
-      <SideBar toggle={toggleSidebar} isOpen={sidebarIsOpen} />
-      <MainView toggleSidebar={toggleSidebar} sidebarIsOpen={sidebarIsOpen} />
+      <Switch>
+        <Route exact path="/login" component={Login} />
+        <AuthRoute path="/dashboard" component={Dashboard} />
+        <Route
+          exact
+          path="/completeAuthentication"
+          component={CompleteAuthentication}
+        />
+      </Switch>
     </div>
   );
 };

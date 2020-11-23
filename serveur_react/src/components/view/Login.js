@@ -1,34 +1,34 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import axios from "axios";
 
 class Login extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
             loggedIn: false,
-            redirectUrl: ""
+            redirectUrl: "",
         };
     }
 
     checkAuthentification() {
         let that = this;
         return new Promise((resolve, reject) => {
-            axios.get('http://localhost:5000/notes')
-                .then(response => {
+            axios
+                .get("http://localhost:5000/notes")
+                .then((response) => {
                     if (response.data.redirectUrl !== undefined) {
                         that.setState({
                             loggedIn: false,
-                            redirectUrl: response.data.redirectUrl
+                            redirectUrl: response.data.redirectUrl,
                         });
                     } else {
                         that.setState({
-                            loggedIn: true
+                            loggedIn: true,
                         });
                     }
                     resolve();
                 })
-                .catch(err => {
+                .catch((err) => {
                     reject(err);
                 });
         });
@@ -39,10 +39,8 @@ class Login extends Component {
     }
 
     render() {
-        if(this.state.loggedIn === true) {
-            return (
-                <div>You are already logged in</div>
-            );
+        if (this.state.loggedIn === true) {
+            return <div>You are already logged in</div>;
         } else {
             return (
                 <div>

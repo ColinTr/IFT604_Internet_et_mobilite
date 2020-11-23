@@ -1,7 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { Container } from "reactstrap";
-import Routes from "../route/Routes";
+import DashboardRoutes from "../route/DashboardRoutes";
 
 import Topbar from "../navigation/Topbar";
 
@@ -11,7 +11,7 @@ const MainView = ({ sidebarIsOpen, toggleSidebar }) => (
     className={classNames("content", { "is-open": sidebarIsOpen })}
   >
     <Topbar toggleSidebar={toggleSidebar} />
-    <Routes />
+    <DashboardRoutes />
   </Container>
 );
 
