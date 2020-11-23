@@ -25,20 +25,20 @@ const SideBar = ({ isOpen, toggle }) => {
       </div>
       <div className="side-menu">
         <MDBNavbarNav className="list-unstyled pb-3">
-          <MDBNavItem>
+          <MDBNavItem className="ml-2">
             <MDBNavLink
-              className="pl-2"
+              className="pl-2 rounded"
               tag={RRNavLink}
-              to={"/"}
+              to={"/home"}
               activeClassName="activeLink"
             >
               <FontAwesomeIcon icon={faHome} className="mr-2" />
               Home
             </MDBNavLink>
           </MDBNavItem>
-          <MDBNavItem>
+          <MDBNavItem className="ml-2">
             <MDBNavLink
-              className="pl-2"
+              className="pl-2 rounded"
               tag={RRNavLink}
               to={"/konotes"}
               activeClassName="activeLink"
@@ -47,9 +47,9 @@ const SideBar = ({ isOpen, toggle }) => {
               Konotes
             </MDBNavLink>
           </MDBNavItem>
-          <MDBNavItem>
+          <MDBNavItem className="ml-2">
             <MDBNavLink
-              className="pl-2"
+              className="pl-2 rounded"
               tag={RRNavLink}
               to={"/kourses"}
               activeClassName="activeLink"
@@ -58,9 +58,9 @@ const SideBar = ({ isOpen, toggle }) => {
               Kourse
             </MDBNavLink>
           </MDBNavItem>
-          <MDBNavItem>
+          <MDBNavItem className="ml-2">
             <MDBNavLink
-              className="pl-2"
+              className="pl-2 rounded"
               tag={RRNavLink}
               to={"/kotemps"}
               activeClassName="activeLink"
@@ -69,9 +69,9 @@ const SideBar = ({ isOpen, toggle }) => {
               Kotemps
             </MDBNavLink>
           </MDBNavItem>
-          <MDBNavItem>
+          <MDBNavItem className="ml-2">
             <MDBNavLink
-              className="pl-2"
+              className="pl-2 rounded"
               tag={RRNavLink}
               to={"/kochat"}
               activeClassName="activeLink"
@@ -80,9 +80,9 @@ const SideBar = ({ isOpen, toggle }) => {
               Kochat
             </MDBNavLink>
           </MDBNavItem>
-          <MDBNavItem>
+          <MDBNavItem className="ml-2">
             <MDBNavLink
-              className="pl-2"
+              className="pl-2 rounded"
               tag={RRNavLink}
               to={"/kognotte"}
               activeClassName="activeLink"
@@ -91,9 +91,9 @@ const SideBar = ({ isOpen, toggle }) => {
               Kognotte
             </MDBNavLink>
           </MDBNavItem>
-          <MDBNavItem>
+          <MDBNavItem className="ml-2">
             <MDBNavLink
-              className="pl-2"
+              className="pl-2 rounded"
               tag={RRNavLink}
               to={"/koulette"}
               activeClassName="activeLink"

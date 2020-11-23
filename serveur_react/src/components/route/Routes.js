@@ -21,7 +21,7 @@ class Routes extends Component {
         return (
             <MDBAnimation type="fadeIn">
                 <Switch>
-                    <Route exact path="/" component={() => "Hello"}/>
+                    <Route exact path="/home" component={() => "Hello"}/>
                     <Route exact path="/kochat" component={Kochat}/>
                     <Route exact path="/konotes" render={() => (
                         this.checkAuthentification() ? (
