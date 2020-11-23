@@ -93,12 +93,12 @@ li a.dropdown-toggle::after {
 }
 
 .side-menu::-webkit-scrollbar-thumb {
-  background: #cc1d02;
+  background: #ff0000;
   border-radius: 3px;
 }
 
 .side-menu::-webkit-scrollbar-thumb:hover {
-  background: #ec181a;
+  background: #ec0300;
 }
 
 /* ---------------------------------------------------

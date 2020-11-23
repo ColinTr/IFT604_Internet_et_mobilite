@@ -9,7 +9,16 @@ import {
   MDBNavbarToggler,
   MDBCollapse,
   MDBBtn,
+  MDBDropdown,
+  MDBDropdownToggle,
+  MDBDropdownMenu,
+  MDBDropdownItem,
+  MDBIcon,
 } from "mdbreact";
+
+function disconnect() {
+  localStorage.clear();
+}
 
 const Topbar = ({ toggleSidebar }) => {
   const [topbarIsOpen, setTopbarOpen] = useState(true);
@@ -28,7 +37,19 @@ const Topbar = ({ toggleSidebar }) => {
       <MDBNavbarToggler onClick={toggleTopbar} />
       <MDBCollapse isOpen={topbarIsOpen} navbar>
         <MDBNavbarNav right className="ml-auto">
-          <MDBNavItem>Profil utilisateur</MDBNavItem>
+          <MDBNavItem>
+            <MDBDropdown className="dropdown-menu-right">
+              <MDBDropdownToggle nav caret>
+                <MDBIcon icon="user" />
+              </MDBDropdownToggle>
+              <MDBDropdownMenu right>
+                <MDBDropdownItem href="#">Mon profil</MDBDropdownItem>
+                <MDBDropdownItem href="/login" onClick={disconnect}>
+                  Se déconnecter
+                </MDBDropdownItem>
+              </MDBDropdownMenu>
+            </MDBDropdown>
+          </MDBNavItem>
         </MDBNavbarNav>
       </MDBCollapse>
     </MDBNavbar>

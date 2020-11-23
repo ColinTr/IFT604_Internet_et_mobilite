@@ -1,54 +1,71 @@
 import React, { Component } from "react";
 import axios from "axios";
+import Logo from "../../assets/img/logo_koboard_crop.png";
+import { MDBCol, MDBContainer, MDBRow, MDBBtn } from "mdbreact";
+import { Route } from "react-router-dom";
 
 class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            loggedIn: false,
-            redirectUrl: "",
-        };
-    }
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: false,
+      redirectUrl: "",
+    };
+  }
 
-    checkAuthentification() {
-        let that = this;
-        return new Promise((resolve, reject) => {
-            axios
-                .get("http://localhost:5000/konotes")
-                .then((response) => {
-                    if (response.data.redirectUrl !== undefined) {
-                        that.setState({
-                            loggedIn: false,
-                            redirectUrl: response.data.redirectUrl,
-                        });
-                    } else {
-                        that.setState({
-                            loggedIn: true,
-                        });
-                    }
-                    resolve();
-                })
-                .catch((err) => {
-                    reject(err);
-                });
+  checkAuthentification() {
+    let that = this;
+    return new Promise((resolve, reject) => {
+      axios
+        .get("http://localhost:5000/konotes")
+        .then((response) => {
+          if (response.data.redirectUrl !== undefined) {
+            that.setState({
+              loggedIn: false,
+              redirectUrl: response.data.redirectUrl,
+            });
+          } else {
+            that.setState({
+              loggedIn: true,
+            });
+          }
+          resolve();
+        })
+        .catch((err) => {
+          reject(err);
         });
-    }
+    });
+  }
 
-    componentDidMount() {
-        this.checkAuthentification();
-    }
+  componentDidMount() {
+    this.checkAuthentification();
+  }
 
-    render() {
-        if (this.state.loggedIn === true) {
-            return <div>You are already logged in</div>;
-        } else {
-            return (
-                <div>
-                    <a href={this.state.redirectUrl}>You must log in to continue</a>
-                </div>
-            );
-        }
+  redirectionOAuth() {
+    console.log("login");
+    return <Route render={() => (window.location = "https://google.com")} />;
+  }
+
+  render() {
+    if (this.state.loggedIn === true) {
+      return <div>You are already logged in</div>;
+    } else {
+      return (
+        <MDBContainer className="container-fluid mt-5">
+          <MDBCol>
+            <MDBRow className="justify-content-center">
+              <img src={Logo} alt="logo koboard" width="150" />
+            </MDBRow>
+            <MDBRow className="justify-content-center">
+              <MDBBtn outline color="info" onClick={this.redirectionOAuth}>
+                <a href={this.state.redirectUrl}>Aller a l'appli</a>
+              </MDBBtn>
+            </MDBRow>
+          </MDBCol>
+        </MDBContainer>
+      );
     }
+  }
 }
 
 export default Login;
