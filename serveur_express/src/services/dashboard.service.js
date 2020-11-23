@@ -1,6 +1,5 @@
 const DashboardModel = require('../models/dashboard');
 
-// WARNING - Will probably change with the oauth integration
 
 class DashboardService {
 

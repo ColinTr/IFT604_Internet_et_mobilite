@@ -1,9 +1,18 @@
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Schema.ObjectId;
 
+var Elements = mongoose.Schema({
+    content: String,
+    quantity: Number,
+    bought: Boolean
+},{ _id : false });
+
+
 const Kourse = new mongoose.Schema({
     _dashboard: ObjectId,
-    elements: [ObjectId]
+    title: String,
+    elements: [Elements]
 });
+
 
 module.exports = mongoose.model("Kourse", Kourse);

@@ -2,12 +2,11 @@ const TransactionModel = require('../models/transaction');
 
 class TransactionService {
 
-    async addTransaction(dashboard, from, to, type, montant, object, date){
+    async addTransaction(dashboard, from, to, montant, object, date){
         const transaction = new TransactionModel({
             _dashboard: dashboard,
             from: from,
             to: to,
-            type: type,
             montant: montant,
             object: object,
             date: date
@@ -30,10 +29,12 @@ class TransactionService {
     }
 
     async getTransactionsTo(to){
+        //to is a string or an array of string (pas testé)
         return await TransactionModel.find({to: to});
     }
 
     async getTransactionsFromTo(from, to){
+        //to is a string or an array of string (pas testé)
         return await TransactionModel.find({from: from, to: to});
     }
 
