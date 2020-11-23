@@ -13,9 +13,9 @@ const database = require('./services/database');
 
 const db = new database(); // Initialize the connexion to the database
 
-var express = require('express');
-var cors = require('cors');
-var app = express();
+const express = require('express');
+const cors = require('cors');
+const app = express();
 app.use(cors());
 
 app.use(logger('dev'));
@@ -29,8 +29,6 @@ app.use('/konotes', login.checkToken, notesRouter);
 app.use('/kourses', login.checkToken, coursesRouter);
 app.use('/kochat', login.checkToken, chatRouter);
 app.use('/login', loginRouter);
-app.use('/completeAuthetication', loginRouter);
-
 
 app.use(function (req, res, next) {
     res.status(404).send("Impossible de trouver la page, erreur 404")

@@ -6,11 +6,11 @@ const config = require("../utils/config");
 exports.getNotes = async (req, res, next) => {
     service.getNotesFromDashboard(config.MONGODB_DASHBOARD_ID)
         .then((response) => {
-            res.status(200).send(response).end();
+            return res.status(200).send(response).end();
         })
         .catch((error) => {
-            res.status(400).send(new Erreur("Impossible de récupérer les notes")).end();
             logger.error(error);
+            return res.status(400).send(new Erreur("Impossible de récupérer les notes")).end();
         });
 };
 
@@ -20,11 +20,11 @@ exports.getNote = async (req, res, next) => {
     } else {
         service.getNote(req.params['id_note'])
             .then(response => {
-                res.status(200).send(response).end();
+                return res.status(200).send(response).end();
             })
             .catch(error => {
-                res.status(400).send(new Erreur("Impossible de récupérer la note")).end();
                 logger.error(error);
+                return res.status(400).send(new Erreur("Impossible de récupérer la note")).end();
             });
     }
 };
@@ -36,27 +36,27 @@ exports.updateNote = async (req, res, next) => {
     } else {
         service.updateNote(body.note._id, body.note)
             .then(response => {
-                res.status(200).send(response).end();
+                return res.status(200).send(response).end();
             })
             .catch(error => {
-                res.status(400).send(new Erreur("Impossible de modifier la note")).end();
                 logger.error(error);
+                return res.status(400).send(new Erreur("Impossible de modifier la note")).end();
             });
     }
 };
 
 exports.createNote = async (req, res, next) => {
-    const note = req.body.note;
-    if (note === undefined) {
-        res.status(400).send(new Erreur("Objet note manquant"))
+    const params = req.body;
+    if (params._dashboard === undefined || params.title === undefined || params.content === undefined || params.author === undefined || params.users === undefined) {
+        res.status(400).send(new Erreur("Attributs manquants"))
     } else {
-        service.addNote(note._dashboard, note.title, note.content, note.author, note.users)
+        service.addNote(params._dashboard, params.title, params.content, params.author, params.users)
             .then(response => {
-                res.status(200).send(response).end();
+                return res.status(200).send(response).end();
             })
             .catch(error => {
-                res.status(400).send(new Erreur("Impossible de créer la note")).end();
                 logger.error(error);
+                return res.status(400).send(new Erreur("Impossible de créer la note")).end();
             });
     }
 };
@@ -67,11 +67,11 @@ exports.deleteNote = async (req, res, next) => {
     } else {
         service.deleteNote(req.params['id_note'])
             .then(response => {
-                res.status(200).send(response).end();
+                return res.status(204).send(response).end();
             })
             .catch(error => {
-                res.status(400).send(new Erreur("Impossible de supprimer la note")).end();
                 logger.error(error);
+                return res.status(400).send(new Erreur("Impossible de supprimer la note")).end();
             });
     }
 };

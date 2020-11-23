@@ -1,12 +1,11 @@
 const logger = require('../utils/logger');
 const Erreur = require('../utils/erreur');
-const config = require('../utils/config')
+const config = require('../utils/config');
 const service = require('../services/message.service');
 
 exports.getMessages = async (req, res) =>{
    service.getMessagesFromDashboard(config.MONGODB_DASHBOARD_ID)
        .then((response)=>{
-           logger.info(response);
            res.send(response).end();
        })
        .catch((error)=>{
@@ -24,7 +23,6 @@ exports.createMessage = async (req, res) => {
 
     service.addMessage(body._dashboard, body.content, body.author, body.taggedUsers)
         .then((message)=>{
-            logger.info(message);
             return res.status(200).end();
         })
         .catch((err)=>{
@@ -41,7 +39,7 @@ exports.deleteMessage = async (req,res) => {
             return res.status(204).end();
         })
         .catch((err)=>{
-            logger.error(err)
+            logger.error(err);
             return res.status(400).send(new Erreur("Impossible de supprimer le message")).end();
         })
 };
