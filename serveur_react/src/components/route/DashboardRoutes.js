@@ -1,7 +1,6 @@
 import {Redirect, Route} from "react-router-dom";
 import React, {Component} from "react";
 import {MDBAnimation} from "mdbreact";
-
 //Import des composants de la vue
 import Kochat from "../view/Kochat";
 import Kotemps from "../view/Kotemps";

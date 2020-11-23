@@ -1,143 +1,145 @@
 :root {
-  --couleur-principale: #83f1c5;
-  --couleur-secondaire: #84ddf1;
-  --couleur-tertiaire: #84f2f2;
-  --couleur-totale: #3cd0d3;
+    --couleur-principale: #83f1c5;
+    --couleur-secondaire: #84ddf1;
+    --couleur-tertiaire: #84f2f2;
+    --couleur-totale: #3cd0d3;
 }
 
 .App {
-  display: flex;
-  width: 100%;
-  align-items: stretch;
+    display: flex;
+    width: 100%;
+    align-items: stretch;
 }
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
 body {
-  font-family: "Poppins", sans-serif;
-  background: #fafafa;
+    font-family: "Poppins", sans-serif;
+    background: #fafafa;
 }
 
 a,
 a:hover,
 a:focus {
-  color: inherit;
-  text-decoration: none;
-  transition: all 0.3s;
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
 }
 
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
 .sidebar {
-  min-width: 250px;
-  max-width: 250px;
-  background: linear-gradient(var(--couleur-totale), var(--couleur-principale));
-  color: var(--couleur-principale);
-  margin-left: -250px;
-  transition: all 0.5s;
-  font-weight: 800;
+    min-width: 250px;
+    max-width: 250px;
+    background: linear-gradient(var(--couleur-totale), var(--couleur-principale));
+    color: var(--couleur-principale);
+    margin-left: -250px;
+    transition: all 0.5s;
+    font-weight: 800;
 }
 
 .nav-link {
-  color: white;
+    color: white;
 }
 
 .sidebar.is-open {
-  margin-left: 0;
-  transition: 0.5s;
+    margin-left: 0;
+    transition: 0.5s;
 }
 
 .sidebar ul p {
-  color: #0dff29;
-  padding: 10px;
+    color: #0dff29;
+    padding: 10px;
 }
+
 .menu-open {
-  background: #cc00a0;
+    background: #cc00a0;
 }
 
 .sidebar .nav-item:hover {
-  color: red !important;
-  background: white;
-  opacity: 0.6;
-  -moz-border-radius-topleft: 4px;
-  -moz-border-radius-topright: 4px;
-  -moz-border-radius-bottomright: 4px;
-  -moz-border-radius-bottomleft: 4px;
-  -webkit-border-radius: 4px 4px 4px 4px;
-  border-radius: 4px 4px 4px 4px;
+    color: red !important;
+    background: white;
+    opacity: 0.6;
+    -moz-border-radius-topleft: 4px;
+    -moz-border-radius-topright: 4px;
+    -moz-border-radius-bottomright: 4px;
+    -moz-border-radius-bottomleft: 4px;
+    -webkit-border-radius: 4px 4px 4px 4px;
+    border-radius: 4px 4px 4px 4px;
 }
 
 li a.dropdown-toggle::after {
-  display: inline-flex;
-  position: relative;
-  left: 60%;
-  top: 10%;
+    display: inline-flex;
+    position: relative;
+    left: 60%;
+    top: 10%;
 }
 
 .sidebar-header > span {
-  position: relative;
-  float: right;
-  margin: 0.5em;
-  font-size: 2rem;
-  cursor: pointer;
-  display: none;
+    position: relative;
+    float: right;
+    margin: 0.5em;
+    font-size: 2rem;
+    cursor: pointer;
+    display: none;
 }
+
 .side-menu {
-  height: calc(100vh - 130px);
-  overflow-y: scroll;
+    height: calc(100vh - 130px);
+    overflow-y: scroll;
 }
 
 .side-menu::-webkit-scrollbar {
-  width: 10px;
+    width: 10px;
 }
 
 .side-menu::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.6);
-  border-radius: 3px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 3px;
 }
 
 .side-menu::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.5);
 }
 
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
 .content {
-  padding: 20px;
-  margin-left: 0;
-  height: 100vh;
+    padding: 20px;
+    margin-left: 0;
+    height: 100vh;
 }
 
 @media only screen and (max-width: 500px) {
-  body {
-    overflow: hidden;
-  }
+    body {
+        overflow: hidden;
+    }
 
-  .content.is-open {
-    margin-left: 100%;
-  }
+    .content.is-open {
+        margin-left: 100%;
+    }
 
-  .sidebar.is-open {
-    min-width: 100%;
-    max-width: 100%;
-    margin-left: 0;
-    transition: all 0.5s, height 0s;
-  }
+    .sidebar.is-open {
+        min-width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        transition: all 0.5s, height 0s;
+    }
 
-  .sidebar.is-open > .sidebar-header span {
-    display: unset;
-  }
+    .sidebar.is-open > .sidebar-header span {
+        display: unset;
+    }
 
-  li a.dropdown-toggle::after {
-    display: inline-block;
-    position: relative;
-    left: 68%;
-  }
+    li a.dropdown-toggle::after {
+        display: inline-block;
+        position: relative;
+        left: 68%;
+    }
 }
 
 .activeLink {
-  background-color: white;
-  color: var(--couleur-principale);
+    background-color: white;
+    color: var(--couleur-principale);
 }

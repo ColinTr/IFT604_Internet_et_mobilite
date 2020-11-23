@@ -1,9 +1,9 @@
 import React from "react";
 
 class Koulette extends React.Component {
-  render() {
-    return "Koulette";
-  }
+    render() {
+        return "Koulette";
+    }
 }
 
 export default Koulette;

@@ -5,7 +5,7 @@ function createGetAxiosRequest(route) {
         axios.get("http://localhost:5000/" + route, {
             headers: {
                 Authorization: "{\"access_token\":\"" + localStorage.getItem("access_token") + "\"," +
-                                "\"refresh_token\":\"" + localStorage.getItem("refresh_token") + "\"}",
+                    "\"refresh_token\":\"" + localStorage.getItem("refresh_token") + "\"}",
             },
         })
             .then((res) => {

@@ -14,7 +14,7 @@ class CompleteAuthentication extends Component {
     }
 
     render() {
-        return(
+        return (
             <div>{localStorage.getItem("email")}</div>
         )
     }

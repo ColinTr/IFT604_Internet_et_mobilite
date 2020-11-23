@@ -1,6 +1,6 @@
 import React from "react";
 import KOBOARD from "../../config/AxiosHelper";
-import * as Swal from "sweetalert2";
+import SwalHelper from '../../config/SwalHelper'
 
 class Konote extends React.Component {
     constructor(props) {
@@ -13,21 +13,17 @@ class Konote extends React.Component {
     updateKonotes() {
         let that = this;
         KOBOARD.createGetAxiosRequest("konotes")
-            .then((res) => {
-                if(res.redirectUrl !== undefined) {
-                    Swal.fire({
-                        title: "La session a expirée",
-                        icon: 'error',
-                        confirmButtonText: 'Se reconnecter'
-                    }).then( (result) => {
-                        if(result.value){
-                            window.location.href = res.redirectUrl
-                        }
-                    });
+            .then(res => {
+                if (res.redirectUrl !== undefined) {
+                    SwalHelper.createPleaseReconnectLargePopUp(res)
                 } else {
-                    that.setState({ listeNotesData: res });
+                    that.setState({listeNotesData: res});
                 }
-            });
+            })
+            .catch(err => {
+                    SwalHelper.createNoConnectionSmallPopUp("Connexion au serveur impossible");
+                }
+            );
     }
 
     componentDidMount() {
@@ -36,7 +32,7 @@ class Konote extends React.Component {
 
     render() {
         console.log(this.state.listeNotesData);
-        return(
+        return (
             <div>
                 Liste des notes ici...
             </div>
