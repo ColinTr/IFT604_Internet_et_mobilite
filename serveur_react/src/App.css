@@ -132,3 +132,7 @@ li a.dropdown-toggle::after {
     left: 68%;
   }
 }
+
+.activeLink {
+  background-color: red;
+}

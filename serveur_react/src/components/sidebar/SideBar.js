@@ -2,85 +2,94 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faHome,
-  faBriefcase,
-  faPaperPlane,
-  faQuestion,
-  faImage,
-  faCopy,
+  faStickyNote,
+  faShoppingCart,
+  faCalendar,
+  faComment,
+  faDollarSign,
+  faLifeRing,
 } from "@fortawesome/free-solid-svg-icons";
 import { NavItem, NavLink, Nav } from "reactstrap";
 import classNames from "classnames";
-import { Link } from "react-router-dom";
+import { NavLink as RRNavLink } from "react-router-dom";
 
-import SubMenu from "./SubMenu";
-
-const SideBar = ({ isOpen, toggle }) => (
-  <div className={classNames("sidebar", { "is-open": isOpen })}>
-    <div className="sidebar-header">
-      <span color="info" onClick={toggle} style={{ color: "#fff" }}>
-        &times;
-      </span>
-      <h3>Bootstrap Sidebar</h3>
+const SideBar = ({ isOpen, toggle }) => {
+  return (
+    <div className={classNames("sidebar", { "is-open": isOpen })}>
+      <div className="sidebar-header">
+        <span color="info" onClick={toggle} style={{ color: "#fff" }}>
+          &times;
+        </span>
+        <h3>KoBoard</h3>
+      </div>
+      <div className="side-menu">
+        <Nav vertical className="list-unstyled pb-3">
+          <NavItem>
+            <NavLink tag={RRNavLink} to={"/"} activeClassName="activeLink">
+              <FontAwesomeIcon icon={faHome} className="mr-2" />
+              Home
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink tag={RRNavLink} to={"/kotes"} activeClassName="activeLink">
+              <FontAwesomeIcon icon={faStickyNote} className="mr-2" />
+              Kotes
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              tag={RRNavLink}
+              to={"/kourses"}
+              activeClassName="activeLink"
+            >
+              <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
+              Kourse
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              tag={RRNavLink}
+              to={"/kotemps"}
+              activeClassName="activeLink"
+            >
+              <FontAwesomeIcon icon={faCalendar} className="mr-2" />
+              Kotemps
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              tag={RRNavLink}
+              to={"/kochat"}
+              activeClassName="activeLink"
+            >
+              <FontAwesomeIcon icon={faComment} className="mr-2" />
+              Kochat
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              tag={RRNavLink}
+              to={"/kognotte"}
+              activeClassName="activeLink"
+            >
+              <FontAwesomeIcon icon={faDollarSign} className="mr-2" />
+              Kognotte
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              tag={RRNavLink}
+              to={"/koulette"}
+              activeClassName="activeLink"
+            >
+              <FontAwesomeIcon icon={faLifeRing} className="mr-2" />
+              Koulette
+            </NavLink>
+          </NavItem>
+        </Nav>
+      </div>
     </div>
-    <div className="side-menu">
-      <Nav vertical className="list-unstyled pb-3">
-        <p>Dummy Heading</p>
-        <SubMenu title="Home" icon={faHome} items={submenus[0]} />
-        <NavItem>
-          <NavLink tag={Link} to={"/about"}>
-            <FontAwesomeIcon icon={faBriefcase} className="mr-2" />
-            About
-          </NavLink>
-        </NavItem>
-        <SubMenu title="Pages" icon={faCopy} items={submenus[1]} />
-        <NavItem>
-          <NavLink tag={Link} to={"/pages"}>
-            <FontAwesomeIcon icon={faImage} className="mr-2" />
-            Portfolio
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink tag={Link} to={"/faq"}>
-            <FontAwesomeIcon icon={faQuestion} className="mr-2" />
-            FAQ
-          </NavLink>
-        </NavItem>
-        <NavItem>
-          <NavLink tag={Link} to={"/contact"}>
-            <FontAwesomeIcon icon={faPaperPlane} className="mr-2" />
-            Contact
-          </NavLink>
-        </NavItem>
-      </Nav>
-    </div>
-  </div>
-);
-
-const submenus = [
-  [
-    {
-      title: "Home 1",
-      target: "Home-1",
-    },
-    {
-      title: "Home 2",
-      target: "Home-2",
-    },
-    {
-      itle: "Home 3",
-      target: "Home-3",
-    },
-  ],
-  [
-    {
-      title: "Page 1",
-      target: "Page-1",
-    },
-    {
-      title: "Page 2",
-      target: "Page-2",
-    },
-  ],
-];
+  );
+};
 
 export default SideBar;
