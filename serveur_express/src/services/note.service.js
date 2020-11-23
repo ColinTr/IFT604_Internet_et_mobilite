@@ -2,9 +2,10 @@ const NoteModel = require('../models/note');
 
 class NoteService {
 
-    async addNote(dashboard, content, author, users){
+    async addNote(dashboard, title, content, author, users){
         const note = new NoteModel({
             _dashboard: dashboard,
+            title: title,
             content: content,
             author: author,
             taggedUsers: [...new Set(users)],
