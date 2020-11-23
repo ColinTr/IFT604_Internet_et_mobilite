@@ -13,9 +13,12 @@ exports.checkToken = (req, res, next) => {
 
         axios.get("https://www.googleapis.com/oauth2/v3/tokeninfo?access_token=" + access_token)
             .then(response => {
+                console.log(response)
                 if(response.data.expires_in === 0){
+                    // If the token expired, the user must reconnect
                     return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
                 } else {
+                    // If the token is valid, the middleware calls next so we can execute the requested api method
                     next();
                 }
             })
