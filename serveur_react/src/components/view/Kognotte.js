@@ -11,39 +11,47 @@ function Kognotte() {
 
   const [transactions, setTransactions] = useState();
 
-  useEffect(async () => {
-    const s = await KOBOARD.createGetAxiosRequest("kognotte/soldes");
-    if (s) {
-      var max = Math.abs(
-        Math.max.apply(
-          Math,
-          s.map(function (o) {
-            return o.value;
-          })
-        )
-      );
-      setSoldeMax(max);
-    }
-    setSoldes(s);
+  useEffect(() => {
+    const func = async () => {
+      const s = await KOBOARD.createGetAxiosRequest("kognotte/soldes");
+      if (s) {
+        var max = Math.abs(
+          Math.max.apply(
+            Math,
+            s.map(function (o) {
+              return o.value;
+            })
+          )
+        );
+        setSoldeMax(max);
+      }
+      setSoldes(s);
 
-    const t = await KOBOARD.createGetAxiosRequest("kognotte/transactions");
-    setTransactions(t);
+      const t = await KOBOARD.createGetAxiosRequest("kognotte/transactions");
+      setTransactions(t);
+    };
+    func();
   }, []);
 
   return (
     <div className="Kognotte">
-      <div className="Soldes">
-        {soldes &&
-          soldes.map((solde) => {
+      {soldes && (
+        <div className="Soldes">
+          <h1>Soldes</h1>
+          {soldes.map((solde) => {
             return <Solde {...solde} soldeMax={soldeMax} />;
           })}
-      </div>
-      <div className="Transactions">
-        {transactions &&
-          transactions.map((transaction) => {
+        </div>
+      )}
+
+      {transactions && (
+        <div className="Transactions">
+          <h1>Transactions</h1>
+          {transactions.map((transaction) => {
             return <Transaction {...transaction} />;
           })}
-      </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -51,10 +59,12 @@ function Kognotte() {
 function Solde(props) {
   const [user, setUser] = useState();
 
-  useEffect(async () => {
-    const u = await KOBOARD.createGetAxiosRequest(`users/${props._user}`);
-    setUser(u);
-    console.log(u);
+  useEffect(() => {
+    const func = async () => {
+      const u = await KOBOARD.createGetAxiosRequest(`users/${props._user}`);
+      setUser(u);
+    };
+    func();
   }, []);
 
   return (
