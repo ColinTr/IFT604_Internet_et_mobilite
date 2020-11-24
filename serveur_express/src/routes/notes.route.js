@@ -15,6 +15,6 @@ router.get('/:id_note', noteController.getNote);
 router.put('/:id_note', noteController.updateNote);
 
 /* DELETE suppression d'une note */
-router.get('/:id_note', noteController.deleteNote);
+router.delete('/:id_note', noteController.deleteNote);
 
 module.exports = router;

@@ -148,22 +148,25 @@ li a.dropdown-toggle::after {
     position: absolute;
     right: 0;
     margin: 5px;
-    padding:0;
+    padding-right: 7px;
     border: 0;
     background: transparent;
 }
 
 .mentions {
     margin: 1em 0;
+    height: 150px;
 }
 
 .mentions--singleLine .mentions__control {
     display: inline-block;
 }
+
 .mentions--singleLine .mentions__higlighter {
     padding: 1px;
     border: 2px inset transparent;
 }
+
 .mentions--singleLine .mentions__input {
     padding: 5px;
     border: 2px inset;
@@ -173,10 +176,13 @@ li a.dropdown-toggle::after {
     font-family: monospace;
     font-size: 14pt;
     border: 1px solid silver;
+    height: 150px;
 }
+
 .mentions--multiLine .mentions__highlighter {
     padding: 9px;
 }
+
 .mentions--multiLine .mentions__input {
     padding: 9px;
     min-height: 63px;
@@ -201,4 +207,5 @@ li a.dropdown-toggle::after {
 
 .mentions__mention {
     background-color: #cee4e5;
+    height:100px;
 }

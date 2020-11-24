@@ -17,6 +17,23 @@ function createNoConnectionSmallPopUp(error) {
     });
 }
 
+function createSmallSuccessPopUp(message) {
+    Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer);
+            toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+    }).fire({
+        icon: 'success',
+        title: message
+    });
+}
+
 function createPleaseReconnectLargePopUp(res) {
     Swal.fire({
         title: "La session a expirée",
@@ -29,4 +46,4 @@ function createPleaseReconnectLargePopUp(res) {
     });
 }
 
-export default {createNoConnectionSmallPopUp, createPleaseReconnectLargePopUp};
+export default {createNoConnectionSmallPopUp, createPleaseReconnectLargePopUp, createSmallSuccessPopUp};

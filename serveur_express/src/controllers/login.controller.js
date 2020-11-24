@@ -52,8 +52,6 @@ exports.checkToken = (req, res, next) => {
 exports.getLogin = async (req, res, next) => {
     const google_account = await google_utils.getGoogleEmailAndTokensFromCode(req.query.code);
 
-    var userId = null;
-
     // We save the user's infos in database
     UserService.getUsersByGoogleEmail(google_account.email)
         .then(user => {
@@ -73,7 +71,7 @@ exports.getLogin = async (req, res, next) => {
                                 if(!new_user_list.includes(createdUser._id)) {
                                     new_user_list.push(createdUser._id);
                                 }
-                                DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list})
+                                DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list});
                                 return res.status(200).redirect("http://localhost:3000/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + createdUser._id);
                             })
                     });
@@ -81,8 +79,8 @@ exports.getLogin = async (req, res, next) => {
         })
         .catch(err => {
             console.log("mongoose err ", err);
+            return res.status(400).send(err);
         });
-
 };
 
 exports.postLogin = async (req, res, next) => {

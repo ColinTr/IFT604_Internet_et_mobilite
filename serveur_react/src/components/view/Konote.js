@@ -4,6 +4,7 @@ import SwalHelper from "../../config/SwalHelper";
 import {Card, CardBody, CardText, CardTitle} from "reactstrap";
 import {MDBBtn, MDBCol, MDBContainer, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from "mdbreact";
 import {Mention, MentionsInput} from 'react-mentions'
+import * as Swal from "sweetalert2";
 
 class Konote extends React.Component {
     constructor(props) {
@@ -13,7 +14,9 @@ class Konote extends React.Component {
             newNoteText: '',
             modal: false,
             users: []
-        }
+        };
+
+        this.createKonote = this.createKonote.bind(this);
     }
 
     updateKonotes() {
@@ -35,15 +38,52 @@ class Konote extends React.Component {
     }
 
     deleteKonote(idKonote) {
-        console.log('bing')
+        let that = this;
+        Swal.fire({
+            title: 'Êtes vous certain ?',
+            text: "Impossible de récuperer la note une fois supprimée!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Supprimer',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.value) {
+                KOBOARD.createDeleteAxiosRequest("konotes", idKonote)
+                    .then(() => {
+                        SwalHelper.createSmallSuccessPopUp("Note supprimée avec succès !");
+                        that.updateKonotes();
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+        })
     };
 
     editKonote(idKonote) {
         console.log('bong')
     }
 
-    async createKonote() {
-        document.getElementById("konoteModal").show()
+    createKonote() {
+        let that = this;
+        KOBOARD.createPostAxiosRequest("konotes",
+            {
+                _dashboard: "5fbbd16a57e2c761e0ef574e",
+                title: document.getElementById("newNoteTitle").value,
+                content: document.getElementById("newNoteText").value,
+                author: localStorage.getItem("userid"),
+                users: []
+            })
+            .then(() => {
+                SwalHelper.createSmallSuccessPopUp("Note ajoutée avec succès !");
+                that.toggle();
+                that.updateKonotes();
+            })
+            .catch((err) => {
+                console.log(err)
+            })
     }
 
     componentDidMount() {
@@ -81,12 +121,19 @@ class Konote extends React.Component {
                 <MDBModal isOpen={that.state.modal} toggle={that.toggle}>
                     <MDBModalHeader toggle={that.toggle}>Ajouter une nouvelle note</MDBModalHeader>
                     <MDBModalBody>
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="newNoteTitle"
+                            placeholder="Titre de la note"
+                        />
                         <MentionsInput
                             value={this.state.value}
                             onChange={that.handleChange}
                             markup="@{{__type__||__id__||__display__}}"
-                            placeholder="Écrire ici, utilisez le symbole @ pour tagger des membres."
+                            placeholder="Écrire ici, utilisez le symbole @ pour tagger des membres"
                             className="mentions"
+                            id="newNoteText"
                         >
                             <Mention
                                 type="user"
@@ -97,8 +144,8 @@ class Konote extends React.Component {
                         </MentionsInput>
                     </MDBModalBody>
                     <MDBModalFooter>
-                        <MDBBtn color="secondary" onClick={that.toggle}>Close</MDBBtn>
-                        <MDBBtn color="primary">Save changes</MDBBtn>
+                        <MDBBtn color="secondary" onClick={that.toggle}>Annuler</MDBBtn>
+                        <MDBBtn color="primary" onClick={that.createKonote}>Ajouter</MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
 
