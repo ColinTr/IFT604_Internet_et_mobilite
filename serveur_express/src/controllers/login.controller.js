@@ -14,7 +14,7 @@ exports.checkToken = (req, res, next) => {
     try {
         // We start by checking that the request has an autorization header
         if (req.headers.authorization === undefined) {
-            return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+            return res.status(401).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
         }
 
         // We then parse the tokens from the request's header
@@ -26,14 +26,14 @@ exports.checkToken = (req, res, next) => {
             .then(response => {
                 if(response.data.expires_in === 0){
                     // If the token expired, the user must reconnect
-                    return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+                    return res.status(401).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
                 } else {
                     // If the token is valid, the middleware calls next so we can execute the requested api method
                     next();
                 }
             })
             .catch(err => {
-                return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+                return res.status(401).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
             });
     } catch (err) {
         console.log(err);
