@@ -1,150 +1,145 @@
 import React from "react";
-import {
-  MDBCol,
-  MDBContainer,
-  MDBInput,
-  MDBRow,
-  MDBBtn,
-  MDBIcon,
-} from "mdbreact";
+import {MDBContainer, MDBRow,} from "mdbreact";
 
 import KOBOARD from "../../config/AxiosHelper";
 import SwalHelper from "../../config/SwalHelper";
 import io from "socket.io-client";
 
 class Kochat extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      messages: [],
-      message: "",
-      myID: "",
-      author: localStorage.getItem("userid"),
-      mySocket: "",
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSendMessage = this.handleSendMessage.bind(this);
-  }
-  //5fb68a07f0d0e501888bc079
-  updateKochat() {
-    let that = this;
-    KOBOARD.createGetAxiosRequest("kochat")
-      .then((messages) => {
-        this.setState({ messages: messages });
-      })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
-        } else {
-          SwalHelper.createNoConnectionSmallPopUp(
-            "Connexion au serveur impossible"
-          );
-        }
-      });
-  }
-  componentDidMount() {
-    this.updateKochat();
+    constructor() {
+        super();
+        this.state = {
+            messages: [],
+            message: "",
+            myID: "",
+            author: localStorage.getItem("userid"),
+            mySocket: "",
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSendMessage = this.handleSendMessage.bind(this);
+    }
 
-    const socket = io("http://localhost:5000");
+    //5fb68a07f0d0e501888bc079
+    updateKochat() {
+        let that = this;
+        KOBOARD.createGetAxiosRequest("kochat")
+            .then((messages) => {
+                this.setState({messages: messages});
+            })
+            .catch((err) => {
+                if (err.response.status === 401) {
+                    SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+                } else {
+                    SwalHelper.createNoConnectionSmallPopUp(
+                        "Connexion au serveur impossible"
+                    );
+                }
+            });
+    }
 
-    this.setState({ mySocket: socket });
+    componentDidMount() {
+        this.updateKochat();
 
-    socket.on("connect", () => {
-      console.log(socket.id); // true
-    });
+        const socket = io("http://localhost:5000");
 
-    socket.on("message", (message) => {
-      let messages = this.state.messages;
-      messages.push(message);
-      this.setState({ messages: messages });
-    });
-  }
+        this.setState({mySocket: socket});
 
-  handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value,
-    });
-  };
+        socket.on("connect", () => {
+            console.log(socket.id); // true
+        });
 
-  handleSendMessage = (event) => {
-    event.preventDefault();
-    const data = {
-      _dashboard: "5fbbd16a57e2c761e0ef574e",
-      content: this.state.message,
-      author: this.state.author,
-      taggedUsers: "",
+        socket.on("message", (message) => {
+            let messages = this.state.messages;
+            messages.push(message);
+            this.setState({messages: messages});
+        });
+    }
+
+    handleChange = (event) => {
+        const {name, value} = event.target;
+        this.setState({
+            [name]: value,
+        });
     };
 
-    const dataNewMessage = {
-      content: this.state.message,
-      author: this.state.author,
+    handleSendMessage = (event) => {
+        event.preventDefault();
+        const data = {
+            _dashboard: "5fbbd16a57e2c761e0ef574e",
+            content: this.state.message,
+            author: this.state.author,
+            taggedUsers: "",
+        };
+
+        const dataNewMessage = {
+            content: this.state.message,
+            author: this.state.author,
+        };
+
+        let messages = this.state.messages;
+        messages.push(dataNewMessage);
+
+        this.state.mySocket.emit("message", dataNewMessage);
+
+        //Clean the input text and change messages list
+        this.setState({message: "", messages: messages});
+
+        KOBOARD.createPostAxiosRequest("kochat", data)
+            .then((messages) => {
+                console.log(messages);
+            })
+            .catch((err) => {
+                if (err.response.status === 401) {
+                    SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+                } else {
+                    SwalHelper.createNoConnectionSmallPopUp(
+                        "Connexion au serveur impossible"
+                    );
+                }
+            });
     };
 
-    let messages = this.state.messages;
-    messages.push(dataNewMessage);
-
-    this.state.mySocket.emit("message", dataNewMessage);
-
-    //Clean the input text and change messages list
-    this.setState({ message: "", messages: messages });
-
-    KOBOARD.createPostAxiosRequest("kochat", data)
-      .then((messages) => {
-        console.log(messages);
-      })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
-        } else {
-          SwalHelper.createNoConnectionSmallPopUp(
-            "Connexion au serveur impossible"
-          );
-        }
-      });
-  };
-
-  render() {
-    return (
-      <React.Fragment>
-        <MDBContainer className="page-chat">
-          {this.state.messages.map((message, key) => {
-            if (message.author === this.state.author) {
-              return (
-                <MDBRow key={key} className="my-row">
-                  <div className="my-message">{message.content}</div>
-                </MDBRow>
-              );
-            } else {
-              return (
-                <MDBRow key={key} className="other-row">
-                  <div className="other-message">{message.content}</div>
-                </MDBRow>
-              );
-            }
-          })}
-        </MDBContainer>
-        <MDBContainer className="mb-3 card-footer bg-container-send-message">
-          <form onSubmit={this.handleSendMessage}>
-            <div className="input-group">
+    render() {
+        return (
+            <React.Fragment>
+                <MDBContainer className="page-chat">
+                    {this.state.messages.map((message, key) => {
+                        if (message.author === this.state.author) {
+                            return (
+                                <MDBRow key={key} className="my-row">
+                                    <div className="my-message">{message.content}</div>
+                                </MDBRow>
+                            );
+                        } else {
+                            return (
+                                <MDBRow key={key} className="other-row">
+                                    <div className="other-message">{message.content}</div>
+                                </MDBRow>
+                            );
+                        }
+                    })}
+                </MDBContainer>
+                <MDBContainer className="mb-3 card-footer bg-container-send-message">
+                    <form onSubmit={this.handleSendMessage}>
+                        <div className="input-group">
               <textarea
-                name="message"
-                onChange={this.handleChange}
-                value={this.state.message}
-                className="form-control type_msg"
-                placeholder="Ecrivez votre message..."
+                  name="message"
+                  onChange={this.handleChange}
+                  value={this.state.message}
+                  className="form-control type_msg"
+                  placeholder="Ecrivez votre message..."
               ></textarea>
-              <div className="input-group-append">
-                <button type="submit" className="input-group-text">
-                  <i className="fas fa-location-arrow"></i>
-                </button>
-              </div>
-            </div>
-          </form>
-        </MDBContainer>
-      </React.Fragment>
-    );
-  }
+                            <div className="input-group-append">
+                                <button type="submit" className="input-group-text">
+                                    <i className="fas fa-location-arrow"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </MDBContainer>
+            </React.Fragment>
+        );
+    }
 }
 
 export default Kochat;
