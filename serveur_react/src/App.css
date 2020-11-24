@@ -220,7 +220,6 @@ li a.dropdown-toggle::after {
   border-bottom: 0 !important;
   border-radius: 10px 10px 0px 0px;
   padding-bottom: 10px;
-  margin-top: 20px;
   background-color: rgba(202, 228, 229, 0.56);
   width: 400px;
 }
@@ -234,14 +233,30 @@ li a.dropdown-toggle::after {
 
 .my-message {
   max-width: 45%;
-  width: 45%;
   background-color: var(--couleur-principale);
   font-weight: 400;
   padding: 10px;
-  border-radius: 25px;
+  border-radius: 15px;
   margin-right: 5px;
   text-align: center;
   overflow-wrap: break-word;
+  display: inline-block;
+  position: relative;
+  clear: both;
+}
+
+.my-message:after {
+  position: absolute;
+  top: 15px;
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 15px solid var(--couleur-principale);
+}
+
+.my-message:nth-child(odd):after {
+  border-right: 15px solid transparent;
+  right: -15px;
 }
 
 .other-row {
@@ -249,15 +264,41 @@ li a.dropdown-toggle::after {
   margin-top: 10px;
 }
 
+/* Chat - Speech Bubble Arrow */
+.other-message:after {
+  position: absolute;
+  top: 15px;
+  content: "";
+  width: 0;
+  height: 0;
+  border-top: 15px solid var(--couleur-tertiaire);
+}
+
+.other-message:nth-child(odd):after {
+  border-left: 15px solid transparent;
+  left: -15px;
+}
+
+.other-message:nth-child(odd) {
+  animation: show-chat-even 0.15s 1 ease-in;
+  -moz-animation: show-chat-even 0.15s 1 ease-in;
+  -webkit-animation: show-chat-even 0.15s 1 ease-in;
+  float: left;
+  margin-left: 30px;
+}
+
 .other-message {
-  width: 45%;
   background-color: var(--couleur-tertiaire);
   font-weight: 400;
-  border-radius: 20px;
+  border-radius: 15px;
   padding: 10px;
   margin-left: 5px;
   text-align: center;
   overflow-wrap: break-word;
+  max-width: 45%;
+  display: inline-block;
+  position: relative;
+  clear: both;
 }
 
 .bg-container-send-message {
@@ -270,6 +311,19 @@ li a.dropdown-toggle::after {
   border-top: 0 !important;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: rgba(25, 147, 147, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgba(25, 147, 147, 0.2);
+}
 .card {
   height: 320px;
 }
