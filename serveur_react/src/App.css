@@ -222,15 +222,18 @@ li a.dropdown-toggle::after {
   padding-bottom: 10px;
   margin-top: 20px;
   background-color: rgba(202, 228, 229, 0.56);
+  width: 400px;
 }
 
 .my-row {
   display: flex;
+  width: 100%;
   justify-content: flex-end;
   margin-top: 10px;
 }
 
 .my-message {
+  max-width: 45%;
   width: 45%;
   background-color: var(--couleur-principale);
   font-weight: 400;
@@ -238,6 +241,7 @@ li a.dropdown-toggle::after {
   border-radius: 25px;
   margin-right: 5px;
   text-align: center;
+  overflow-wrap: break-word;
 }
 
 .other-row {
@@ -253,6 +257,7 @@ li a.dropdown-toggle::after {
   padding: 10px;
   margin-left: 5px;
   text-align: center;
+  overflow-wrap: break-word;
 }
 
 .bg-container-send-message {
