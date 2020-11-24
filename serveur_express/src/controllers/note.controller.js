@@ -34,7 +34,7 @@ exports.updateNote = async (req, res, next) => {
     if (body.note === undefined) {
         res.status(400).send(new Erreur("Objet note manquant"))
     } else {
-        service.updateNote(body.note._id, body.note)
+        service.updateNote(req.params["id_note"], body.note)
             .then(response => {
                 return res.status(200).send(response).end();
             })
