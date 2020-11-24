@@ -34,7 +34,7 @@ class SoldeService {
     async updateSoldeFromDashboardAndUser(dashboard, user, update){
         const filter = {_dashboard: dashboard, _user: user};
         await SoldeModel.findOneAndUpdate(filter, update);
-        return await SoldeModel.findById(id);
+        return await SoldeModel.find({_dashboard: dashboard, _user: user});
     }
 
     async removeSolde(id){

@@ -66,7 +66,7 @@ exports.createTransaction = async (req, res) => {
         // We update all the sold from the users 'to'
         const mapPromiseSoldeUpdate = req.body.to.map( (element) => {
             const change =  -(req.body.montant / req.body.to.length);
-            return soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, element, soldeElement._id, {$inc : {value: change}})
+            return soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, element, {$inc : {value: change}})
         });
         
         // We wait for all the promises
@@ -80,7 +80,38 @@ exports.createTransaction = async (req, res) => {
 };
 
 exports.deleteTransaction = async (req, res) => {
+    if (req.body.id === undefined) {
+        logger.error("Contenu manquant dans le body de la requête d'ajout de kourse.");
+        return res.status(400).send(new Erreur("Contenu manquant dans le body de la requête d'ajout de transaction."))
+    }
+    else {
+        const transaction = await transactionService.getTransaction(req.body.id);
+        const trIsDeleted = await transactionService.removeTransaction(req.body.id);
+        console.log(transaction);
 
+        if (trIsDeleted === undefined) {
+            return res.status(502).send(new Erreur("Le serveur n'a pas réussi à supprimer la transaction"));
+        }
+
+        // We update the solde from the user 'from'
+        const change = - transaction.montant;
+        const resFrom = await soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, transaction.from, {$inc : {value: change }}); 
+        // We await here in case we change again the value in the users 'to' 
+        
+        // We update all the sold from the users 'to'
+        const mapPromiseSoldeUpdate = transaction.to.map( (element) => {
+            const change =  (transaction.montant / transaction.to.length);
+            return soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, element, {$inc : {value: change}})
+        });
+
+        // We wait for all the promises
+        const resTo = await Promise.all(mapPromiseSoldeUpdate);
+        if (resFrom === undefined || resTo.includes(undefined)){
+            return res.status(502).send(new Erreur("Something went wrong during the process of your request"));
+        }
+
+        return res.send();
+    }
 };
 
 exports.updateTransaction = async (req, res) => {
