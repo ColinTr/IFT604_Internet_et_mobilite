@@ -19,7 +19,8 @@
     "react-scripts": "^3.0.1",
     "reactstrap": "^6.4.0",
     "socket.io-client": "^3.0.3",
-    "sweetalert2": "^10.10.1"
+    "sweetalert2": "^10.10.1",
+    "lodash": "latest"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -38,6 +38,25 @@ function createPostAxiosRequest(route, data) {
     });
 }
 
+function createPutAxiosRequest(route, id, data) {
+    const headers = {
+        headers: {
+            Authorization: `Bearer ` + localStorage.getItem("access_token"),
+        },
+    };
+
+    return new Promise((resolve, reject) => {
+        axios
+            .put("http://localhost:5000/" + route + "/" + id, data, headers)
+            .then((res) => {
+                resolve(res.data);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+
 function createDeleteAxiosRequest(route, id) {
     const headers = {
         headers: {
@@ -57,4 +76,4 @@ function createDeleteAxiosRequest(route, id) {
     });
 }
 
-export default {createGetAxiosRequest, createPostAxiosRequest, createDeleteAxiosRequest};
+export default {createGetAxiosRequest, createPostAxiosRequest, createDeleteAxiosRequest, createPutAxiosRequest};
