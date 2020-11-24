@@ -11,7 +11,11 @@ exports.getKourses = async (req, res) => {
       res.status(200).send(response).end();
     })
     .catch((err) => {
-      console.log(err);
+      logger.error(err);
+        res
+          .status(400)
+          .send(new Erreur("Impossible de trouver les listes de Kourse"))
+          .end();
     });
 };
 

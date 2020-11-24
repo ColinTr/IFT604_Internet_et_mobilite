@@ -7,10 +7,10 @@ const indexRouter = require('./routes/index.route');
 const notesRouter = require('./routes/notes.route');
 const coursesRouter = require('./routes/kourses.route');
 const chatRouter = require('./routes/chat.route');
+const kagnotteRouter = require('./routes/kagnotte.route');
 const loginRouter = require('./routes/login.route');
 const login = require('./controllers/login.controller');
 const database = require('./services/database');
-
 const db = new database(); // Initialize the connexion to the database
 
 const express = require('express');
@@ -28,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/konotes', login.checkToken, notesRouter);
 app.use('/kourses', login.checkToken, coursesRouter);
 app.use('/kochat', login.checkToken, chatRouter);
+app.use('/kagnotte', login.checkToken, kagnotteRouter);
 app.use('/login', loginRouter);
 
 app.use(function (req, res, next) {
