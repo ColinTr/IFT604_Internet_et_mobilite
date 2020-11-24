@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import Logo from "../../assets/img/logo_koboard_crop.png";
 import {MDBBtn, MDBCol, MDBContainer, MDBRow} from "mdbreact";
+import SwalHelper from "../../config/SwalHelper";
 
 class Login extends Component {
     constructor(props) {
@@ -24,13 +25,14 @@ class Login extends Component {
             })
             .catch((err) => {
                 // If we receive an error 401, it means the user isn't correctly authenticated
-                if (err.response.status === 401) {
+                if (err.response !== undefined && err.response.status === 401) {
                     that.setState({
                         loggedIn: false,
                         redirectUrl: err.response.data.redirectUrl,
                     });
                 } else {
-                    console.log(err)
+                    console.log(err);
+                    SwalHelper.createNoConnectionSmallPopUp("Connexion au serveur impossible");
                 }
             });
     }

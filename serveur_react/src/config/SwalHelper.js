@@ -29,5 +29,4 @@ function createPleaseReconnectLargePopUp(res) {
     });
 }
 
-
 export default {createNoConnectionSmallPopUp, createPleaseReconnectLargePopUp};
