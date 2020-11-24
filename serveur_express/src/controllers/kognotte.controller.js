@@ -113,7 +113,3 @@ exports.deleteTransaction = async (req, res) => {
         return res.send();
     }
 };
-
-exports.updateTransaction = async (req, res) => {
-    // TODO
-};
