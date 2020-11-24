@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import axios from "axios";
 import Logo from "../../assets/img/logo_koboard_crop.png";
 import {MDBBtn, MDBCol, MDBContainer, MDBRow} from "mdbreact";
+import SwalHelper from "../../config/SwalHelper";
 
 class Login extends Component {
     constructor(props) {
@@ -15,26 +16,25 @@ class Login extends Component {
 
     checkAuthentification() {
         let that = this;
-        return new Promise((resolve, reject) => {
-            // We try to access a random route to see if we are allowed to
-            axios.get("http://localhost:5000/konotes")
-                .then((response) => {
-                    if (response.data.redirectUrl !== undefined) {
-                        that.setState({
-                            loggedIn: false,
-                            redirectUrl: response.data.redirectUrl,
-                        });
-                    } else {
-                        that.setState({
-                            loggedIn: true,
-                        });
-                    }
-                    resolve();
-                })
-                .catch((err) => {
-                    reject(err);
+        // We try to access a random route to see if we are allowed to
+        axios.get("http://localhost:5000/konotes")
+            .then((response) => {
+                that.setState({
+                    loggedIn: true,
                 });
-        });
+            })
+            .catch((err) => {
+                // If we receive an error 401, it means the user isn't correctly authenticated
+                if (err.response !== undefined && err.response.status === 401) {
+                    that.setState({
+                        loggedIn: false,
+                        redirectUrl: err.response.data.redirectUrl,
+                    });
+                } else {
+                    console.log(err);
+                    SwalHelper.createNoConnectionSmallPopUp("Connexion au serveur impossible");
+                }
+            });
     }
 
     componentDidMount() {

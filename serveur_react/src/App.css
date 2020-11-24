@@ -152,3 +152,14 @@ li a.dropdown-toggle::after {
     border: 0;
     background: transparent;
 }
+
+.btn-circle {
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 20px;
+    background-color: var(--couleur-totale);
+}

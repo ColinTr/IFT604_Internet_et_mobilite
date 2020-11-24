@@ -1,4 +1,5 @@
 const UserService = require('../services/user.service');
+const DashboardService = require('../services/dashboard.service');
 const google_utils = require('../utils/google-utils');
 const axios = require('axios');
 
@@ -14,7 +15,7 @@ exports.checkToken = (req, res, next) => {
     try {
         // We start by checking that the request has an autorization header
         if (req.headers.authorization === undefined) {
-            return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+            return res.status(401).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
         }
 
         // We then parse the tokens from the request's header
@@ -26,14 +27,14 @@ exports.checkToken = (req, res, next) => {
             .then(response => {
                 if(response.data.expires_in === 0){
                     // If the token expired, the user must reconnect
-                    return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+                    return res.status(401).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
                 } else {
                     // If the token is valid, the middleware calls next so we can execute the requested api method
                     next();
                 }
             })
             .catch(err => {
-                return res.status(200).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
+                return res.status(401).send("{\"redirectUrl\":\"" + google_utils.getConnectionUrl(google_utils.createConnection()) + "\"}");
             });
     } catch (err) {
         console.log(err);
@@ -60,7 +61,17 @@ exports.getLogin = async (req, res, next) => {
                 UserService.updateUser(user._id, user);
             } else {
                 // If the user doesn't exist, we create him in database
-                UserService.addUser(google_account.email.split('@')[0], "no_need", google_account.tokens.access_token, google_account.tokens.refresh_token, google_account.email);
+                UserService.addUser(google_account.email.split('@')[0], "no_need", google_account.tokens.access_token, google_account.tokens.refresh_token, google_account.email)
+                    .then(createdUser => {
+                        DashboardService.getDashboard(process.env.MONGODB_DASHBOARD_ID)
+                            .then(dashboard => {
+                                const new_user_list = dashboard.users;
+                                if(!new_user_list.includes(createdUser._id)) {
+                                    new_user_list.push(createdUser._id);
+                                }
+                                DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list})
+                            })
+                    });
             }
         })
         .catch(err => {
