@@ -1,5 +1,6 @@
 const UserService = require('../services/user.service');
 const DashboardService = require('../services/dashboard.service');
+const SoldeService = require('../services/solde.service');
 const google_utils = require('../utils/google-utils');
 const axios = require('axios');
 
@@ -72,6 +73,7 @@ exports.getLogin = async (req, res, next) => {
                                     new_user_list.push(createdUser._id);
                                 }
                                 DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list});
+                                SoldeService.addSolde(process.env.MONGODB_DASHBOARD_ID, createdUser._id, 0);
                                 return res.status(200).redirect("http://localhost:3000/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + createdUser._id);
                             })
                     });
