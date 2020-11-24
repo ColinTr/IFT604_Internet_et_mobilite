@@ -6,8 +6,6 @@ const Erreur = require("../utils/erreur");
 const config = require("../utils/config");
 
 
-config.MONGODB_DASHBOARD_ID;
-
 
 exports.getSoldes = async (req, res) => {
     soldeService.getSoldesFromDashboard(config.MONGODB_DASHBOARD_ID)
@@ -34,7 +32,8 @@ exports.getTransactions = async (req, res) => {
 };
 
 exports.createTransaction = async (req, res) => {
-    if (req.body.from === undefined ||
+    if (req.body._dashboard === undefined ||
+        req.body.from === undefined ||
         req.body.to === undefined ||
         req.body.montant === undefined ||
         req.body.object === undefined ||
@@ -46,7 +45,8 @@ exports.createTransaction = async (req, res) => {
     else {
 
         try {
-            const transaction = await transactionService.addTransaction(config.MONGODB_DASHBOARD_ID, 
+            const transaction = await transactionService.addTransaction(
+                req.body._dashboard, 
                 req.body.from, 
                 req.body.to, 
                 req.body.montant,
@@ -59,13 +59,13 @@ exports.createTransaction = async (req, res) => {
     
             // We update the solde from the user 'from'
             const change = req.body.montant;
-            const resFrom = await soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, req.body.from, {$inc : {value: change }}); 
+            const resFrom = await soldeService.updateSoldeFromDashboardAndUser(req.body._dashboard, req.body.from, {$inc : {value: change }}); 
             // We await here in case we change again the value in the users 'to' 
             
             // We update all the sold from the users 'to'
             const mapPromiseSoldeUpdate = req.body.to.map( (element) => {
                 const change =  -(req.body.montant / req.body.to.length);
-                return soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, element, {$inc : {value: change}})
+                return soldeService.updateSoldeFromDashboardAndUser(req.body._dashboard, element, {$inc : {value: change}})
             });
             
             // We wait for all the promises
@@ -84,7 +84,7 @@ exports.createTransaction = async (req, res) => {
 };
 
 exports.deleteTransaction = async (req, res) => {
-    if (req.body.id === undefined) {
+    if (req.body.id === undefined || req.body._dashboard === undefined) {
         logger.error("Contenu manquant dans le body de la requête d'ajout de kourse.");
         return res.status(400).send(new Erreur("Contenu manquant dans le body de la requête d'ajout de transaction."))
     }
@@ -102,13 +102,13 @@ exports.deleteTransaction = async (req, res) => {
 
             // We update the solde from the user 'from'
             const change = - transaction.montant;
-            const resFrom = await soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, transaction.from, {$inc : {value: change }}); 
+            const resFrom = await soldeService.updateSoldeFromDashboardAndUser(req.body._dashboard, transaction.from, {$inc : {value: change }}); 
             // We await here in case we change again the value in the users 'to' 
             
             // We update all the sold from the users 'to'
             const mapPromiseSoldeUpdate = transaction.to.map( (element) => {
                 const change =  (transaction.montant / transaction.to.length);
-                return soldeService.updateSoldeFromDashboardAndUser(config.MONGODB_DASHBOARD_ID, element, {$inc : {value: change}})
+                return soldeService.updateSoldeFromDashboardAndUser(req.body._dashboard, element, {$inc : {value: change}})
             });
 
             // We wait for all the promises
