@@ -2,21 +2,28 @@ import React from "react";
 import KOBOARD from "../../config/AxiosHelper";
 import SwalHelper from "../../config/SwalHelper";
 import {Card, CardBody, CardText, CardTitle} from "reactstrap";
-import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
+import {MDBBtn, MDBCol, MDBContainer, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from "mdbreact";
+import {Mention, MentionsInput} from 'react-mentions'
 
 class Konote extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             listeNotesData: [],
-        };
+            newNoteText: '',
+            modal: false,
+            users: []
+        }
     }
 
     updateKonotes() {
         let that = this;
         KOBOARD.createGetAxiosRequest("konotes")
-            .then(res => {
-                that.setState({listeNotesData: res});
+            .then(dataNotes => {
+                KOBOARD.createGetAxiosRequest("users")
+                    .then(dataUsers => {
+                        that.setState({listeNotesData: dataNotes, users: dataUsers});
+                    });
             })
             .catch(err => {
                 if (err.response !== undefined && err.response.status === 401) {
@@ -35,21 +42,66 @@ class Konote extends React.Component {
         console.log('bong')
     }
 
-    createKonote() {
-        console.log('bang')
+    async createKonote() {
+        document.getElementById("konoteModal").show()
     }
 
     componentDidMount() {
         this.updateKonotes();
     }
 
+    toggle = () => {
+        this.setState({
+            modal: !this.state.modal
+        });
+    };
+
+    handleChange = (event, newValue, newPlainTextValue, mentions) => {
+        this.setState({
+            value: newValue,
+            mentionData: {newValue, newPlainTextValue, mentions}
+        })
+    };
+
     render() {
         let that = this;
+
+        const userMentionData = this.state.users.map(myUser => ({
+            id: myUser._id,
+            display: `${myUser.username}`
+        }));
+
         return (
             <MDBContainer fluid>
-                <button className="btn-circle" color="info" onClick={() => that.createKonote()}>
-                    <i className="fas fa-plus"/>
+                <button className="btn btn-info"
+                        style={{borderRadius: "100px", padding: "12px", margin: 10, height: "50px", width: "50px"}}
+                        onClick={that.toggle}>
+                    <i className="fas fa-lg fa-plus"/>
                 </button>
+                <MDBModal isOpen={that.state.modal} toggle={that.toggle}>
+                    <MDBModalHeader toggle={that.toggle}>Ajouter une nouvelle note</MDBModalHeader>
+                    <MDBModalBody>
+                        <MentionsInput
+                            value={this.state.value}
+                            onChange={that.handleChange}
+                            markup="@{{__type__||__id__||__display__}}"
+                            placeholder="Écrire ici, utilisez le symbole @ pour tagger des membres."
+                            className="mentions"
+                        >
+                            <Mention
+                                type="user"
+                                trigger="@"
+                                data={userMentionData}
+                                className="mentions__mention"
+                            />
+                        </MentionsInput>
+                    </MDBModalBody>
+                    <MDBModalFooter>
+                        <MDBBtn color="secondary" onClick={that.toggle}>Close</MDBBtn>
+                        <MDBBtn color="primary">Save changes</MDBBtn>
+                    </MDBModalFooter>
+                </MDBModal>
+
                 <MDBContainer className="container-fluid">
                     <MDBRow>
                         {this.state.listeNotesData.map(function (noteData, index) {
@@ -62,12 +114,15 @@ class Konote extends React.Component {
                                         <button className="noteCross" onClick={() => that.deleteKonote(noteData._id)}>
                                             <i className="fa fa-times" aria-hidden="true"/>
                                         </button>
-                                        <button className="noteCross" aria-hidden="true" style={{marginRight: "25px"}}  onClick={() => that.editKonote(noteData._id)}>
+                                        <button className="noteCross" aria-hidden="true" style={{marginRight: "25px"}}
+                                                onClick={() => that.editKonote(noteData._id)}>
                                             <i className="far fa-edit"/>
                                         </button>
                                         <CardBody>
                                             <CardTitle tag="h5">{noteData.title}</CardTitle>
-                                            <CardText>{noteData.content}</CardText>
+                                            <CardText>
+                                                {noteData.content}
+                                            </CardText>
                                         </CardBody>
                                     </Card>
                                 </MDBCol>

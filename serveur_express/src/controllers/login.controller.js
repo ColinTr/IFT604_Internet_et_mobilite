@@ -52,6 +52,8 @@ exports.checkToken = (req, res, next) => {
 exports.getLogin = async (req, res, next) => {
     const google_account = await google_utils.getGoogleEmailAndTokensFromCode(req.query.code);
 
+    var userId = null;
+
     // We save the user's infos in database
     UserService.getUsersByGoogleEmail(google_account.email)
         .then(user => {
@@ -59,6 +61,8 @@ exports.getLogin = async (req, res, next) => {
                 user.token = google_account.tokens.access_token;
                 user.refreshToken = google_account.tokens.refresh_token;
                 UserService.updateUser(user._id, user);
+                return res.status(200).redirect("http://localhost:3000/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + user._id);
+
             } else {
                 // If the user doesn't exist, we create him in database
                 UserService.addUser(google_account.email.split('@')[0], "no_need", google_account.tokens.access_token, google_account.tokens.refresh_token, google_account.email)
@@ -70,6 +74,7 @@ exports.getLogin = async (req, res, next) => {
                                     new_user_list.push(createdUser._id);
                                 }
                                 DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list})
+                                return res.status(200).redirect("http://localhost:3000/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + createdUser._id);
                             })
                     });
             }
@@ -78,7 +83,6 @@ exports.getLogin = async (req, res, next) => {
             console.log("mongoose err ", err);
         });
 
-    return res.status(200).redirect("http://localhost:3000/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email));
 };
 
 exports.postLogin = async (req, res, next) => {
