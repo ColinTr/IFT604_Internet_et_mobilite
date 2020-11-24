@@ -8,20 +8,26 @@ exports.getUsers = async (req, res) => {
   dashboardService
     .getDashboard(config.MONGODB_DASHBOARD_ID)
     .then((response) => {
-      const usersList = response.users;
+      const listUsersId = response.users;
       let promises = [];
 
-      usersList.forEach((userId, index) => {
+      listUsersId.forEach((userId, index) => {
         promises.push(userService.getUser(userId));
       });
 
+      let listUsers = [];
       Promise.allSettled(promises).then((results) => {
         results.forEach((result) => {
-          logger.info(result);
+          if (result.value != null) {
+            const userObject = {
+              _id: result.value._id,
+              username: result.value.username,
+            };
+            listUsers.push(userObject);
+          }
         });
+        res.send(listUsers).end();
       });
-      //TODO send les users
-      res.send().end();
     })
     .catch((error) => {
       logger.error(error);
