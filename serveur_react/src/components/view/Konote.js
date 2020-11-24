@@ -197,7 +197,7 @@ class Konote extends React.Component {
                 </button>
                 <MDBModal isOpen={that.state.modal} toggle={that.toggle}>
                     <MDBModalHeader toggle={that.toggle}>
-                        Ajouter une nouvelle note
+                        {that.state.idNoteToEdit===null ? "Ajouter une nouvelle note" : "Modifier une note"}
                     </MDBModalHeader>
                     <MDBModalBody>
                         <input
@@ -233,7 +233,7 @@ class Konote extends React.Component {
                             Annuler
                         </MDBBtn>
                         <MDBBtn color="primary" onClick={that.createOrUpdateKonote}>
-                            Ajouter
+                            {that.state.idNoteToEdit===null ? "Ajouter" : "Modifier"}
                         </MDBBtn>
                     </MDBModalFooter>
                 </MDBModal>
@@ -257,7 +257,6 @@ class Konote extends React.Component {
                                                 <i className="far fa-edit"/>
                                             </button>
                                         </div>
-
                                         <MDBCardBody>
                                             <MDBCardTitle>{noteData.title}</MDBCardTitle>
                                             <MDBCardText className="overflow-auto" style={{height: "230px"}}>
