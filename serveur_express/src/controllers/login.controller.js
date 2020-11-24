@@ -1,4 +1,5 @@
 const UserService = require('../services/user.service');
+const DashboardService = require('../services/dashboard.service');
 const google_utils = require('../utils/google-utils');
 const axios = require('axios');
 
@@ -60,7 +61,17 @@ exports.getLogin = async (req, res, next) => {
                 UserService.updateUser(user._id, user);
             } else {
                 // If the user doesn't exist, we create him in database
-                UserService.addUser(google_account.email.split('@')[0], "no_need", google_account.tokens.access_token, google_account.tokens.refresh_token, google_account.email);
+                UserService.addUser(google_account.email.split('@')[0], "no_need", google_account.tokens.access_token, google_account.tokens.refresh_token, google_account.email)
+                    .then(createdUser => {
+                        DashboardService.getDashboard(process.env.MONGODB_DASHBOARD_ID)
+                            .then(dashboard => {
+                                const new_user_list = dashboard.users;
+                                if(!new_user_list.includes(createdUser._id)) {
+                                    new_user_list.push(createdUser._id);
+                                }
+                                DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list})
+                            })
+                    });
             }
         })
         .catch(err => {
