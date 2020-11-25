@@ -1,5 +1,7 @@
 const axios = require("axios");
 
+const KOBOARD_API_URI = process.env.REACT_APP_KOBOARD_API_URI;
+
 function createGetAxiosRequest(route) {
   return new Promise((resolve, reject) => {
     axios
@@ -28,7 +30,7 @@ function createPostAxiosRequest(route, data) {
 
   return new Promise((resolve, reject) => {
     axios
-      .post("http://localhost:5000/" + route, data, headers)
+      .post(KOBOARD_API_URI+"/" + route, data, headers)
       .then((res) => {
         resolve(res.data);
       })
@@ -47,7 +49,7 @@ function createPutAxiosRequest(route, id, data) {
 
   return new Promise((resolve, reject) => {
     axios
-      .put("http://localhost:5000/" + route + "/" + id, data, headers)
+      .put(KOBOARD_API_URI+"/" + route + "/" + id, data, headers)
       .then((res) => {
         resolve(res.data);
       })
@@ -66,7 +68,7 @@ function createDeleteAxiosRequest(route, id) {
 
   return new Promise((resolve, reject) => {
     axios
-      .delete("http://localhost:5000/" + route + "/" + id, headers)
+      .delete(KOBOARD_API_URI+"/" + route + "/" + id, headers)
       .then((res) => {
         resolve(res.data);
       })

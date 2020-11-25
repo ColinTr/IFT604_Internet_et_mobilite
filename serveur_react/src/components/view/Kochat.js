@@ -6,6 +6,9 @@ import SwalHelper from "../../config/SwalHelper";
 import io from "socket.io-client";
 import dateFormat from "dateformat";
 
+const KOBOARD_API_URI = process.env.REACT_APP_KOBOARD_API_URI;
+const MONGODB_DASHBOARD_ID = process.env.REACT_APP_DASHBOARD_ID;
+
 class Kochat extends React.Component {
 	constructor() {
 		super();
@@ -61,7 +64,7 @@ class Kochat extends React.Component {
 		this.updateKochat();
 		this.getUsers();
 
-		const socket = io("http://localhost:5000");
+		const socket = io(KOBOARD_API_URI);
 
 		this.setState({ mySocket: socket });
 
@@ -106,7 +109,7 @@ class Kochat extends React.Component {
 
 		if (!/^\s*$/.test(this.state.message)) {
 			const data = {
-				_dashboard: "5fbbd16a57e2c761e0ef574e",
+				_dashboard: MONGODB_DASHBOARD_ID,
 				content: this.state.message,
 				author: this.state.author,
 				taggedUsers: "",
@@ -136,6 +139,7 @@ class Kochat extends React.Component {
 					if (err.response.status === 401) {
 						SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
 					} else {
+						console.log("pas de co")
 						SwalHelper.createNoConnectionSmallPopUp(
 							"Connexion au serveur impossible"
 						);

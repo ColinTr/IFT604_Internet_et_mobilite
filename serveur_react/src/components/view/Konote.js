@@ -18,6 +18,8 @@ import {
 import {Mention, MentionsInput} from 'react-mentions'
 import * as Swal from "sweetalert2";
 
+const DASHBOARD_ID = process.env.REACT_APP_DASHBOARD_ID;
+
 class Konote extends React.Component {
     constructor(props) {
         super(props);
@@ -102,7 +104,7 @@ class Konote extends React.Component {
             KOBOARD.createPutAxiosRequest("konotes", this.state.idNoteToEdit,
                 {
                     "note": {
-                        _dashboard: "5fbbd16a57e2c761e0ef574e",
+                        _dashboard: DASHBOARD_ID,
                         title: that.state.newNoteTitle,
                         content: document.getElementById("newNoteText").value,
                         author: localStorage.getItem("userid"),
@@ -124,7 +126,7 @@ class Konote extends React.Component {
         } else {
             KOBOARD.createPostAxiosRequest("konotes",
                 {
-                    _dashboard: "5fbbd16a57e2c761e0ef574e",
+                    _dashboard: DASHBOARD_ID,
                     title: that.state.newNoteTitle,
                     content: document.getElementById("newNoteText").value,
                     author: localStorage.getItem("userid"),
