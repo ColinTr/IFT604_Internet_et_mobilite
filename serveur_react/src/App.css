@@ -332,3 +332,23 @@ li a.dropdown-toggle::after {
 }
 
 /* Kognotte */
+.Kognotte {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+.Kognotte .Soldes {
+  flex-grow: 1;
+}
+
+.Kognotte .Soldes .Solde .Center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Kognotte .Soldes .Solde .Center .barContainer {
+  flex-grow: 1;
+}

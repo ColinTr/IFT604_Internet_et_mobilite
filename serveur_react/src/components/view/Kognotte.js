@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { MDBProgress } from "mdbreact";
+import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 
 import KOBOARD from "../../config/AxiosHelper";
+
+import Solde from "./kognotte/Solde";
+import Transaction from "./kognotte/Transaction";
 
 import "../../App.css";
 
@@ -39,7 +42,7 @@ function Kognotte() {
         <div className="Soldes">
           <h1>Soldes</h1>
           {soldes.map((solde) => {
-            return <Solde {...solde} soldeMax={soldeMax} />;
+            return <Solde key={solde._id} {...solde} soldeMax={soldeMax} />;
           })}
         </div>
       )}
@@ -47,90 +50,26 @@ function Kognotte() {
       {transactions && (
         <div className="Transactions">
           <h1>Transactions</h1>
-          {transactions.map((transaction) => {
-            return <Transaction {...transaction} />;
-          })}
+          <MDBTable responsive>
+            <MDBTableHead>
+              <tr>
+                <th>De</th>
+                <th>A</th>
+                <th>Montant</th>
+                <th>Objet</th>
+                <th>Date</th>
+              </tr>
+            </MDBTableHead>
+            <MDBTableBody>
+              {transactions.map((transaction) => {
+                return <Transaction key={transaction._id} {...transaction} />;
+              })}
+            </MDBTableBody>
+          </MDBTable>
         </div>
       )}
     </div>
   );
-}
-
-function Solde(props) {
-  const [user, setUser] = useState();
-
-  useEffect(() => {
-    const func = async () => {
-      const u = await KOBOARD.createGetAxiosRequest(`users/${props._user}`);
-      setUser(u);
-    };
-    func();
-  }, []);
-
-  return (
-    <div className="Solde">
-      {user && <h4>{user.name}</h4>}
-      <ProgressBar max={props.soldeMax} value={props.value} />
-    </div>
-  );
-}
-
-function ProgressBar(props) {
-  const { max, value } = props;
-
-  const width = max * 2;
-
-  var bgcolor;
-  var fillerMargin;
-  var textAlign;
-
-  if (value > 0) {
-    bgcolor = "green";
-    textAlign = "left";
-    fillerMargin = `0 0 0 ${(max / width) * 100}%`;
-  } else {
-    bgcolor = "red";
-    textAlign = "right";
-    fillerMargin = `0 0 0 ${(max / width) * 100 + (value / width) * 100}%`;
-  }
-
-  const progressContainer = {
-    height: 20,
-    backgroundColor: "#e0e0de",
-    borderRadius: 50,
-    margin: 50,
-  };
-
-  const progressBar = {
-    height: "100%",
-    width: `${(Math.abs(value) / width) * 100}%`,
-    backgroundColor: bgcolor,
-    borderRadius: "inherit",
-    margin: fillerMargin,
-    "text-align": textAlign,
-  };
-
-  const progressText = {
-    margin: 15,
-    color: "white",
-    fontWeight: "bold",
-  };
-
-  return (
-    <div style={progressContainer} className="barContainer">
-      <div style={progressBar} className="barColor">
-        {value != 0 && (
-          <div>
-            <p style={progressText}>{value} €</p>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
-function Transaction(props) {
-  return <p>{props.montant}</p>;
 }
 
 export default Kognotte;
