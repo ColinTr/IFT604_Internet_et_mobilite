@@ -271,7 +271,7 @@ li a.dropdown-toggle::after {
   border-top: 15px solid var(--couleur-tertiaire);
 }
 
-.other-message:nth-child(odd):after {
+.other-message:nth-child(even):after {
   border-left: 15px solid transparent;
   left: -15px;
 }
@@ -295,6 +295,18 @@ li a.dropdown-toggle::after {
   display: inline-block;
   position: relative;
   clear: both;
+}
+
+.other-avatar{
+  margin-bottom: auto;
+  position: absolute;
+  bottom: 0px;
+  left : -40px;
+  align : center;
+  border-radius: 50%;
+  font-weight: 700;
+  padding: 2px 1px;
+  border: 2px solid black;
 }
 
 .my-time {
