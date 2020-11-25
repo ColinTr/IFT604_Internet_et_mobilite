@@ -272,7 +272,7 @@ li a.dropdown-toggle::after {
   border-top: 15px solid var(--couleur-tertiaire);
 }
 
-.other-message:nth-child(even):after {
+.other-message:nth-child(odd):after {
   border-left: 15px solid transparent;
   left: -15px;
 }
@@ -301,7 +301,7 @@ li a.dropdown-toggle::after {
 .other-avatar {
   margin-bottom: auto;
   position: absolute;
-  bottom: 0px;
+  bottom: -10px;
   left: -40px;
   align: center;
   border-radius: 50%;
@@ -380,7 +380,7 @@ li a.dropdown-toggle::after {
 .Kognotte button.btn-add-transaction {
   border-radius: 100px;
   padding: 12px;
-  margin: 10;
+  margin: 10px;
   height: 50px;
   width: 50px;
 }
@@ -428,4 +428,8 @@ li a.dropdown-toggle::after {
 .koursesListText:hover {
   overflow: visible;
   white-space: normal;
+}
+
+.btn-login-page{
+  width: 210px;
 }
