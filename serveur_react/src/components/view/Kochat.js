@@ -1,9 +1,10 @@
 import React from "react";
-import { MDBContainer, MDBRow } from "mdbreact";
+import { MDBCol, MDBContainer, MDBRow } from "mdbreact";
 
 import KOBOARD from "../../config/AxiosHelper";
 import SwalHelper from "../../config/SwalHelper";
 import io from "socket.io-client";
+import dateFormat from "dateformat";
 
 class Kochat extends React.Component {
   constructor() {
@@ -36,6 +37,12 @@ class Kochat extends React.Component {
       });
   }
 
+  componentWillUnmount() {
+    //TODO not working
+    //this.state.mySocket.emit('disconnect');
+    //this.state.mySocket.disconnect();
+  }
+
   componentDidMount() {
     this.updateKochat();
 
@@ -51,8 +58,32 @@ class Kochat extends React.Component {
       let messages = this.state.messages;
       messages.push(message);
       this.setState({ messages: messages });
+      this.scrollToTheTop();
     });
   }
+
+  /**
+   * Press the ENTER Key for send a message
+   * @param e
+   */
+  onEnterPress = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+      this.handleSendMessage(e);
+    }
+  };
+
+  /**
+   * When the
+   */
+  scrollToTheTop = () => {
+    setTimeout(() => {
+      var objDiv = document.getElementById("page-chat");
+      console.log(objDiv.scrollHeight);
+      console.log(objDiv.scrollTop);
+      objDiv.scrollTop = objDiv.scrollHeight;
+    }, 1);
+  };
 
   handleChange = (event) => {
     const { name, value } = event.target;
@@ -85,6 +116,9 @@ class Kochat extends React.Component {
       //Clean the input text and change messages list
       this.setState({ message: "", messages: messages });
 
+      //Scroll after add data in the container
+      this.scrollToTheTop();
+
       KOBOARD.createPostAxiosRequest("kochat", data)
         .then((messages) => {
           console.log(messages);
@@ -105,20 +139,30 @@ class Kochat extends React.Component {
 
   render() {
     return (
-      <React.Fragment>
-        <MDBContainer className="page-chat">
+      <MDBContainer>
+        <MDBContainer id="page-chat" className="page-chat">
           {this.state.messages.map((message, key) => {
             if (message.author === this.state.author) {
               return (
-                <MDBRow key={key} className="my-row">
-                  <div className="my-message">{message.content}</div>
-                </MDBRow>
+                <MDBCol key={key}>
+                  <MDBRow className="my-row">
+                    <div className="my-message">{message.content}</div>
+                  </MDBRow>
+                  <MDBRow className="my-time">
+                    {dateFormat(message.date, "ddd, H:MM")}
+                  </MDBRow>
+                </MDBCol>
               );
             } else {
               return (
-                <MDBRow key={key} className="other-row">
-                  <div className="other-message">{message.content}</div>
-                </MDBRow>
+                <MDBCol key={key}>
+                  <MDBRow className="other-row">
+                    <div className="other-message">{message.content}</div>
+                  </MDBRow>
+                  <MDBRow className="other-time">
+                    {dateFormat(message.date, "ddd, H:MM")}
+                  </MDBRow>
+                </MDBCol>
               );
             }
           })}
@@ -129,6 +173,7 @@ class Kochat extends React.Component {
               <textarea
                 rows="1"
                 name="message"
+                onKeyDown={this.onEnterPress}
                 onChange={this.handleChange}
                 value={this.state.message}
                 className="form-control type_msg"
@@ -142,7 +187,7 @@ class Kochat extends React.Component {
             </div>
           </form>
         </MDBContainer>
-      </React.Fragment>
+      </MDBContainer>
     );
   }
 }

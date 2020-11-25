@@ -221,7 +221,6 @@ li a.dropdown-toggle::after {
   border-radius: 10px 10px 0px 0px;
   padding-bottom: 10px;
   background-color: rgba(202, 228, 229, 0.56);
-  width: 400px;
 }
 
 .my-row {
@@ -237,7 +236,6 @@ li a.dropdown-toggle::after {
   font-weight: 400;
   padding: 10px;
   border-radius: 15px;
-  margin-right: 5px;
   text-align: center;
   overflow-wrap: break-word;
   display: inline-block;
@@ -247,7 +245,7 @@ li a.dropdown-toggle::after {
 
 .my-message:after {
   position: absolute;
-  top: 15px;
+  bottom: 15px;
   content: "";
   width: 0;
   height: 0;
@@ -264,10 +262,9 @@ li a.dropdown-toggle::after {
   margin-top: 10px;
 }
 
-/* Chat - Speech Bubble Arrow */
 .other-message:after {
   position: absolute;
-  top: 15px;
+  bottom: 15px;
   content: "";
   width: 0;
   height: 0;
@@ -292,13 +289,31 @@ li a.dropdown-toggle::after {
   font-weight: 400;
   border-radius: 15px;
   padding: 10px;
-  margin-left: 5px;
   text-align: center;
   overflow-wrap: break-word;
   max-width: 45%;
   display: inline-block;
   position: relative;
   clear: both;
+}
+
+.my-time {
+  position: relative;
+  margin-top: 1px;
+  font-size: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.other-time {
+  position: relative;
+  margin-top: 1px;
+  padding-left: 30px;
+  font-size: 10px;
+  display: flex;
+  width: 100%;
+  justify-content: flex-start;
 }
 
 .bg-container-send-message {
