@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
+import {
+  MDBContainer,
+  MDBModal,
+  MDBTable,
+  MDBTableBody,
+  MDBTableHead,
+  MDBModalHeader,
+  MDBModalBody,
+  MDBModalFooter,
+  MDBBtn,
+} from "mdbreact";
 
 import KOBOARD from "../../config/AxiosHelper";
 
@@ -17,6 +27,18 @@ function Kognotte() {
   const [soldeMax, setSoldeMax] = useState();
 
   const [transactions, setTransactions] = useState();
+
+  const addTransaction = (form) => {
+    const data = {
+      from: form.From,
+      to: form.To,
+      montant: form.Montant,
+      object: form.Objet,
+      date: form.Date,
+    };
+    console.log(data);
+    //KOBOARD.createPostAxiosRequest("kognotte", data);
+  };
 
   const deleteTransaction = async (id) => {
     Swal.fire({
@@ -85,45 +107,189 @@ function Kognotte() {
     return () => (isMounted = false);
   }, []);
 
+  /* Control of the modal form */
+  const [formData, setFormData] = React.useState();
+  const [isFormValid, setIsFormValid] = React.useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value.trim(),
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    // Launch add Transaction
+    addTransaction(formData);
+  };
+
+  useEffect(() => {
+    if (formData) {
+      const res =
+        formData.From !== undefined &&
+        formData.To !== undefined &&
+        formData.Montant !== undefined &&
+        formData.Objet !== undefined &&
+        formData.Date !== undefined;
+      setIsFormValid(res);
+    }
+  }, [formData]);
+
+  const [modal, setModal] = useState(false);
+
+  function toogleModal() {
+    setModal(!modal);
+  }
+
   return (
     <div className="Kognotte">
-      {soldes && (
-        <div className="Soldes">
-          <h1>Soldes</h1>
-          {soldes.map((solde) => {
-            return <Solde key={solde._id} {...solde} soldeMax={soldeMax} />;
-          })}
-        </div>
-      )}
+      <MDBContainer className="containerBtnModal" fluid>
+        <button
+          className="btn btn-info btn-add-transaction"
+          onClick={toogleModal}
+        >
+          <i className="fas fa-lg fa-plus" />
+        </button>
 
-      {transactions && (
-        <div className="Transactions">
-          <h1>Transactions</h1>
-          <MDBTable responsive hover>
-            <MDBTableHead>
-              <tr>
-                <th>Payé par</th>
-                <th>Participant(s)</th>
-                <th>Montant</th>
-                <th>Objet</th>
-                <th>Date</th>
-              </tr>
-            </MDBTableHead>
-            <MDBTableBody>
-              {transactions.map((transaction) => {
-                return (
-                  <Transaction
-                    key={transaction._id}
-                    deleteTransaction={deleteTransaction}
-                    users={users}
-                    {...transaction}
-                  />
-                );
-              })}
-            </MDBTableBody>
-          </MDBTable>
-        </div>
-      )}
+        <MDBModal isOpen={modal} toggle={toogleModal}>
+          <MDBModalHeader toggle={toogleModal}>
+            Ajouter une transaction
+          </MDBModalHeader>
+          <MDBModalBody>
+            <form className="ModalForm">
+              <label>
+                Payé par
+                <select
+                  name="From"
+                  className="browser-default custom-select"
+                  required
+                  onChange={handleChange}
+                >
+                  <option value="">Payé par</option>
+                  {users &&
+                    users.map((user) => {
+                      return (
+                        <option key={user._id} value={user._id}>
+                          {user.username}
+                        </option>
+                      );
+                    })}
+                </select>
+              </label>
+
+              <label>
+                Participant(s)
+                <select
+                  name="To"
+                  multiple
+                  className="browser-default custom-select"
+                  required
+                  onChange={handleChange}
+                >
+                  {users &&
+                    users.map((user) => {
+                      return (
+                        <option key={user._id} value={user._id}>
+                          {user.username}
+                        </option>
+                      );
+                    })}
+                </select>
+              </label>
+
+              <label>
+                Montant
+                <input
+                  name="Montant"
+                  type="number"
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </label>
+
+              <label>
+                Objet
+                <input
+                  name="Objet"
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </label>
+
+              <label>
+                Date
+                <input
+                  name="Date"
+                  type="date"
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </label>
+            </form>
+          </MDBModalBody>
+          <MDBModalFooter>
+            <MDBBtn color="secondary" onClick={toogleModal}>
+              Annuler
+            </MDBBtn>
+            <MDBBtn
+              color="primary"
+              onClick={handleSubmit}
+              disabled={!isFormValid}
+            >
+              Ajouter
+            </MDBBtn>
+          </MDBModalFooter>
+        </MDBModal>
+      </MDBContainer>
+
+      <div className="Container">
+        {soldes && (
+          <div className="Soldes">
+            <h1>Soldes</h1>
+            {soldes.map((solde) => {
+              return (
+                <Solde
+                  key={solde._id}
+                  users={users}
+                  {...solde}
+                  soldeMax={soldeMax}
+                />
+              );
+            })}
+          </div>
+        )}
+
+        {transactions && (
+          <div className="Transactions">
+            <h1>Transactions</h1>
+            <MDBTable responsive hover>
+              <MDBTableHead>
+                <tr>
+                  <th>Payé par</th>
+                  <th>Participant(s)</th>
+                  <th>Montant</th>
+                  <th>Objet</th>
+                  <th>Date</th>
+                </tr>
+              </MDBTableHead>
+              <MDBTableBody>
+                {transactions.map((transaction) => {
+                  return (
+                    <Transaction
+                      key={transaction._id}
+                      deleteTransaction={deleteTransaction}
+                      users={users}
+                      {...transaction}
+                    />
+                  );
+                })}
+              </MDBTableBody>
+            </MDBTable>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
