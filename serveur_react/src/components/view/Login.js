@@ -19,7 +19,7 @@ class Login extends Component {
     checkAuthentification() {
         let that = this;
         // We try to access a random route to see if we are allowed to
-        axios.get(KOBOARD_API_URI).then((response) => {
+        axios.get(KOBOARD_API_URI + "/konotes").then((response) => {
                 that.setState({
                     loggedIn: true,
                 });
