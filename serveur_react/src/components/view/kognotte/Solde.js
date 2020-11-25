@@ -62,7 +62,7 @@ function ProgressBar(props) {
   const progressContainer = {
     height: 20,
     backgroundColor: "#e0e0de",
-    borderRadius: 50,
+    borderRadius: 3,
     margin: 10,
   };
 

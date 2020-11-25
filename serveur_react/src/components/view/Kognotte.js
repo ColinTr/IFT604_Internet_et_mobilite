@@ -53,8 +53,8 @@ function Kognotte() {
           <MDBTable responsive>
             <MDBTableHead>
               <tr>
-                <th>De</th>
-                <th>A</th>
+                <th>Payé par</th>
+                <th>Participant(s)</th>
                 <th>Montant</th>
                 <th>Objet</th>
                 <th>Date</th>

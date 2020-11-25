@@ -6,6 +6,16 @@ function formatNumber(x) {
   return (Math.floor(x * 100) / 100).toFixed(2);
 }
 
+function formatDate(date) {
+  const formattedDate = new Intl.DateTimeFormat("fr-FR", {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+  }).format(date);
+
+  return formattedDate;
+}
+
 function Transaction(props) {
   const [userFrom, setUserFrom] = useState();
   const [usersTo, setUsersTo] = useState();
@@ -43,7 +53,7 @@ function Transaction(props) {
       </td>
       <td>{formatNumber(props.montant)} €</td>
       <td>{props.object}</td>
-      <td>{props.date}</td>
+      <td>{formatDate(new Date(props.date))}</td>
     </tr>
   );
 }
