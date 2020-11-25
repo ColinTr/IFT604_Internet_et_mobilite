@@ -352,3 +352,9 @@ li a.dropdown-toggle::after {
 .Kognotte .Soldes .Solde .Center .barContainer {
   flex-grow: 1;
 }
+
+.Kognotte .testing {
+  width: 100%;
+  background-color: #0dff29;
+  margin: auto;
+}

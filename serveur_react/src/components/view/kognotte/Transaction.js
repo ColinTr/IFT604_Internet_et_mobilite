@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MDBTable, MDBTableBody } from "mdbreact";
+import { MDBTable, MDBTableBody, MDBDropdownToggle } from "mdbreact";
 import KOBOARD from "../../../config/AxiosHelper";
 
 function formatNumber(x) {
@@ -35,8 +35,12 @@ function Transaction(props) {
     func();
   }, [props.from, props.to]);
 
+  const test = async () => {
+    console.log("test");
+  };
+
   return (
-    <tr>
+    <tr onClick={test}>
       <td>{userFrom && userFrom.username}</td>
       <td>
         {usersTo && (

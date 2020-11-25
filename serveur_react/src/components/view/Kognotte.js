@@ -50,7 +50,7 @@ function Kognotte() {
       {transactions && (
         <div className="Transactions">
           <h1>Transactions</h1>
-          <MDBTable responsive>
+          <MDBTable responsive hover>
             <MDBTableHead>
               <tr>
                 <th>Payé par</th>
