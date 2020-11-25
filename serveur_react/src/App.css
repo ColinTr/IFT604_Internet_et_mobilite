@@ -236,6 +236,7 @@ li a.dropdown-toggle::after {
   font-weight: 400;
   padding: 10px;
   border-radius: 15px;
+  margin-right: 5px;
   text-align: center;
   overflow-wrap: break-word;
   display: inline-block;
@@ -358,6 +359,9 @@ li a.dropdown-toggle::after {
   word-wrap: break-word;
 }
 
+.crossed-line {
+  text-decoration: line-through;
+}
 /* Kognotte */
 .Kognotte {
   display: flex;

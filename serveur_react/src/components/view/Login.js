@@ -4,6 +4,8 @@ import Logo from "../../assets/img/logo_koboard_crop.png";
 import {MDBBtn, MDBCol, MDBContainer, MDBRow} from "mdbreact";
 import SwalHelper from "../../config/SwalHelper";
 
+const KOBOARD_API_URI = process.env.REACT_APP_KOBOARD_API_URI;
+
 class Login extends Component {
     constructor(props) {
         super(props);
@@ -17,8 +19,7 @@ class Login extends Component {
     checkAuthentification() {
         let that = this;
         // We try to access a random route to see if we are allowed to
-        axios.get("http://localhost:5000/konotes")
-            .then((response) => {
+        axios.get(KOBOARD_API_URI).then((response) => {
                 that.setState({
                     loggedIn: true,
                 });

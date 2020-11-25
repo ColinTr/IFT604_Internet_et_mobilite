@@ -35,6 +35,22 @@ class Konote extends React.Component {
         this.createOrUpdateKonote = this.createOrUpdateKonote.bind(this);
     }
 
+    intervalID = 0;
+
+    componentDidMount() {
+        this.updateKonotes();
+
+        this.updateKonotes = this.updateKonotes.bind(this);
+
+        this.intervalID = setInterval(() => {
+            this.updateKonotes();
+        }, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalID);
+    }
+
     updateKonotes() {
         let that = this;
         KOBOARD.createGetAxiosRequest("konotes")
@@ -67,7 +83,7 @@ class Konote extends React.Component {
             if (result.value) {
                 KOBOARD.createDeleteAxiosRequest("konotes", idKonote)
                     .then(() => {
-                        SwalHelper.createSmallSuccessPopUp("Note supprimée avec succès !");
+                        SwalHelper.createSmallSuccessPopUp("Note supprimée avec succès!");
                         that.updateKonotes();
                     })
                     .catch((err) => {
@@ -112,7 +128,7 @@ class Konote extends React.Component {
                     }
                 })
                 .then(() => {
-                    SwalHelper.createSmallSuccessPopUp("Note modifiée avec succès !");
+                    SwalHelper.createSmallSuccessPopUp("Note modifiée avec succès!");
                     that.toggle();
                     that.updateKonotes();
                 })
@@ -145,10 +161,6 @@ class Konote extends React.Component {
                     }
                 });
         }
-    }
-
-    componentDidMount() {
-        this.updateKonotes();
     }
 
     toggle = () => {
@@ -254,7 +266,7 @@ class Konote extends React.Component {
                                                 <i className="fa fa-times" aria-hidden="true"/>
                                             </button>
                                             <button className="noteCross" aria-hidden="true"
-                                                    style={{marginRight: "25px"}}
+                                                    style={{marginRight: "30px"}}
                                                     onClick={() => that.displayUpdateNoteModal(noteData._id, noteData.title, noteData.content)}>
                                                 <i className="far fa-edit"/>
                                             </button>
