@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { MDBTable, MDBTableBody, MDBDropdownToggle } from "mdbreact";
+import { MDBTable, MDBTableBody } from "mdbreact";
 import KOBOARD from "../../../config/AxiosHelper";
+import SwalHelper from "../../../config/SwalHelper";
+import * as Swal from "sweetalert2";
 
 function formatNumber(x) {
   return (Math.floor(x * 100) / 100).toFixed(2);
@@ -35,12 +37,38 @@ function Transaction(props) {
     func();
   }, [props.from, props.to]);
 
-  const test = async () => {
-    console.log("test");
+  const deleteTransaction = async () => {
+    Swal.fire({
+      title: "Êtes vous certain ?",
+      text: "Impossible de récuperer la note une fois supprimée!",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Supprimer",
+      cancelButtonText: "Annuler",
+    }).then((result) => {
+      if (result.value) {
+        KOBOARD.createDeleteAxiosRequest("kognotte", props._id)
+          .then(() => {
+            SwalHelper.createSmallSuccessPopUp(
+              "Transaction supprimée avec succès !"
+            );
+          })
+          .catch((err) => {
+            if (err.response !== undefined && err.response.status === 401) {
+              SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+            } else {
+              SwalHelper.createNoConnectionSmallPopUp(
+                "Connexion au serveur impossible"
+              );
+            }
+          });
+      }
+    });
   };
 
   return (
-    <tr onClick={test}>
+    <tr onClick={deleteTransaction}>
       <td>{userFrom && userFrom.username}</td>
       <td>
         {usersTo && (
