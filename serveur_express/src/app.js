@@ -31,8 +31,8 @@ app.use("/konotes", login.checkToken, notesRouter);
 app.use("/kourses", login.checkToken, coursesRouter);
 app.use("/kochat", login.checkToken, chatRouter);
 app.use("/kognotte", login.checkToken, kognotteRouter);
+app.use("/users", login.checkToken, usersRouter);
 app.use("/login", loginRouter);
-app.use("/users", usersRouter);
 
 /*
 const addKourse = async () => {
