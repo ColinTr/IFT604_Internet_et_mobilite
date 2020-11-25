@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+
+  sample-prod:
+    container_name: apiKoboard
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - rvp_default
+
+networks:
+  rvp_default:
+    external:
+      name: rvp_default
