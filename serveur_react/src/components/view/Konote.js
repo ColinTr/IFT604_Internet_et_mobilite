@@ -273,7 +273,7 @@ class Konote extends React.Component {
                                         </div>
                                         <MDBCardBody>
                                             <MDBCardTitle>{noteData.title}</MDBCardTitle>
-                                            <MDBCardText className="overflow-auto" style={{height: "230px"}}>
+                                            <MDBCardText className="overflow-auto" style={{height: "215px"}}>
                                                 {noteData.content}
                                             </MDBCardText>
                                         </MDBCardBody>

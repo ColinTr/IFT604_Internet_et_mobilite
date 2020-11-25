@@ -141,7 +141,7 @@ class Kourse extends React.Component {
                     if (listeKourses._id === idListeKourses) {
                         listeKourses.elements.forEach((element, index2) => {
                             if (element._id === kourseId) {
-                                element.content = result.value;
+                                element.content = result.value === "" ? "∅" : result.value;
                                 KOBOARD.createPutAxiosRequest("kourses", idListeKourses,
                                     {
                                         elements: listeKourses.elements
@@ -179,7 +179,7 @@ class Kourse extends React.Component {
             if (result.isConfirmed) {
                 KOBOARD.createPutAxiosRequest("kourses", idListeKourses,
                     {
-                        title: result.value
+                        title:  result.value === "" ? "∅" : result.value
                     })
                     .then(() => {
                         SwalHelper.createSmallSuccessPopUp("Liste modifiée avec succès!");
@@ -210,7 +210,7 @@ class Kourse extends React.Component {
                 KOBOARD.createPostAxiosRequest("kourses",
                     {
                         _dashboard: "5fbbd16a57e2c761e0ef574e",
-                        title: result.value,
+                        title:  result.value === "" ? "∅" : result.value,
                         elements: []
                     })
                     .then(() => {
@@ -242,7 +242,7 @@ class Kourse extends React.Component {
                 this.state.listListKoursesData.forEach((listeKourses, index) => {
                     if (listeKourses._id === listeKoursesId) {
                         let newElements = listeKourses.elements;
-                        newElements.push({content: result.value, bought: false});
+                        newElements.push({content:  result.value === "" ? "∅" : result.value, bought: false});
                         KOBOARD.createPutAxiosRequest("kourses", listeKoursesId,
                             {
                                 _id: listeKoursesId,
