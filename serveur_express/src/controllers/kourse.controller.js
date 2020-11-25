@@ -7,30 +7,29 @@ exports.getKourses = async (req, res) => {
   service
     .getKoursesFromDashboard(config.MONGODB_DASHBOARD_ID)
     .then((response) => {
-      console.log(response);
-      res.status(200).send(response).end();
+      return res.status(200).send(response).end();
     })
     .catch((err) => {
       logger.error(err);
-        res
-          .status(400)
-          .send(new Erreur("Impossible de trouver les listes de Kourse"))
-          .end();
+      return res
+        .status(400)
+        .send(new Erreur("Impossible de trouver les listes de Kourse"))
+        .end();
     });
 };
 
 exports.getKoursesById = async (req, res) => {
   if (req.params["id_kourse"] === undefined) {
-    res.status(400).send(new Erreur("L'id_kourse est manquant"));
+    return res.status(400).send(new Erreur("L'id_kourse est manquant"));
   } else {
     service
       .getKourse(req.params["id_kourse"])
       .then((response) => {
-        res.status(200).send(response).end();
+        return res.status(200).send(response).end();
       })
       .catch((error) => {
         logger.error(error);
-        res
+        return res
           .status(400)
           .send(new Erreur("Impossible de trouver la liste de Kourse"))
           .end();
@@ -57,18 +56,16 @@ exports.createKourses = async (req, res) => {
         )
       );
   } else {
-    console.log(body.elements);
     service
       .addKourse(body._dashboard, body.title, body.elements)
       .then((message) => {
-        logger.info(message);
         return res.status(200).end();
       })
       .catch((err) => {
-        logger.error(err);
+        logger.info(err);
         return res
           .status(400)
-          .send(new (Erreur("Impossible d'ajouter une liste de kourse"))())
+          .send(new Erreur("Impossible d'ajouter une liste de kourse"))
           .end();
       });
   }
@@ -76,16 +73,16 @@ exports.createKourses = async (req, res) => {
 
 exports.deleteKourses = async (req, res) => {
   if (req.params["id_kourse"] === undefined) {
-    res.status(400).send(new Erreur("L'id_kourse est manquant"));
+    return res.status(400).send(new Erreur("L'id_kourse est manquant"));
   } else {
     service
       .removeKourse(req.params["id_kourse"])
       .then((response) => {
-        res.status(204).send(response).end();
+        return res.status(204).send(response).end();
       })
       .catch((error) => {
         logger.error(error);
-        res
+        return res
           .status(400)
           .send(new Erreur("Impossible de supprimer la liste de Kourse"))
           .end();
@@ -95,17 +92,16 @@ exports.deleteKourses = async (req, res) => {
 
 exports.updateKourses = async (req, res) => {
   if (req.params["id_kourse"] === undefined) {
-    res.status(400).send(new Erreur("L'id_kourse est manquant"));
+    return res.status(400).send(new Erreur("L'id_kourse est manquant"));
   } else {
     service
       .updateKourse(req.params["id_kourse"], req.body)
       .then((response) => {
-        logger.info(response);
-        res.status(200).send(response).end();
+        return res.status(200).send(response).end();
       })
       .catch((error) => {
         logger.error(error);
-        res
+        return res
           .status(400)
           .send(new Erreur("Impossible de modifier la liste de Kourse"))
           .end();

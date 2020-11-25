@@ -3,6 +3,7 @@ const ObjectId = mongoose.Schema.ObjectId;
 
 var Elements = mongoose.Schema({
   content: String,
+  quantity: Number,
   bought: Boolean,
 });
 

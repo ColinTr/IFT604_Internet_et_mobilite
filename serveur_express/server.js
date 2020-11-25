@@ -8,7 +8,7 @@ const server = http.createServer(app);
 // Chargement de socket.io
 const options = {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"],
   },
 };

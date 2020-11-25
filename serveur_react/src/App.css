@@ -236,6 +236,7 @@ li a.dropdown-toggle::after {
   font-weight: 400;
   padding: 10px;
   border-radius: 15px;
+  margin-right: 5px;
   text-align: center;
   overflow-wrap: break-word;
   display: inline-block;
@@ -351,11 +352,17 @@ li a.dropdown-toggle::after {
   border-radius: 10px;
   background-color: rgba(25, 147, 147, 0.2);
 }
+
 .card {
   height: 320px;
 }
+
 .card-text {
   word-wrap: break-word;
+}
+
+.crossed-line {
+  text-decoration: line-through;
 }
 
 /* Kognotte */
@@ -404,4 +411,21 @@ li a.dropdown-toggle::after {
 
 .Kognotte .Soldes .Solde .Center .barContainer {
   flex-grow: 1;
+}
+
+.Kognotte .testing {
+  width: 100%;
+  background-color: #0dff29;
+  margin: auto;
+}
+
+.koursesListText {
+  text-overflow: ellipsis;
+  max-width: 130px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.koursesListText:hover {
+  overflow: visible;
+  white-space: normal;
 }
