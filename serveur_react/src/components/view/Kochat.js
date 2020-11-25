@@ -18,7 +18,7 @@ class Kochat extends React.Component {
 			myID: "",
 			author: localStorage.getItem("userid"),
 			mySocket: "",
-			users: [],
+			users : []
 		};
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSendMessage = this.handleSendMessage.bind(this);
@@ -27,7 +27,7 @@ class Kochat extends React.Component {
 	updateKochat() {
 		KOBOARD.createGetAxiosRequest("kochat")
 			.then((messages) => {
-				this.setState({messages: messages});
+				this.setState({ messages: messages });
 			})
 			.catch((err) => {
 				if (err.response.status === 401) {
@@ -40,20 +40,20 @@ class Kochat extends React.Component {
 			});
 	}
 
-	getUsers() {
+	getUsers(){
 		KOBOARD.createGetAxiosRequest("users")
-			.then((users) => {
-				this.setState({users: users});
+			.then((users)=>{
+				this.setState({users:users})
 			})
-			.catch((err) => {
-				if (err.response.status === 401) {
+			.catch((err)=>{
+				if(err.response.status === 401){
 					SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
 				} else {
 					SwalHelper.createNoConnectionSmallPopUp(
 						"Connexion au serveur impossible"
 					);
 				}
-			});
+			})
 	}
 
 	componentWillUnmount() {
@@ -66,12 +66,12 @@ class Kochat extends React.Component {
 
 		const socket = io(KOBOARD_API_URI);
 
-		this.setState({mySocket: socket});
+		this.setState({ mySocket: socket });
 
 		socket.on("message", (message) => {
 			let messages = this.state.messages;
 			messages.push(message);
-			this.setState({messages: messages});
+			this.setState({ messages: messages });
 			this.scrollToTheTop();
 		});
 	}
@@ -98,7 +98,7 @@ class Kochat extends React.Component {
 	};
 
 	handleChange = (event) => {
-		const {name, value} = event.target;
+		const { name, value } = event.target;
 		this.setState({
 			[name]: value,
 		});
@@ -126,7 +126,7 @@ class Kochat extends React.Component {
 			this.state.mySocket.emit("message", dataNewMessage);
 
 			//Clean the input text and change messages list
-			this.setState({message: "", messages: messages});
+			this.setState({ message: "", messages: messages });
 
 			//Scroll after add data in the container
 			this.scrollToTheTop();
@@ -139,14 +139,14 @@ class Kochat extends React.Component {
 					if (err.response.status === 401) {
 						SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
 					} else {
-						console.log("pas de co");
+						console.log("pas de co")
 						SwalHelper.createNoConnectionSmallPopUp(
 							"Connexion au serveur impossible"
 						);
 					}
 				});
 		} else {
-			this.setState({message: ""});
+			this.setState({ message: "" });
 		}
 	};
 
@@ -172,15 +172,17 @@ class Kochat extends React.Component {
 									<MDBRow className="other-row">
 										<div className="other-message">
 											<div className="other-avatar">
-												{this.state.users.map((user) => {
-													if (user._id === message.author) {
-														return user.username.substring(0, 3).toUpperCase();
+												{this.state.users.map((user)=>{
+													if(user._id === message.author)
+													{
+														return user.username.substring(0,3).toUpperCase();
 													}
 													return "";
 												})}
 											</div>
 											{message.content}
 										</div>
+
 									</MDBRow>
 									<MDBRow className="other-time">
 										{dateFormat(message.date, "ddd, H:MM")}
@@ -193,20 +195,20 @@ class Kochat extends React.Component {
 				<MDBContainer className="mb-3 card-footer bg-container-send-message">
 					<form onSubmit={this.handleSendMessage}>
 						<div className="input-group">
-                              <textarea
-                                rows="1"
-                                name="message"
-                                onKeyDown={this.onEnterPress}
-                                onChange={this.handleChange}
-                                value={this.state.message}
-                                className="form-control type_msg"
-                                placeholder="Ecrivez votre message..."
-                              ></textarea>
-                              <div className="input-group-append">
-                                  <button type="submit" className="input-group-text">
-                                      <i className="fas fa-location-arrow"></i>
-                                  </button>
-                              </div>
+							<textarea
+							  rows="1"
+							  name="message"
+							  onKeyDown={this.onEnterPress}
+							  onChange={this.handleChange}
+							  value={this.state.message}
+							  className="form-control type_msg"
+							  placeholder="Ecrivez votre message..."
+							></textarea>
+							<div className="input-group-append">
+								<button type="submit" className="input-group-text">
+									<i className="fas fa-location-arrow"></i>
+								</button>
+							</div>
 						</div>
 					</form>
 				</MDBContainer>
