@@ -84,8 +84,116 @@ class Kourse extends React.Component {
         });
     }
 
-    deleteElementOfListKourses(idListeKourses) {
+    deleteElementOfListKourses(idListeKourses, kourseId) {
+        let that = this;
+        Swal.fire({
+            title: 'Êtes vous certain ?',
+            text: "Impossible de récuperer l'élément une fois supprimé!",
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Supprimer',
+            cancelButtonText: 'Annuler'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                that.state.listListKoursesData.forEach((listeKourses, index1) => {
+                    if (listeKourses._id === idListeKourses) {
+                        let newList = [];
+                        listeKourses.elements.forEach((element, index2) => {
+                            if (element._id !== kourseId) {
+                                newList.push(element);
+                            }
+                        });
+                        KOBOARD.createPutAxiosRequest("kourses", idListeKourses,
+                            {
+                                elements: newList
+                            })
+                            .then(() => {
+                                SwalHelper.createSmallSuccessPopUp("Liste modifiée avec succès!");
+                                that.updateKourses();
+                            })
+                            .catch((err) => {
+                                if (err.response !== undefined && err.response.status === 401) {
+                                    SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+                                } else {
+                                    SwalHelper.createNoConnectionSmallPopUp("Connexion au serveur impossible");
+                                }
+                            });
+                    }
+                });
+            }
+        });
+    }
 
+    editElementOfListKourses(idListeKourses, kourseId, previousValue) {
+        let that = this;
+        Swal.fire({
+            title: 'Modifier un élément de la liste de kourses',
+            input: 'text',
+            inputPlaceholder: 'Contenu de l\'élément',
+            showCancelButton: true,
+            confirmButtonText: 'Modifier',
+            cancelButtonText: 'Annuler',
+            inputValue: previousValue
+        }).then((result) => {
+            if (result.isConfirmed) {
+                that.state.listListKoursesData.forEach((listeKourses, index1) => {
+                    if (listeKourses._id === idListeKourses) {
+                        listeKourses.elements.forEach((element, index2) => {
+                            if (element._id === kourseId) {
+                                element.content = result.value;
+                                KOBOARD.createPutAxiosRequest("kourses", idListeKourses,
+                                    {
+                                        elements: listeKourses.elements
+                                    })
+                                    .then(() => {
+                                        SwalHelper.createSmallSuccessPopUp("Liste modifiée avec succès!");
+                                        that.updateKourses();
+                                    })
+                                    .catch((err) => {
+                                        if (err.response !== undefined && err.response.status === 401) {
+                                            SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+                                        } else {
+                                            SwalHelper.createNoConnectionSmallPopUp("Connexion au serveur impossible");
+                                        }
+                                    });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+
+    editListKourses(idListeKourses, previousValue) {
+        let that = this;
+        Swal.fire({
+            title: 'Modifier le titre de liste de kourses',
+            input: 'text',
+            inputPlaceholder: 'Titre de la liste',
+            showCancelButton: true,
+            confirmButtonText: 'Modifier',
+            cancelButtonText: 'Annuler',
+            inputValue: previousValue
+        }).then((result) => {
+            if (result.isConfirmed) {
+                KOBOARD.createPutAxiosRequest("kourses", idListeKourses,
+                    {
+                        title: result.value
+                    })
+                    .then(() => {
+                        SwalHelper.createSmallSuccessPopUp("Liste modifiée avec succès!");
+                        that.updateKourses();
+                    })
+                    .catch((err) => {
+                        if (err.response !== undefined && err.response.status === 401) {
+                            SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+                        } else {
+                            SwalHelper.createNoConnectionSmallPopUp("Connexion au serveur impossible");
+                        }
+                    });
+            }
+        });
     }
 
     createListKourses() {
@@ -134,7 +242,7 @@ class Kourse extends React.Component {
                 this.state.listListKoursesData.forEach((listeKourses, index) => {
                     if (listeKourses._id === listeKoursesId) {
                         let newElements = listeKourses.elements;
-                        newElements.push({content:result.value, bought:false});
+                        newElements.push({content: result.value, bought: false});
                         KOBOARD.createPutAxiosRequest("kourses", listeKoursesId,
                             {
                                 _id: listeKoursesId,
@@ -207,7 +315,7 @@ class Kourse extends React.Component {
                 >
                     <i className="fas fa-lg fa-plus"/>
                 </button>
-                <MDBContainer  style={{alignContent:"center", alignItems:"center"}}>
+                <MDBContainer style={{alignContent: "center", alignItems: "center"}}>
                     <MDBRow>
                         {this.state.listListKoursesData.map(function (listeKoursesData, index) {
                             return (
@@ -223,12 +331,15 @@ class Kourse extends React.Component {
                                             <button className="noteCross" aria-hidden="true"
                                                     style={{marginRight: "30px"}}
                                                     onClick={() => {
+                                                        that.editListKourses(listeKoursesData._id, listeKoursesData.title)
                                                     }}>
                                                 <i className="far fa-edit"/>
                                             </button>
                                             <button className="noteCross" aria-hidden="true"
                                                     style={{marginRight: "60px"}}
-                                                    onClick={() => {that.createElementInListKourses(listeKoursesData._id)}}>
+                                                    onClick={() => {
+                                                        that.createElementInListKourses(listeKoursesData._id)
+                                                    }}>
                                                 <i className="fas fa-plus-circle"/>
                                             </button>
                                         </div>
@@ -241,9 +352,7 @@ class Kourse extends React.Component {
                                                             <MDBListGroupItem style={{alignItems: "center"}}
                                                                               key={koursesData._id}>
                                                                 <div
-                                                                    className={koursesData.bought ? "crossed-line" : ""}>
-                                                                    {koursesData.content}
-
+                                                                    className={koursesData.bought ? "crossed-line koursesListText" : "koursesListText"}>
                                                                     <button className="noteCross" aria-hidden="true"
                                                                             style={{
                                                                                 marginRight: "20px",
@@ -252,6 +361,7 @@ class Kourse extends React.Component {
                                                                                 marginLeft: 0
                                                                             }}
                                                                             onClick={() => {
+                                                                                that.deleteElementOfListKourses(listeKoursesData._id, koursesData._id)
                                                                             }}>
                                                                         <i className="far fa-trash-alt fa-xs"/>
                                                                     </button>
@@ -263,15 +373,19 @@ class Kourse extends React.Component {
                                                                                 marginLeft: 0
                                                                             }}
                                                                             onClick={() => {
+                                                                                that.editElementOfListKourses(listeKoursesData._id, koursesData._id, koursesData.content)
                                                                             }}>
                                                                         <i className="fas fa-pencil-alt fa-xs"/>
                                                                     </button>
+
                                                                     <Input type="checkbox" className="noteCross"
                                                                            style={{marginRight: "10px"}}
                                                                            defaultChecked={koursesData.bought}
                                                                            onClick={() => {
                                                                                that.toggleCheckbox(listeKoursesData._id, koursesData._id, koursesData.bought)
                                                                            }}/>
+
+                                                                    {koursesData.content}
                                                                 </div>
                                                             </MDBListGroupItem>
                                                         );
