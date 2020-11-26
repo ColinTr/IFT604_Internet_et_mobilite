@@ -369,6 +369,8 @@ li a.dropdown-toggle::after {
 .Kognotte {
     display: flex;
     flex-direction: column;
+    width: 95%;
+    margin: auto;
 }
 
 .Kognotte button.btn-toogle-modal{
@@ -435,4 +437,21 @@ li a.dropdown-toggle::after {
 
 .Koulette .Wheel{
     width: 100%;
+}
+
+
+/* Fix sidebar */
+
+.Dashboard{
+    display: flex;
+    width: 100%;
+}
+
+.MainView{
+    width: 100%;
+    min-height: 100vh;
+}
+
+.navbar{
+    margin: 5px;
 }
