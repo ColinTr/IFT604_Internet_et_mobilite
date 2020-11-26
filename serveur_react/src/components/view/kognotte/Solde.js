@@ -48,13 +48,14 @@ function ProgressBar(props) {
 
   const width = max * 2;
 
-  var bgcolor;
+  var bgcolor = "#e0e0de";
   var fillerMargin;
 
   if (value > 0) {
     bgcolor = "green";
     fillerMargin = `0 0 0 ${(max / width) * 100}%`;
-  } else {
+  } 
+  if (value < 0) {
     bgcolor = "red";
     fillerMargin = `0 0 0 ${(max / width) * 100 + (value / width) * 100}%`;
   }

@@ -14,11 +14,13 @@
     "mdbreact": "^4.27.0",
     "query-string": "latest",
     "react": "^16.8.6",
+    "react-custom-roulette": "^1.1.5",
     "react-dom": "^16.8.6",
     "react-input-trigger": "^1.1.2",
     "react-mentions": "^4.0.2",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
+    "react-select": "^3.1.1",
     "reactstrap": "^6.4.0",
     "socket.io-client": "^3.0.3",
     "sweetalert2": "^10.10.1"
