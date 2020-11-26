@@ -10,6 +10,7 @@ const chatRouter = require("./routes/chat.route");
 const loginRouter = require("./routes/login.route");
 const usersRouter = require("./routes/user.route");
 const kognotteRouter = require("./routes/kognotte.route");
+const spotifyRouter = require("./routes/spotify.route");
 const login = require("./controllers/login.controller");
 const database = require("./services/database");
 
@@ -33,6 +34,7 @@ app.use("/kochat", login.checkToken, chatRouter);
 app.use("/kognotte", login.checkToken, kognotteRouter);
 app.use("/users", login.checkToken, usersRouter);
 app.use("/login", loginRouter);
+app.use("/spotify", spotifyRouter);
 
 /*
 const addKourse = async () => {

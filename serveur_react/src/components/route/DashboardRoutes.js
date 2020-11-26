@@ -8,6 +8,7 @@ import Konote from "../view/Konote";
 import Koulette from "../view/Koulette";
 import Kourse from "../view/Kourse";
 import Kognotte from "../view/Kognotte";
+import Home from "../view/Home";
 
 import AuthRoute from "./AuthRoute";
 
@@ -20,7 +21,7 @@ class DashboardRoutes extends Component {
                     exact
                     component={() => <Redirect to="/dashboard/home"/>}
                 />
-                <AuthRoute exact path="/dashboard/home" component={() => "Hello"}/>
+                <AuthRoute exact path="/dashboard/home" component={Home}/>
                 <AuthRoute exact path="/dashboard/kochat" component={Kochat}/>
                 <AuthRoute exact path="/dashboard/konotes" component={Konote}/>
                 <AuthRoute exact path="/dashboard/kourses" component={Kourse}/>
