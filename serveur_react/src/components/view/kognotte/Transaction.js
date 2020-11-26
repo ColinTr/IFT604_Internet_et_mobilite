@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { MDBTable, MDBTableBody } from "mdbreact";
+
+import '../../../App.css';
 
 function formatNumber(x) {
   return (Math.floor(x * 100) / 100).toFixed(2);
@@ -35,17 +36,9 @@ function Transaction(props) {
     <tr onClick={() => props.deleteTransaction(props._id)}>
       <td>{userFrom && userFrom.username}</td>
       <td>
-        {usersTo && (
-          <MDBTable>
-            <MDBTableBody>
-              {usersTo.map((user) => (
-                <tr key={user._id}>
-                  <td>{user.username}</td>
-                </tr>
-              ))}
-            </MDBTableBody>
-          </MDBTable>
-        )}
+        {usersTo && 
+          usersTo.map( user => <p key={user._id}>{user.username}</p>)
+        }
       </td>
       <td>{formatNumber(props.montant)} €</td>
       <td>{props.object}</td>

@@ -56,7 +56,7 @@ exports.createTransaction = async (req, res) => {
   } else {
     try {
       const transaction = await transactionService.addTransaction(
-        req.body._dashboard,
+        config.MONGODB_DASHBOARD_ID,
         req.body.from,
         req.body.to,
         req.body.montant,
