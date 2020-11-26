@@ -14,6 +14,7 @@
     "mdbreact": "^4.27.0",
     "query-string": "latest",
     "react": "^16.8.6",
+    "react-custom-roulette": "^1.1.5",
     "react-dom": "^16.8.6",
     "react-input-trigger": "^1.1.2",
     "react-mentions": "^4.0.2",

@@ -406,12 +406,6 @@ li a.dropdown-toggle::after {
     flex-grow: 1;
 }
 
-.Kognotte .testing {
-    width: 100%;
-    background-color: #0dff29;
-    margin: auto;
-}
-
 .Kognotte .testTable{
     margin: 0;
 }
@@ -425,4 +419,20 @@ li a.dropdown-toggle::after {
 .koursesListText:hover{
     overflow: visible;
     white-space: normal;
+}
+
+.Koulette{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Koulette .Roulette > div:first-child {
+    max-width: 33vw;
+    max-height: 33vw;
+}
+
+.Koulette .Wheel{
+    width: 100%;
 }
