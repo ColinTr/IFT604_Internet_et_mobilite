@@ -203,7 +203,7 @@ class Konote extends React.Component {
                         padding: "12px",
                         margin: 10,
                         height: "50px",
-                        width: "50px",
+                        width: "50px"
                     }}
                     onClick={that.toggle}
                 >

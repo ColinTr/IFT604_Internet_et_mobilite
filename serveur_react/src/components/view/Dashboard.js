@@ -8,8 +8,10 @@ const Dashboard = () => {
 
     return (
         <React.Fragment>
-            <SideBar toggle={toggleSidebar} isOpen={sidebarIsOpen}/>
-            <MainView toggleSidebar={toggleSidebar} sidebarIsOpen={sidebarIsOpen}/>
+            <div className="Dashboard h-auto">
+                <SideBar toggle={toggleSidebar} isOpen={sidebarIsOpen}/>
+                <MainView toggleSidebar={toggleSidebar} sidebarIsOpen={sidebarIsOpen} className="testing"/>
+            </div>
         </React.Fragment>
     );
 };

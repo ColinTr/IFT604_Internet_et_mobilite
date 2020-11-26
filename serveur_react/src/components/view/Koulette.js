@@ -42,7 +42,7 @@ function Koulette(){
             {
                 data &&
                 <React.Fragment>
-                    <div class="Roulette">
+                    <div className="Roulette">
                         <Wheel
                         mustStartSpinning={spin}
                         onStopSpinning={stopSpinning}
@@ -54,7 +54,7 @@ function Koulette(){
                         outerBorderWidth={3}
                         />
                     </div>
-                    
+
 
                     <button className="btn btn-info" onClick={handleBtnClick}>SPIN THE ROULETTE</button>
 

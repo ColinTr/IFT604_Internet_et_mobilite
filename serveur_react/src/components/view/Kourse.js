@@ -179,7 +179,7 @@ class Kourse extends React.Component {
             if (result.isConfirmed) {
                 KOBOARD.createPutAxiosRequest("kourses", idListeKourses,
                     {
-                        title:  result.value === "" ? "∅" : result.value
+                        title: result.value === "" ? "∅" : result.value
                     })
                     .then(() => {
                         SwalHelper.createSmallSuccessPopUp("Liste modifiée avec succès!");
@@ -210,7 +210,7 @@ class Kourse extends React.Component {
                 KOBOARD.createPostAxiosRequest("kourses",
                     {
                         _dashboard: "5fbbd16a57e2c761e0ef574e",
-                        title:  result.value === "" ? "∅" : result.value,
+                        title: result.value === "" ? "∅" : result.value,
                         elements: []
                     })
                     .then(() => {
@@ -242,7 +242,7 @@ class Kourse extends React.Component {
                 this.state.listListKoursesData.forEach((listeKourses, index) => {
                     if (listeKourses._id === listeKoursesId) {
                         let newElements = listeKourses.elements;
-                        newElements.push({content:  result.value === "" ? "∅" : result.value, bought: false});
+                        newElements.push({content: result.value === "" ? "∅" : result.value, bought: false});
                         KOBOARD.createPutAxiosRequest("kourses", listeKoursesId,
                             {
                                 _id: listeKoursesId,
@@ -309,13 +309,13 @@ class Kourse extends React.Component {
                         padding: "12px",
                         margin: 10,
                         height: "50px",
-                        width: "50px",
+                        width: "50px"
                     }}
                     onClick={this.createListKourses}
                 >
                     <i className="fas fa-lg fa-plus"/>
                 </button>
-                <MDBContainer style={{alignContent: "center", alignItems: "center"}}>
+                <MDBContainer className="d-flex justify-content-center">
                     <MDBRow>
                         {this.state.listListKoursesData.map(function (listeKoursesData, index) {
                             return (

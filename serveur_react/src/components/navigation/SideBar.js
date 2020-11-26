@@ -20,9 +20,11 @@ const SideBar = ({isOpen, toggle}) => {
         <div className={classNames("sidebar", {"is-open": isOpen})}>
             <div className="side-menu">
                 <MDBNavbarNav className="list-unstyled pb-3">
+                    <div className="sidebar-header">
+                        <span color="info" onClick={toggle} style={{color: "#fff"}}>  &times; </span>
+                    </div>
                     <div className="sidebar-header p-2 justify-content-center">
                         <img src={Logo} className="ml-5" alt="logo KoBoard" width="150"/>
-                        <span color="info" onClick={toggle} style={{color: "#fff"}}>  &times; </span>
                     </div>
                     <MDBNavItem className="ml-2">
                         <MDBNavLink
