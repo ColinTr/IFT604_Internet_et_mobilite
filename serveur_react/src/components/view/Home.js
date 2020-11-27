@@ -2,6 +2,7 @@ import React from "react";
 import axiosHelper from "../../config/AxiosHelper";
 import SpotifyPlayer from 'react-spotify-player';
 import * as $ from "jquery"
+import {Button} from "reactstrap";
 
 class Home extends React.Component {
 
@@ -9,20 +10,41 @@ class Home extends React.Component {
         super(props);
         this.state = {
             token: null,
-            featuredPlaylistUri: "null"
+            featuredPlaylistUri: null,
+            inputTextValue: ""
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.input = React.createRef();
+        this.update = this.update.bind(this);
     }
 
     componentDidMount() {
-        this.getFeaturedPlaylistsOfCountry("FR")
+        let that = this;
+        let latitude = null;
+        let longitude = null;
+        navigator.geolocation.getCurrentPosition(function(position) {
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+
+            console.log("latitude = ", latitude, " & longitude = ", longitude);
+
+            $.ajax({
+                url: "http://api.geonames.org/countryCodeJSON?lat=" + latitude + "&lng=" + longitude + "&username=koboard",
+                type: "GET",
+                success: data => {
+                    that.setState({inputTextValue: data.countryCode});
+                    that.getFeaturedPlaylistsOfCountry();
+                },
+                error: message => {
+                    console.log(message);
+                }
+            });
+        });
     }
 
-    getFeaturedPlaylistsOfCountry(country_code) {
+    getFeaturedPlaylistsOfCountry() {
         let that = this;
-        axiosHelper.createGetAxiosRequest("spotify/featuredPlaylists/" + country_code)
+        axiosHelper.createGetAxiosRequest("spotify/featuredPlaylists/" + this.state.inputTextValue)
             .then(response => {
                 that.setState({featuredPlaylistUri: response.playlists.items[0].uri})
             })
@@ -31,8 +53,13 @@ class Home extends React.Component {
             });
     }
 
+    /* Change le  */
     handleSubmit(event) {
-        this.getFeaturedPlaylistsOfCountry(this.input.current.value)
+        this.setState({inputTextValue: event.target.value});
+    }
+
+    update() {
+        this.getFeaturedPlaylistsOfCountry()
     }
 
     render() {
@@ -45,14 +72,18 @@ class Home extends React.Component {
 
         return (
             <div>
-                <input type="text" placeholder="country code" ref={this.input}/>
-                <button onClick={this.handleSubmit}>Changer</button>
-                <SpotifyPlayer
+                <span>Votre code de pays :  </span>
+                <input type="text" size="4" placeholder="country code" value={this.state.inputTextValue} onChange={this.handleSubmit}/>
+                <Button onClick={this.update}>Update playlist</Button>
+                {this.state.featuredPlaylistUri && <SpotifyPlayer
                     uri={this.state.featuredPlaylistUri}
                     size={size}
                     view={view}
                     theme={theme}
-                />
+                />}
+
+                {!this.state.featuredPlaylistUri && <span><br/>Récupération de la top playlist...</span>}
+
             </div>
         );
     }
