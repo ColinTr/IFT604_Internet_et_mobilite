@@ -1,220 +1,226 @@
 import React from "react";
-import {MDBCol, MDBContainer, MDBRow} from "mdbreact";
+import { MDBCol, MDBContainer, MDBRow } from "mdbreact";
 
 import KOBOARD from "../../config/AxiosHelper";
 import SwalHelper from "../../config/SwalHelper";
 import io from "socket.io-client";
 import dateFormat from "dateformat";
 
+import * as $ from "jquery";
+
 const KOBOARD_API_URI = process.env.REACT_APP_KOBOARD_API_URI;
 const MONGODB_DASHBOARD_ID = process.env.REACT_APP_DASHBOARD_ID;
 
 class Kochat extends React.Component {
-	constructor() {
-		super();
-		this.state = {
-			messages: [],
-			message: "",
-			myID: "",
-			author: localStorage.getItem("userid"),
-			mySocket: "",
-			users : []
-		};
-		this.handleChange = this.handleChange.bind(this);
-		this.handleSendMessage = this.handleSendMessage.bind(this);
-	}
+  constructor() {
+    super();
+    this.state = {
+      messages: [],
+      message: "",
+      myID: "",
+      author: localStorage.getItem("userid"),
+      mySocket: "",
+      users: [],
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSendMessage = this.handleSendMessage.bind(this);
+  }
 
-	updateKochat() {
-		KOBOARD.createGetAxiosRequest("kochat")
-			.then((messages) => {
-				this.setState({ messages: messages });
-			})
-			.catch((err) => {
-				if (err.response.status === 401) {
-					SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
-				} else {
-					SwalHelper.createNoConnectionSmallPopUp(
-						"Connexion au serveur impossible"
-					);
-				}
-			});
-	}
+  updateKochat() {
+    KOBOARD.createGetAxiosRequest("kochat")
+      .then((messages) => {
+        this.setState({ messages: messages });
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+        } else {
+          SwalHelper.createNoConnectionSmallPopUp(
+            "Connexion au serveur impossible"
+          );
+        }
+      });
+  }
 
-	getUsers(){
-		KOBOARD.createGetAxiosRequest("users")
-			.then((users)=>{
-				this.setState({users:users})
-			})
-			.catch((err)=>{
-				if(err.response.status === 401){
-					SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
-				} else {
-					SwalHelper.createNoConnectionSmallPopUp(
-						"Connexion au serveur impossible"
-					);
-				}
-			})
-	}
+  getUsers() {
+    KOBOARD.createGetAxiosRequest("users")
+      .then((users) => {
+        this.setState({ users: users });
+      })
+      .catch((err) => {
+        if (err.response.status === 401) {
+          SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+        } else {
+          SwalHelper.createNoConnectionSmallPopUp(
+            "Connexion au serveur impossible"
+          );
+        }
+      });
+  }
 
-	componentWillUnmount() {
-		this.state.mySocket.disconnect();
-	}
+  componentWillUnmount() {
+    this.state.mySocket.disconnect();
+  }
 
-	componentDidMount() {
-		this.updateKochat();
-		this.getUsers();
+  attachTooltip(){
 
-		const socket = io(KOBOARD_API_URI);
+  }
 
-		this.setState({ mySocket: socket });
+  componentDidMount() {
+    this.updateKochat();
+    this.getUsers();
 
-		socket.on("message", (message) => {
-			let messages = this.state.messages;
-			messages.push(message);
-			this.setState({ messages: messages });
-			this.scrollToTheTop();
-		});
-	}
+    const socket = io(KOBOARD_API_URI);
 
-	/**
-	 * Press the ENTER Key for send a message
-	 * @param e
-	 */
-	onEnterPress = (e) => {
-		if (e.keyCode === 13 && e.shiftKey === false) {
-			e.preventDefault();
-			this.handleSendMessage(e);
-		}
-	};
+    this.setState({ mySocket: socket });
 
-	/**
-	 * When the
-	 */
-	scrollToTheTop = () => {
-		setTimeout(() => {
-			var objDiv = document.getElementById("page-chat");
-			objDiv.scrollTop = objDiv.scrollHeight;
-		}, 1);
-	};
+    socket.on("message", (message) => {
+      let messages = this.state.messages;
+      messages.push(message);
+      this.setState({ messages: messages });
+      this.scrollToTheTop();
+    });
+  }
 
-	handleChange = (event) => {
-		const { name, value } = event.target;
-		this.setState({
-			[name]: value,
-		});
-	};
+  /**
+   * Press the ENTER Key for send a message
+   * @param e
+   */
+  onEnterPress = (e) => {
+    if (e.keyCode === 13 && e.shiftKey === false) {
+      e.preventDefault();
+      this.handleSendMessage(e);
+    }
+  };
 
-	handleSendMessage = (event) => {
-		event.preventDefault();
+  /**
+   * When the
+   */
+  scrollToTheTop = () => {
+    setTimeout(() => {
+      var objDiv = document.getElementById("page-chat");
+      objDiv.scrollTop = objDiv.scrollHeight;
+    }, 1);
+  };
 
-		if (!/^\s*$/.test(this.state.message)) {
-			const data = {
-				_dashboard: MONGODB_DASHBOARD_ID,
-				content: this.state.message,
-				author: this.state.author,
-				taggedUsers: "",
-			};
+  handleChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  };
 
-			const dataNewMessage = {
-				content: this.state.message,
-				author: this.state.author,
-			};
+  handleSendMessage = (event) => {
+    event.preventDefault();
 
-			let messages = this.state.messages;
-			messages.push(dataNewMessage);
+    if (!/^\s*$/.test(this.state.message)) {
+      const data = {
+        _dashboard: MONGODB_DASHBOARD_ID,
+        content: this.state.message,
+        author: this.state.author,
+        taggedUsers: "",
+      };
 
-			this.state.mySocket.emit("message", dataNewMessage);
+      const dataNewMessage = {
+        content: this.state.message,
+        author: this.state.author,
+      };
 
-			//Clean the input text and change messages list
-			this.setState({ message: "", messages: messages });
+      let messages = this.state.messages;
+      messages.push(dataNewMessage);
 
-			//Scroll after add data in the container
-			this.scrollToTheTop();
+      this.state.mySocket.emit("message", dataNewMessage);
 
-			KOBOARD.createPostAxiosRequest("kochat", data)
-				.then((messages) => {
-					console.log(messages);
-				})
-				.catch((err) => {
-					if (err.response.status === 401) {
-						SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
-					} else {
-						console.log("pas de co")
-						SwalHelper.createNoConnectionSmallPopUp(
-							"Connexion au serveur impossible"
-						);
-					}
-				});
-		} else {
-			this.setState({ message: "" });
-		}
-	};
+      //Clean the input text and change messages list
+      this.setState({ message: "", messages: messages });
 
-	render() {
-		return (
-			<MDBContainer>
-				<MDBContainer id="page-chat" className="page-chat">
-					{this.state.messages.map((message, key) => {
-						if (message.author === this.state.author) {
-							return (
-								<MDBCol key={key}>
-									<MDBRow className="my-row">
-										<div className="my-message">{message.content}</div>
-									</MDBRow>
-									<MDBRow className="my-time">
-										{dateFormat(message.date, "ddd, H:MM")}
-									</MDBRow>
-								</MDBCol>
-							);
-						} else {
-							return (
-								<MDBCol key={key}>
-									<MDBRow className="other-row">
-										<div className="other-message">
-											<div className="other-avatar">
-												{this.state.users.map((user)=>{
-													if(user._id === message.author)
-													{
-														return user.username.substring(0,3).toUpperCase();
-													}
-													return "";
-												})}
-											</div>
-											{message.content}
-										</div>
+      //Scroll after add data in the container
+      this.scrollToTheTop();
 
-									</MDBRow>
-									<MDBRow className="other-time">
-										{dateFormat(message.date, "ddd, H:MM")}
-									</MDBRow>
-								</MDBCol>
-							);
-						}
-					})}
-				</MDBContainer>
-				<MDBContainer className="mb-3 card-footer bg-container-send-message">
-					<form onSubmit={this.handleSendMessage}>
-						<div className="input-group">
-							<textarea
-							  rows="1"
-							  name="message"
-							  onKeyDown={this.onEnterPress}
-							  onChange={this.handleChange}
-							  value={this.state.message}
-							  className="form-control type_msg"
-							  placeholder="Ecrivez votre message..."
-							></textarea>
-							<div className="input-group-append">
-								<button type="submit" className="input-group-text">
-									<i className="fas fa-location-arrow"></i>
-								</button>
-							</div>
-						</div>
-					</form>
-				</MDBContainer>
-			</MDBContainer>
-		);
-	}
+      KOBOARD.createPostAxiosRequest("kochat", data)
+        .then((messages) => {
+          console.log(messages);
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+          } else {
+            console.log("pas de co");
+            SwalHelper.createNoConnectionSmallPopUp(
+              "Connexion au serveur impossible"
+            );
+          }
+        });
+    } else {
+      this.setState({ message: "" });
+    }
+  };
+
+  render() {
+    return (
+      <MDBContainer>
+        <MDBContainer id="page-chat" className="page-chat">
+          {this.state.messages.map((message, key) => {
+            if (message.author === this.state.author) {
+              return (
+                <MDBCol key={key}>
+                  <MDBRow className="my-row">
+                    <div className="my-message">{message.content}</div>
+                  </MDBRow>
+                  <MDBRow className="my-time">
+                    {dateFormat(message.date, "ddd, H:MM")}
+                  </MDBRow>
+                </MDBCol>
+              );
+            } else {
+              return (
+                <MDBCol key={key}>
+                  <MDBRow className="other-row">
+                    <div className="other-message">
+                        {this.state.users.map((user, index) => {
+                          if (user._id === message.author) {
+                            return (<div key={index} id="tips" className="other-avatar " data-title={user.username}>{user.username.substring(0, 3).toUpperCase()}</div>);
+
+                          }
+                        })}
+                      {message.content}
+                    </div>
+                  </MDBRow>
+                  <MDBRow className="other-time">
+                    {dateFormat(message.date, "ddd, H:MM")}
+                  </MDBRow>
+                </MDBCol>
+              );
+            }
+          })}
+        </MDBContainer>
+        <MDBContainer className="mb-3 card-footer bg-container-send-message">
+          <form onSubmit={this.handleSendMessage}>
+            <div className="input-group">
+              <textarea
+                rows="1"
+                name="message"
+                onKeyDown={this.onEnterPress}
+                onChange={this.handleChange}
+                value={this.state.message}
+                className="form-control type_msg"
+                placeholder="Ecrivez votre message..."
+              ></textarea>
+              <div className="input-group-append">
+                <button type="submit" className="input-group-text">
+                  <i className="fas fa-location-arrow"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </MDBContainer>
+        <button type="button" className="btn btn-secondary tooltip" data-tooltip="salut"
+               >
+          Tooltip on top
+        </button>
+      </MDBContainer>
+    );
+  }
 }
 
 export default Kochat;

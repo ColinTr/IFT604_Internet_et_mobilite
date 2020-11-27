@@ -9,6 +9,7 @@
     display: flex;
     width: 100%;
     align-items: stretch;
+
 }
 
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
@@ -272,7 +273,7 @@ li a.dropdown-toggle::after {
     border-top: 15px solid var(--couleur-tertiaire);
 }
 
-.other-message:nth-child(even):after {
+.other-message:nth-child(odd):after {
     border-left: 15px solid transparent;
     left: -15px;
 }
@@ -301,7 +302,7 @@ li a.dropdown-toggle::after {
 .other-avatar {
     margin-bottom: auto;
     position: absolute;
-    bottom: 0px;
+    bottom: -8px;
     left: -40px;
     align: center;
     border-radius: 50%;
@@ -339,6 +340,7 @@ li a.dropdown-toggle::after {
     border-top: 0 !important;
 }
 
+/*Scroller style*/
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -504,4 +506,34 @@ li a.dropdown-toggle::after {
 
 .navbar{
     margin: 5px;
+}
+
+/*Tooltip*/
+[data-title] {
+    position: absolute;
+    z-index: 1;
+}
+
+[data-title]:hover::before {
+    content: attr(data-title);
+    position: absolute;
+    bottom: -30px;
+    display: inline-block;
+    padding: 3px 6px;
+    border-radius: 2px;
+    background: #000;
+    color: #fff;
+    font-size: 12px;
+    font-family: sans-serif;
+    white-space: nowrap;
+}
+[data-title]:hover::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 8px;
+    display: inline-block;
+    color: #fff;
+    border: 8px solid transparent;
+    border-bottom: 8px solid #000;
 }
