@@ -12,7 +12,7 @@ function Solde(props) {
 
   useEffect(() => {
     setUser(props.users.find((user) => user._id === props._user));
-  }, [props._user]);
+  }, [props._user, props.users]);
 
   return (
     <div className="Solde">
