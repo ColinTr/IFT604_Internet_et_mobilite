@@ -43,7 +43,7 @@ function Transaction(props) {
       <td>{formatNumber(props.montant)} €</td>
       <td>{props.object}</td>
       <td>{formatDate(new Date(props.date))}</td>
-      <td><button className="btn-delete-transaction" name="Delete" onClick={() => props.deleteTransaction(props._id)}>Delete</button></td>
+      <td><button className="btn-delete-transaction" name="Delete" onClick={() => props.deleteTransaction(props._id)}>Supprimer</button></td>
     </tr>
   );
 }

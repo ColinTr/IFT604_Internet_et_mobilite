@@ -62,7 +62,7 @@ function Koulette(){
                 <button className="btn btn-info" disabled={spin} onClick={handleBtnAddItem}>Ajouter des joueurs</button>
                 <MDBModal isOpen={modal} toggle={() => setModal(false)}>
                     <MDBModalHeader toggle={() => setModal(false)}>
-                        Ajouter un item
+                        Ajouter un joueur
                     </MDBModalHeader>
                     <MDBModalBody>
 
@@ -78,7 +78,7 @@ function Koulette(){
                                     return (
                                     <div key={d.id} className="Item-Row">
                                         <span className="Item-Name">{d.option}</span>
-                                        <button className="btn btn-delete" disabled={spin} onClick={() => handleRemoveItem(d.id)}>Delete</button>
+                                        <button className="btn btn-delete" disabled={spin} onClick={() => handleRemoveItem(d.id)}>Supprimer</button>
                                     </div>
                                     );
                                 })
