@@ -26,8 +26,6 @@ class Home extends React.Component {
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
 
-            console.log("latitude = ", latitude, " & longitude = ", longitude);
-
             $.ajax({
                 url: "http://api.geonames.org/countryCodeJSON?lat=" + latitude + "&lng=" + longitude + "&username=koboard",
                 type: "GET",
