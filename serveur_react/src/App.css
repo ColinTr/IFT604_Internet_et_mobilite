@@ -425,19 +425,63 @@ li a.dropdown-toggle::after {
 
 .Koulette{
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
     align-items: center;
 }
 
+.Koulette .DataArea{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
 .Koulette .Roulette > div:first-child {
-    max-width: 33vw;
-    max-height: 33vw;
+    max-width: calc(150px + 20vw);
+    max-height: calc(150px + 20vw);
 }
 
 .Koulette .Wheel{
     width: 100%;
 }
+
+.Koulette .Input-Items{
+    display: flex;
+    align-items: center;
+}
+
+.Koulette .Input-Items .btn-input-item{
+    height: 35px;
+    display: flex;
+    color: white;
+    background-color: #33b6e5;
+    align-items: center;
+}
+
+.Koulette .Items-List{
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.Koulette .Items-List .Item-Row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+}
+
+
+.Koulette .Items-List .Item-Row .btn-delete{
+    background-color: #33b6e5;
+    color: white;
+    border-radius: 15px;
+    border-width: 0px;
+    padding: 5px 15px 5px 15px;
+}
+
 
 
 /* Fix sidebar */
@@ -449,7 +493,6 @@ li a.dropdown-toggle::after {
 
 .MainView{
     width: 100%;
-    min-height: 100vh;
 }
 
 .navbar{
