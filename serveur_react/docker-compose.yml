@@ -3,13 +3,14 @@ version: '3.7'
 services:
 
   sample-prod:
-    container_name: react_koboard
+    container_name: koboard_react
     stdin_open: true
     build:
       context: .
       dockerfile: Dockerfile
-    environment: 
-      - REACT_APP_KOBOARD_API_URI = http://koboard_api:5000
+    environment:
+      - REACT_APP_KOBOARD_API_URI=http://api.koboard.guillaumebchd.me
+      - SKIP_PREFLIGHT_CHECK=true
     networks:
       - rvp_default
 

@@ -3,12 +3,12 @@ version: '3.7'
 services:
 
   sample-prod:
-    container_name: apiKoboard
+    container_name: koboard_api
     build:
       context: .
       dockerfile: Dockerfile
-    environment: 
-      - REACT_SERVER_ROUTE=http://koboard_react:3000
+    environment:
+      - REACT_SERVER_ROUTE=http://koboard.guillaumebchd.me
       - GOOGLE_REDIRECT_URL=http://api.koboard.guillaumebchd.me/login
     networks:
       - rvp_default
