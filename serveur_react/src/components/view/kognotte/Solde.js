@@ -1,6 +1,5 @@
 import { MDBTable, MDBTableBody } from "mdbreact";
 import React, { useEffect, useState } from "react";
-import KOBOARD from "../../../config/AxiosHelper";
 
 import "../../../App.css";
 
@@ -12,18 +11,14 @@ function Solde(props) {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const func = async () => {
-      const u = await KOBOARD.createGetAxiosRequest(`users/${props._user}`);
-      setUser(u);
-    };
-    func();
-  }, [props._user]);
+    setUser(props.users.find((user) => user._id === props._user));
+  }, [props._user, props.users]);
 
   return (
     <div className="Solde">
       {user && (
         <React.Fragment>
-          <h4>{user.name}</h4>
+          <h4>{user.username}</h4>
           <MDBTable borderless>
             <MDBTableBody>
               <tr>

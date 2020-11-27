@@ -376,7 +376,7 @@ li a.dropdown-toggle::after {
 .Kognotte button.btn-toogle-modal{
     border-radius: 100px;
     padding: 12px;
-    margin: 10;
+    margin: 10px;
     height: 50px;
     width: 50px;
 }
@@ -482,6 +482,13 @@ li a.dropdown-toggle::after {
     padding: 5px 15px 5px 15px;
 }
 
+.btn-delete-transaction{
+    background-color: red;
+    color: white;
+    border-radius: 15px;
+    border-width: 0px;
+    padding: 5px 15px 5px 15px;
+}
 
 
 /* Fix sidebar */

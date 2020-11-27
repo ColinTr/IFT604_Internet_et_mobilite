@@ -27,20 +27,29 @@ function Kognotte() {
   useEffect(() => {
     var isMounted = true;
     const func = async () => {
-      const soldesResponse = await KOBOARD.createGetAxiosRequest("kognotte/soldes");
-      const transactionsResponse = await KOBOARD.createGetAxiosRequest("kognotte/transactions");
-      const usersResponse = await KOBOARD.createGetAxiosRequest(`users`);
+      try{
+        const soldesResponse = await KOBOARD.createGetAxiosRequest("kognotte/soldes");
+        const transactionsResponse = await KOBOARD.createGetAxiosRequest("kognotte/transactions");
+        const usersResponse = await KOBOARD.createGetAxiosRequest(`users`);
 
-      var max = 100;
-      if (soldesResponse) {
-        max = Math.abs(Math.max.apply(Math,soldesResponse.map( o => o.value)));
+        var max = 100;
+        if (soldesResponse) {
+          max = Math.abs(Math.max.apply(Math,soldesResponse.map( o => o.value)));
+        }
+        
+        if (isMounted) {
+          setUsers(usersResponse);
+          setSoldes(soldesResponse);
+          setSoldeMax(max);
+          setTransactions(transactionsResponse);
+        }
       }
-      
-      if (isMounted) {
-        setUsers(usersResponse);
-        setSoldes(soldesResponse);
-        setSoldeMax(max);
-        setTransactions(transactionsResponse);
+      catch(err){
+        if (err.response !== undefined && err.response.status === 401) {
+          SwalHelper.createPleaseReconnectLargePopUp(err.response.data);
+        } else {
+            SwalHelper.createNoConnectionSmallPopUp("Connexion au serveur impossible");
+        }
       }
     };
     func();
@@ -202,7 +211,7 @@ function Kognotte() {
           <div className="Soldes">
             <h1>Soldes</h1>
             {soldes.map((solde) => {
-              return <Solde key={solde._id} {...solde} soldeMax={soldeMax} />;
+              return <Solde key={solde._id} users={users} {...solde} soldeMax={soldeMax} />;
             })}
           </div>
         )}
@@ -218,6 +227,7 @@ function Kognotte() {
                   <th>Montant</th>
                   <th>Objet</th>
                   <th>Date</th>
+                  <th>Actions</th>
                 </tr>
               </MDBTableHead>
               <MDBTableBody>
