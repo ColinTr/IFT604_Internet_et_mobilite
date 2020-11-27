@@ -41,10 +41,8 @@ exports.getUsers = async (req, res) => {
 exports.getUser = async (req, res) => {
   const user = await userService.getUser(req.params.id);
 
-  if (user === undefined) {
-    return res
-      .status(400)
-      .send(new Erreur("Impossible de trouver l'utilisateur"));
+  if (user === undefined || user === null) {
+    return res.status(400).send(new Erreur("Impossible de trouver l'utilisateur"));
   }
 
   const response = {
