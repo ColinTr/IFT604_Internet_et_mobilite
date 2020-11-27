@@ -33,7 +33,7 @@ function Transaction(props) {
   }, [props.from, props.to, props.users]);
 
   return (
-    <tr onClick={() => props.deleteTransaction(props._id)}>
+    <tr>
       <td>{userFrom && userFrom.username}</td>
       <td>
         {usersTo && 
@@ -43,6 +43,7 @@ function Transaction(props) {
       <td>{formatNumber(props.montant)} €</td>
       <td>{props.object}</td>
       <td>{formatDate(new Date(props.date))}</td>
+      <td><button className="btn-delete-transaction" name="Delete" onClick={() => props.deleteTransaction(props._id)}>Delete</button></td>
     </tr>
   );
 }
