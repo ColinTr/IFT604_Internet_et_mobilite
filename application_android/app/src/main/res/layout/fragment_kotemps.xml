@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.Kotemps.KotempsFragment">
+
+    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="40dp"
+        app:compactCalendarBackgroundColor="#fff"
+        app:compactCalendarCurrentDayBackgroundColor="#ADD8E6"
+        app:compactCalendarCurrentSelectedDayBackgroundColor="#E57373"
+        app:compactCalendarMultiEventIndicatorColor="#B71C1C"
+        app:compactCalendarTargetHeight="240dp"
+        app:compactCalendarTextColor="#000000"
+        app:compactCalendarTextSize="12sp"
+        android:layout_marginEnd="25dp" />
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="250dp"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="275dp"
+        android:text="@string/save" />
+
+    <Button
+        android:id="@+id/buttonRefresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="75dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginTop="275dp"
+        android:text="@string/refresh" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="325dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/event_name"
+        android:inputType="textPersonName"
+        android:text="@string/eventname" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="10dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/month_year"
+        android:text="@string/month_year" />
+
+    <EditText
+        android:id="@+id/editTextDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="375dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/description"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="425dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/location"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextParticipant"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="475dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="@string/participant"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/textViewStart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="525dp"
+        android:text="@string/start_at" />
+
+    <EditText
+        android:id="@+id/editTextHour1"
+        android:layout_width="81dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="525dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:text="@string/hour"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextMinute1"
+        android:layout_width="74dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="215dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="525dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:text="@string/minute"
+        android:autofillHints="" />
+
+    <TextView
+        android:id="@+id/textViewEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="575dp"
+        android:text="@string/end_at" />
+
+    <EditText
+        android:id="@+id/editTextYear"
+        android:layout_width="78dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="575dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:text="@string/year"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextMonth"
+        android:layout_width="71dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="215dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="575dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:text="@string/month"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextDay"
+        android:layout_width="78dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="305dp"
+        android:layout_marginLeft="305dp"
+        android:layout_marginTop="575dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:text="@string/day"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextHour2"
+        android:layout_width="88dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="125dp"
+        android:layout_marginLeft="125dp"
+        android:layout_marginTop="625dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:text="@string/hour"
+        android:autofillHints="" />
+
+    <EditText
+        android:id="@+id/editTextMinute2"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="215dp"
+        android:layout_marginLeft="215dp"
+        android:layout_marginTop="625dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:text="@string/minute"
+        android:autofillHints="" />
+
+    <Button
+        android:id="@+id/Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="315dp"
+        android:layout_marginLeft="315dp"
+        android:layout_marginTop="625dp"
+        android:text="@string/next" />
+</RelativeLayout>

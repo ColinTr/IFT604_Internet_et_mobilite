@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "773920643892",
+    "firebase_url": "https://koboard.firebaseio.com",
+    "project_id": "koboard",
+    "storage_bucket": "koboard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773920643892:android:779ae8a7d8490b5e7a6361",
+        "android_client_info": {
+          "package_name": "com.example.koboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773920643892-avjg21r4orn2hrv47q848l9i8e6gfak0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.koboard",
+            "certificate_hash": "333135ab3ff2cc3f7ce11eb7744d56b1b9399766"
+          }
+        },
+        {
+          "client_id": "773920643892-4v0bmgjh7e3tebs5as5pili55nsh6j92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxklhTb9vLLJUAAXwQOMwVBaYZtKz91lk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773920643892-4v0bmgjh7e3tebs5as5pili55nsh6j92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

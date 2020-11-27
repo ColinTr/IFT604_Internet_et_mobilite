@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="username_colors">
+        <item>#e21400</item>
+        <item>#91580f</item>
+        <item>#f8a700</item>
+        <item>#f78b00</item>
+        <item>#58dc00</item>
+        <item>#287b00</item>
+        <item>#a8f07a</item>
+        <item>#4ae8c4</item>
+        <item>#3b88eb</item>
+        <item>#3824aa</item>
+        <item>#a700ff</item>
+        <item>#d300e7</item>
+    </array>
+
+</resources>

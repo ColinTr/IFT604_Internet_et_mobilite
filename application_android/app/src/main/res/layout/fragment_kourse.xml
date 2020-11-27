@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.Kourse.KourseFragment"
+    android:orientation="vertical">
+
+    <Button
+        android:layout_gravity="right"
+        android:id="@+id/add_liste_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:text="@string/new_list" />
+
+    <TextView
+        android:id="@+id/title_liste"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="New Product"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:layout_gravity="left"
+        android:id="@+id/PreviousButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/previous" />
+
+    <Button
+        android:layout_gravity="right"
+        android:id="@+id/NextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next" />
+
+
+    <ListView
+        android:id="@+id/lv_kourse"
+        style="@style/Widget.AppCompat.ListView"
+        android:layout_width="match_parent"
+        android:layout_height="396dp"
+        android:entries="@android:array/emailAddressTypes"
+        android:paddingBottom="20dp"></ListView>
+
+    <ImageButton
+        android:layout_gravity="bottom|right"
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="5dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_button_add" />
+</LinearLayout>

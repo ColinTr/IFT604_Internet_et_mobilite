@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.koboard.ui.Home.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_konote"
+        android:name="com.example.koboard.ui.Konote.KonoteFragment"
+        android:label="@string/konote"
+        tools:layout="@layout/fragment_konote" >
+        <action
+            android:id="@+id/action_nav_konote_to_nav_konote_detail"
+            app:destination="@id/nav_konote_detail" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_konote_detail"
+        android:name="com.example.koboard.ui.Konote.KonoteFragmentDetailNote"
+        android:label="@string/konote"
+        tools:layout="@layout/fragment_konote_detail_note" />
+
+    <fragment
+        android:id="@+id/nav_kourse"
+        android:name="com.example.koboard.ui.Kourse.KourseFragment"
+        android:label="@string/kourse"
+        tools:layout="@layout/fragment_kourse" />
+
+    <fragment
+        android:id="@+id/nav_kotemps"
+        android:name="com.example.koboard.ui.Kotemps.KotempsFragment"
+        android:label="@string/kotemps"
+        tools:layout="@layout/fragment_kotemps" />
+
+    <fragment
+        android:id="@+id/nav_kochat"
+        android:name="com.example.koboard.ui.Kochat.KochatFragment"
+        android:label="@string/kochat"
+        tools:layout="@layout/fragment_kochat" />
+
+    <fragment
+        android:id="@+id/nav_kognotte"
+        android:name="com.example.koboard.ui.Kognotte.KognotteFragment"
+        android:label="@string/kognotte"
+        tools:layout="@layout/fragment_kognotte" >
+        <action
+            android:id="@+id/action_nav_kognotte_to_nav_kognotte_detail_green2"
+            app:destination="@id/nav_kognotte_detail_green" />
+        <action
+            android:id="@+id/action_nav_kognotte_to_nav_kognotte_historique"
+            app:destination="@id/nav_kognotte_historique" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_kognotte_detail_green"
+        android:name="com.example.koboard.ui.Kognotte.KognotteFragmentListDettes"
+        android:label="@string/kognotte"
+        tools:layout="@layout/fragment_kognotte_detail" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_kognotte_historique"
+        android:name="com.example.koboard.ui.Kognotte.KognotteFragmentHistorique"
+        android:label="@string/kognotte"
+        tools:layout="@layout/fragment_kognotte_detail" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_koulette"
+        android:name="com.example.koboard.ui.Koulette.KouletteFragment"
+        android:label="@string/koulette"
+        tools:layout="@layout/fragment_koulette" />
+
+    <fragment
+        android:id="@+id/nav_kusique"
+        android:name="com.example.koboard.ui.Kusique.KusiqueFragment"
+        android:label="@string/kusique"
+        tools:layout="@layout/fragment_kusique" />
+
+</navigation>

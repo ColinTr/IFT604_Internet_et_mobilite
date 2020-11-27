@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_menu_home"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_konote"
+            android:icon="@drawable/ic_menu_note"
+            android:title="@string/konote" />
+        <item
+            android:id="@+id/nav_kourse"
+            android:icon="@drawable/ic_menu_shopping_cart"
+            android:title="@string/kourse" />
+        <item
+            android:id="@+id/nav_kotemps"
+            android:icon="@drawable/ic_menu_calendar"
+            android:title="@string/kotemps" />
+        <item
+            android:id="@+id/nav_kochat"
+            android:icon="@drawable/ic_menu_chat"
+            android:title="@string/kochat" />
+        <item
+            android:id="@+id/nav_kognotte"
+            android:icon="@drawable/ic_menu_dollar"
+            android:title="@string/kognotte" />
+        <item
+            android:id="@+id/nav_koulette"
+            android:icon="@drawable/ic_menu_pie_chart"
+            android:title="@string/koulette" />
+
+        <item
+            android:id="@+id/nav_kusique"
+            android:icon="@drawable/ic_play_musique"
+            android:title="@string/kusique" />
+    </group>
+</menu>

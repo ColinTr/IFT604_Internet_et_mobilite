@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:weightSum="100">
+
+    <TextView
+        android:id="@+id/tv_name_debitaire"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/alexandre"
+        android:gravity="center"
+        android:layout_weight="30"
+        android:textColor="#000000"/>
+
+    <TextView
+        android:id="@+id/tv_montant_remboursement"
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_marginRight="20dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="70"
+        android:text="@string/_135"
+        android:textColor="#000000" />
+
+</LinearLayout>
