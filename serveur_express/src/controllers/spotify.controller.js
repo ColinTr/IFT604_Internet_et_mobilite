@@ -39,7 +39,7 @@ function getToken() {
 }
 
 exports.getFeaturedPlaylists = async (req, res) => {
-    if(req.params['country_code']===undefined){
+    if (req.params['country_code'] === undefined) {
         return res.status(400).send(new Erreur("Le country_code est manquant dans les paramètres de requête")).end();
     }
 
@@ -55,6 +55,10 @@ exports.getFeaturedPlaylists = async (req, res) => {
             axios.get('https://api.spotify.com/v1/browse/featured-playlists?country=' + req.params['country_code'] + '&limit=1', headers)
                 .then((response) => {
                     return res.status(200).send(response.data).end();
+                })
+                .catch(error => {
+                    console.log(error);
+                    return res.status(400).send(error).end();
                 });
         })
         .catch(error => {

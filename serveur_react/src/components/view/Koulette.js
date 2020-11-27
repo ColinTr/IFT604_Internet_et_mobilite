@@ -1,75 +1,112 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
-import KOBOARD from "../../config/AxiosHelper";
+
+import { MDBModal, MDBModalBody, MDBModalHeader } from 'mdbreact';
+import Swal from 'sweetalert2';
 
 import "../../App.css";
-import { MDBModal, MDBModalBody, MDBModalHeader } from 'mdbreact';
+
 
 function Koulette(){
 
-    const [data, setData] = useState();
-    const [result, setResult] = useState();
+    const [data, setData] = useState([]);
+    const [resultIndex, setResultIndex] = useState();
 
     const [spin, setSpin] = useState(false);
-    const [showResult, setShowResult] = useState(false);
 
-    useEffect( () => {
-        var isMounted = true;
-        async function fetchAndSetData(){
-            const users = await KOBOARD.createGetAxiosRequest(`users`);
-            const d = users.map((user) => { return {option: user.username}});
-            if(isMounted){
-                setData(d);
-            }
+    const [modal, setModal] = useState(false);
+    function handleBtnAddItem(){
+        setModal(true);
+    }
+
+    const [inputItem, setInputItem] = useState("");
+    const [id, setId] = useState(0);
+
+    function handleAddItem(){
+        if(inputItem && !data.includes({option: inputItem}) && !spin){
+            setData([...data, {id: id, option: inputItem}]);
+            setId(id+1);
+            setInputItem("");
         }
-        fetchAndSetData();
-        return () => isMounted = false;
-    }, []);
+    }
 
-    function handleBtnClick(){
-        setResult(Math.floor(Math.random() * data.length));
+    function handleRemoveItem(id){
+        if(!spin){  
+            setData(data.filter(item => item.id !== id));
+        }
+    }
+
+    function dataVerification(){
+        return data && data.length > 0;
+    }
+
+    function handleSpinBtnClick(){
+        setResultIndex(Math.floor(Math.random() * data.length));
         setSpin(true);
-        setShowResult(false);
     }
 
     function stopSpinning(){
         setSpin(false);
-        setShowResult(true);
+
+        Swal.fire({
+            title: "Félicitations !",
+            text: `${data[resultIndex].option} a gagné.`
+        })
     }
+
 
     return(
         <div className="Koulette">
+
+            <div className="DataArea">
+                <button className="btn btn-info" disabled={spin} onClick={handleBtnAddItem}>Ajouter des joueurs</button>
+                <MDBModal isOpen={modal} toggle={() => setModal(false)}>
+                    <MDBModalHeader toggle={() => setModal(false)}>
+                        Ajouter un item
+                    </MDBModalHeader>
+                    <MDBModalBody>
+
+                        <div className="Input-Items">
+                            <input autoFocus name="add-item" type="text" value={inputItem} className="form-control" disabled={spin} onChange={(e) => {setInputItem(e.target.value)}} onKeyDown={(e) => (e.key === 'Enter' ? handleAddItem(): null)}/>
+                            <button className="btn btn-input-item" onClick={handleAddItem} disabled={spin}> Ajouter </button>
+                        </div>
+                        
+                        <div className="Items-List">
+                            {
+                                data && data.length > 0 && 
+                                data.map( (d) => {
+                                    return (
+                                    <div key={d.id} className="Item-Row">
+                                        <span className="Item-Name">{d.option}</span>
+                                        <button className="btn btn-delete" disabled={spin} onClick={() => handleRemoveItem(d.id)}>Delete</button>
+                                    </div>
+                                    );
+                                })
+                            }
+                        </div>
+                                 
+                    </MDBModalBody>
+                </MDBModal>
+
+                <button className="btn btn-info" onClick={handleSpinBtnClick} disabled={!dataVerification()}>Lancer la roulette</button>
+            </div>
+
             {
-                data &&
-                <React.Fragment>
+                data && data.length > 0 &&
+                <div className="RouletteArea">
                     <div className="Roulette">
                         <Wheel
                         mustStartSpinning={spin}
                         onStopSpinning={stopSpinning}
-                        prizeNumber={result}
+                        prizeNumber={resultIndex}
                         data={data}
-                        backgroundColors={['#3cd0d3', '#83f1c5']}
+                        backgroundColors={['#3e3e3e', '#df3428']}
                         textColors={['#ffffff']}
-                        radiusLineWidth={1}
+                        radiusLineWidth={2}
                         outerBorderWidth={3}
                         />
                     </div>
-
-
-                    <button className="btn btn-info" onClick={handleBtnClick}>SPIN THE ROULETTE</button>
-
-                    <MDBModal isOpen={showResult} toggle={() => setShowResult(false)}>
-                        <MDBModalHeader toggle={() => setShowResult(false)}>
-                            Félicitation !
-                        </MDBModalHeader>
-                        <MDBModalBody>
-                            {
-                                data && data[result] &&
-                                <p>Le gagnant est : {data[result].option}</p>
-                            }
-                        </MDBModalBody>
-                    </MDBModal>
-                </React.Fragment>
+                </div>
             }
         </div>
     );
