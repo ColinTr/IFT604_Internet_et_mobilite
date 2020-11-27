@@ -9,7 +9,7 @@ import CompleteAuthentication from "./components/view/CompleteAuthentication";
 
 const App = () => {
   return (
-    <div className="App wrapper">
+    <div className="App">
       <Switch>
         <Route exact path="/login" component={Login} />
         <AuthRoute path="/dashboard" component={Dashboard} />
