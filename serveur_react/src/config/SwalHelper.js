@@ -1,11 +1,11 @@
 import * as Swal from "sweetalert2";
 
-function createNoConnectionSmallPopUp(error) {
+function createNoConnectionSmallPopUp(error, timer=2000) {
     Swal.mixin({
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 2000,
+        timer: timer,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer);
