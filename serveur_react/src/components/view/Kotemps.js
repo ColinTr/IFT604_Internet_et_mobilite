@@ -6,6 +6,7 @@ import {MDBBtn, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader} from "md
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import SwalHelper from "../../config/SwalHelper";
+import * as $ from "jquery";
 
 let allViews = Object.keys(Views).map(k => Views[k]);
 
@@ -43,6 +44,7 @@ class Kotemps extends React.Component {
         this.createOrUpdateEvent = this.createOrUpdateEvent.bind(this);
         this.moveEvent = this.moveEvent.bind(this);
         this.getItem = this.getItem.bind(this);
+        this.btnClickDeleteEvent = this.btnClickDeleteEvent.bind(this);
         this.modifyDateEvent = this.modifyDateEvent.bind(this);
         this.toggle = this.toggle.bind(this);
 
@@ -51,6 +53,7 @@ class Kotemps extends React.Component {
         this.signUpdate = this.signUpdate.bind(this);
         ApiCalendar.onLoad(() => {
             ApiCalendar.listenSign(this.signUpdate);
+            this.getItem();
         });
     };
 
@@ -88,7 +91,6 @@ class Kotemps extends React.Component {
 
     onDropFromOutside(start, end) {
         const {draggedEvent} = this.state;
-
         const event = {
             id: draggedEvent.id,
             title: draggedEvent.title,
@@ -217,74 +219,83 @@ class Kotemps extends React.Component {
         }
     };
 
+    btnClickDeleteEvent() {
+        this.deleteEvent(this.state.idEventToEdit);
+        this.setState({ modal: !this.state.modal});
+    }
+
+    deleteEvent(eventId) {
+        $.ajax({
+            url: "https://www.googleapis.com/calendar/v3/calendars/" + ApiCalendar.calendar + "/events/" + eventId,
+            type: "DELETE",
+            headers: {"authorization": "Bearer " + ApiCalendar.gapi.auth.getToken().access_token},
+            success: () => {
+                let eventsGoogle = [];
+                let eventsCalendar = [];
+                this.state.eventsGoogle.map(function (ev) {
+                    if (ev.id !== eventId) {
+                        eventsGoogle.push(ev);
+                    }
+                    return null;
+                });
+                this.state.eventsCalendar.map(function (ev) {
+                    if (ev.id !== eventId) {
+                        eventsCalendar.push(ev);
+                    }
+                    return null;
+                });
+                this.setState({eventsCalendar: eventsCalendar});
+                this.setState({eventsGoogle: eventsGoogle});
+            },
+            error: message => {
+                console.log(message);
+            }
+        });
+    }
+
     createOrUpdateEvent() {
         let eventCalendar;
         let attendees = this.state.attendees.split(',');
         let emails = [];
-        emails.push({email: localStorage['email'].replaceAll('"', '')});
         attendees.forEach(element => {
             if (element.length > 0) {
                 emails.push({email: element})
             }
         });
+        if (emails.length === 0) {
+            emails.push({email: localStorage['email'].replaceAll('"', '')});
+        }
 
         if (this.state.idEventToEdit !== null) {
-            const eventGoogle = {
-                id: this.findGoogleEvent(this.state.idEventToEdit).id,
-                summary: this.state.summary,
-                location: this.state.location,
-                description: this.state.description,
-                attendees: emails,
-                start: {dateTime: this.state.start},
-                end: {dateTime: this.state.end},
-            };
-            eventCalendar = {
-                id: this.state.idEventToEdit,
-                title: this.state.summary,
-                start: this.state.start,
-                end: this.state.end,
-            };
-
-
-            this.setState({eventsCalendar: this.state.eventsCalendar.concat(eventCalendar)});
-
-            this.setState({eventsGoogle: this.state.eventsCalendar.concat(eventGoogle)});
-
-            ApiCalendar.updateEvent(eventGoogle, eventGoogle.id)
-                .then(response => {
-                    console.log(response);
-                })
-                .catch(errMsg => {
-                    console.log(errMsg);
-                });
-        } else {
-            const eventGoogle = {
-                summary: this.state.summary,
-                location: this.state.location,
-                description: this.state.description,
-                attendees: emails,
-                start: {dateTime: this.state.start},
-                end: {dateTime: this.state.end},
-            };
-            eventCalendar = {
-                title: this.state.summary,
-                start: this.state.start,
-                end: this.state.end,
-            };
-
-            // On attend de récupérer l'id de l'event créé par google pour le set dans nos listes
-            ApiCalendar.createEvent(eventGoogle)
-                .then(response => {
-                    eventGoogle.id = response.result.id;
-                    eventCalendar.id = response.result.id;
-                    this.setState({eventsGoogle: this.state.eventsCalendar.concat(eventGoogle)});
-                    this.setState({eventsCalendar: this.state.eventsCalendar.concat(eventCalendar)});
-                })
-                .catch(error => {
-                    console.log(error);
-                    SwalHelper.createNoConnectionSmallPopUp(error.result.error.message, 5000);
-                });
+            this.deleteEvent(this.state.idEventToEdit);
         }
+
+        const eventGoogle = {
+            summary: this.state.summary,
+            location: this.state.location,
+            description: this.state.description,
+            attendees: emails,
+            start: {dateTime: this.state.start},
+            end: {dateTime: this.state.end},
+        };
+        eventCalendar = {
+            title: this.state.summary,
+            start: this.state.start,
+            end: this.state.end,
+        };
+
+        // On attend de récupérer l'id de l'event créé par google pour le set dans nos listes
+        ApiCalendar.createEvent(eventGoogle)
+            .then(response => {
+                eventGoogle.id = response.result.id;
+                eventCalendar.id = response.result.id;
+                this.setState({eventsGoogle: this.state.eventsCalendar.concat(eventGoogle)});
+                this.setState({eventsCalendar: this.state.eventsCalendar.concat(eventCalendar)});
+            })
+            .catch(error => {
+                console.log(error);
+                SwalHelper.createNoConnectionSmallPopUp(error.result.error.message, 5000);
+            });
 
         this.getItem();
         this.toggle(eventCalendar);
@@ -313,6 +324,7 @@ class Kotemps extends React.Component {
     }
 
     modifyDateEvent(event) {
+        console.log(event)
         let eventGoogle = this.findGoogleEvent(event.id);
         eventGoogle.start = {dateTime: event.start};
         eventGoogle.end = {dateTime: event.end};
@@ -321,11 +333,19 @@ class Kotemps extends React.Component {
         eventCalendar.start = {dateTime: event.start};
         eventCalendar.end = {dateTime: event.end};
 
-        this.setState({eventsCalendar: this.state.eventsCalendar.concat(eventCalendar)});
+        this.deleteEvent(this.state.idEventToEdit);
 
-        this.setState({eventsGoogle: this.state.eventsCalendar.concat(eventGoogle)});
-
-        ApiCalendar.updateEvent(eventGoogle, eventGoogle.id);
+        ApiCalendar.createEvent(eventGoogle)
+            .then(response => {
+                eventGoogle.id = response.result.id;
+                eventCalendar.id = response.result.id;
+                this.setState({eventsGoogle: this.state.eventsCalendar.concat(eventGoogle)});
+                this.setState({eventsCalendar: this.state.eventsCalendar.concat(eventCalendar)});
+            })
+            .catch(error => {
+                console.log(error);
+                SwalHelper.createNoConnectionSmallPopUp(error.result.error.message, 5000);
+            });
     };
 
     render() {
@@ -376,6 +396,11 @@ class Kotemps extends React.Component {
                         />
                     </MDBModalBody>
                     <MDBModalFooter>
+                        {that.state.idEventToEdit &&
+                        <MDBBtn color="danger" onClick={that.btnClickDeleteEvent}>
+                            Supprimer
+                        </MDBBtn>
+                        }
                         <MDBBtn color="secondary" onClick={that.toggle}>
                             Annuler
                         </MDBBtn>
