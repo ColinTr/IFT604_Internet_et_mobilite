@@ -42,24 +42,41 @@ module.exports.getConnectionUrl = function getConnectionUrl(auth) {
 /**********/
 
 module.exports.getGoogleEmailAndTokensFromCode = async function getGoogleAccountFromCode(code) {
-    try{
-        const auth = new google.auth.OAuth2(
-            googleConfig.clientId,
-            googleConfig.clientSecret,
-            googleConfig.redirect
-        );
+    return new Promise(((resolve, reject) => {
+        try{
+            const auth = new google.auth.OAuth2(
+                googleConfig.clientId,
+                googleConfig.clientSecret,
+                googleConfig.redirect
+            );
 
-        const data = await auth.getToken(code);
-        auth.setCredentials(data.tokens);
+            auth.getToken(code)
+                .then(data => {
+                    auth.setCredentials(data.tokens);
 
-        const service = google.people({version: 'v1', auth});
-        const me = await service.people.get({ resourceName: 'people/me',  personFields: 'emailAddresses,names' });
-
-        return {
-            email: me.data.emailAddresses.values().next().value.value,
-            tokens: data.tokens,
-        };
-    }catch (error) {
-        console.log("error = ", error)
-    }
+                    const service = google.people({version: 'v1', auth});
+                    service.people.get({ resourceName: 'people/me',  personFields: 'emailAddresses,names' })
+                        .then(me => {
+                            resolve({
+                                email: me.data.emailAddresses.values().next().value.value,
+                                tokens: data.tokens,
+                            });
+                        })
+                        .catch(error => {
+                            console.log("error1 =");
+                            console.log(error);
+                            reject(error);
+                        });
+                })
+                .catch(error => {
+                    console.log("error2 =");
+                    console.log(error);
+                    reject(error);
+                });
+        }catch (error) {
+            console.log("error3 = ");
+            console.log(error);
+            reject(error);
+        }
+    }))
 };

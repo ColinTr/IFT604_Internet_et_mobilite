@@ -3,10 +3,12 @@ import {Calendar, momentLocalizer, Views} from 'react-big-calendar';
 import moment from 'moment'
 import ApiCalendar from 'react-google-calendar-api/src/ApiCalendar';
 import {MDBBtn, MDBCol, MDBContainer, MDBModal, MDBModalBody, MDBModalFooter, MDBModalHeader, MDBRow} from "mdbreact";
-import 'react-big-calendar/lib/css/react-big-calendar.css'
+import '../../assets/CustomBigCalendarStyling.css'
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop'
 import SwalHelper from "../../config/SwalHelper";
 import * as $ from "jquery";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 let allViews = Object.keys(Views).map(k => Views[k]);
 
@@ -43,6 +45,8 @@ class Kotemps extends React.Component {
         ApiCalendar.setCalendar('primary');
 
         this.createOrUpdateEvent = this.createOrUpdateEvent.bind(this);
+        this.setStartDate = this.setStartDate.bind(this);
+        this.setEndDate = this.setEndDate.bind(this);
         this.moveEvent = this.moveEvent.bind(this);
         this.refreshCalendarEvents = this.refreshCalendarEvents.bind(this);
         this.btnClickDeleteEvent = this.btnClickDeleteEvent.bind(this);
@@ -125,11 +129,11 @@ class Kotemps extends React.Component {
         // On parse la liste des emails afin de l'afficher dans le champ attendees :
         let attendees = "";
         for (let i = 0; i < obj.attendees.length; i++) {
-            attendees = attendees + obj.attendees[i].email + ","
+            attendees = attendees + obj.attendees[i].email + ", "
         }
-        // On enlève la dernière virgule
+        // On enlève la dernière virgule et l'espace
         if (attendees.length > 0) {
-            attendees = attendees.substring(0, attendees.length - 1);
+            attendees = attendees.substring(0, attendees.length - 2);
         }
 
         that.setState({
@@ -222,8 +226,10 @@ class Kotemps extends React.Component {
     }
 
     createOrUpdateEvent() {
+        // On ajoute 23h à la création pour que l'évènement s'étale sur toute la journée (inutile lors de la modification)
+        let endDateTime = this.state.idEventToEdit === null ? moment(this.state.end).add(23, 'hours').toDate() : this.state.end;
         let eventCalendar;
-        let attendees = this.state.attendees.split(',');
+        let attendees = this.state.attendees.replaceAll(' ', '').split(',');
         let emails = [];
         attendees.forEach(element => {
             if (element.length > 0) {
@@ -241,13 +247,13 @@ class Kotemps extends React.Component {
             description: this.state.description,
             attendees: emails,
             start: {dateTime: this.state.start},
-            end: {dateTime: this.state.end},
+            end: {dateTime: endDateTime},
         };
         eventCalendar = {
             id: '',
             title: this.state.summary === "" ? '∅' : this.state.summary,
             start: this.state.start,
-            end: this.state.end,
+            end: endDateTime,
         };
 
         if (this.state.idEventToEdit !== null) {
@@ -329,6 +335,14 @@ class Kotemps extends React.Component {
             });
     };
 
+    setStartDate(date) {
+        this.setState({start: date});
+    }
+
+    setEndDate(date) {
+        this.setState({end: date});
+    }
+
     render() {
         let that = this;
         const localizer = momentLocalizer(moment);
@@ -348,6 +362,27 @@ class Kotemps extends React.Component {
                             name="summary"
                             placeholder="Intitulé de l'évènement"
                         />
+                        <br/>
+                        <MDBContainer fluid style={{padding: 0}}>
+                            <MDBRow>
+                                <MDBCol>
+                                    <h5>Début</h5>
+                                    <DatePicker
+                                        onChange={date => this.setStartDate(date)}
+                                        selected={this.state.start}
+                                        dateFormat='dd/MM/yyyy'
+                                        name="start"/>
+                                </MDBCol>
+                                <MDBCol>
+                                    <h5>Fin</h5>
+                                    <DatePicker
+                                        onChange={date => this.setEndDate(date)}
+                                        selected={this.state.end}
+                                        dateFormat='dd/MM/yyyy'
+                                        name="end"/>
+                                </MDBCol>
+                            </MDBRow>
+                        </MDBContainer>
                         <br/>
                         <h5>Lieu</h5>
                         <input
