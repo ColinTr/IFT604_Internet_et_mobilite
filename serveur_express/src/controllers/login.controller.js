@@ -51,40 +51,40 @@ exports.checkToken = (req, res, next) => {
  * @returns {Promise<void|*|Response>}
  */
 exports.getLogin = async (req, res, next) => {
-    const google_account = await google_utils.getGoogleEmailAndTokensFromCode(req.query.code);
-
-    // We save the user's infos in database
-    UserService.getUsersByGoogleEmail(google_account.email)
-        .then(user => {
-            if (user !== null) {
-                user.token = google_account.tokens.access_token;
-                user.refreshToken = google_account.tokens.refresh_token;
-                UserService.updateUser(user._id, user);
-                return res.status(200).redirect(process.env.REACT_SERVER_ROUTE + "/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + user._id);
-            } else {
-                // If the user doesn't exist, we create him in database
-                UserService.addUser(google_account.email.split('@')[0], "no_need", google_account.tokens.access_token, google_account.tokens.refresh_token, google_account.email)
-                    .then(createdUser => {
-                        DashboardService.getDashboard(process.env.MONGODB_DASHBOARD_ID)
-                            .then(dashboard => {
-                                const new_user_list = dashboard.users;
-                                if(!new_user_list.includes(createdUser._id)) {
-                                    new_user_list.push(createdUser._id);
-                                }
-                                DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list});
-                                SoldeService.addSolde(process.env.MONGODB_DASHBOARD_ID, createdUser._id, 0);
-                                return res.status(200).redirect(process.env.REACT_SERVER_ROUTE + "/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + createdUser._id);
-                            })
-                    });
-            }
+    await google_utils.getGoogleEmailAndTokensFromCode(req.query.code)
+        .then(google_account => {
+            // We save the user's infos in database
+            UserService.getUsersByGoogleEmail(google_account.email)
+                .then(user => {
+                    if (user !== null) {
+                        user.token = google_account.tokens.access_token;
+                        user.refreshToken = google_account.tokens.refresh_token;
+                        UserService.updateUser(user._id, user);
+                        return res.status(200).redirect(process.env.REACT_SERVER_ROUTE + "/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + user._id);
+                    } else {
+                        // If the user doesn't exist, we create him in database
+                        UserService.addUser(google_account.email.split('@')[0], "no_need", google_account.tokens.access_token, google_account.tokens.refresh_token, google_account.email)
+                            .then(createdUser => {
+                                DashboardService.getDashboard(process.env.MONGODB_DASHBOARD_ID)
+                                    .then(dashboard => {
+                                        const new_user_list = dashboard.users;
+                                        if(!new_user_list.includes(createdUser._id)) {
+                                            new_user_list.push(createdUser._id);
+                                        }
+                                        DashboardService.updateDashboard(process.env.MONGODB_DASHBOARD_ID, {users: new_user_list});
+                                        SoldeService.addSolde(process.env.MONGODB_DASHBOARD_ID, createdUser._id, 0);
+                                        return res.status(200).redirect(process.env.REACT_SERVER_ROUTE + "/completeAuthentication?tokens=" + JSON.stringify(google_account.tokens) + "&email=" + JSON.stringify(google_account.email) + "&userid=" + createdUser._id);
+                                    })
+                            });
+                    }
+                })
+                .catch(err => {
+                    console.log(err);
+                    return res.status(400).send(err);
+                });
         })
-        .catch(err => {
-            console.log("mongoose err ", err);
-            return res.status(400).send(err);
+        .catch(error => {
+            console.log(error);
+            return res.status(400).send(error);
         });
 };
-
-exports.postLogin = async (req, res, next) => {
-    // TODO : Il faut creer le token, se logger, etc
-};
-
