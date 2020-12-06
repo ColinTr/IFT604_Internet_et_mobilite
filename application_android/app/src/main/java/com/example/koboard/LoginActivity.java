@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.example.koboard.httpUtils.HttpLogin;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -95,11 +97,13 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String authCode = account.getServerAuthCode();
+            Context mContext = this;
             new HttpLogin(authCode, new HttpLogin.AsyncResponse() {
                 @Override
                 public void processFinish(boolean error) {
                     if(error) {
                         Log.d("LOGIN", "ERROR LORS DU LOGIN");
+                        Toast.makeText(mContext, "Erreur de connexion", Toast.LENGTH_LONG);
                     }
                     else {
                         Intent intent = new Intent(that, MainActivity.class);
