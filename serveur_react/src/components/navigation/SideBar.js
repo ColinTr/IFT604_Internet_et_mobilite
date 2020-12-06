@@ -56,7 +56,7 @@ const SideBar = ({isOpen, toggle}) => {
                             activeClassName="activeLink"
                         >
                             <FontAwesomeIcon icon={faShoppingCart} className="mr-2"/>
-                            Kourse
+                            Kourses
                         </MDBNavLink>
                     </MDBNavItem>
                     <MDBNavItem className="ml-2">
