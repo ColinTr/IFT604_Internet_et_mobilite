@@ -48,6 +48,7 @@ public class KognotteFragmentListDettes extends Fragment {
         tv_name_user.setText(utilisateurActuel.getUsername());
 
         double montant = getTotalRemboursement(listRemboursement);
+        montant = (double) Math.round(montant * 100) / 100;
 
         if(montant >= 0) {
             tv_montant.setText("+ " + montant + " €");
